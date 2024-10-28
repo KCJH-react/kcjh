@@ -2,6 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from "@/components/ui/provider"
 import './App.css';
 
 function App() {
