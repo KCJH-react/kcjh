@@ -1,28 +1,16 @@
-import React from 'react';
+import React  ,{ forwardRef } from 'react';
 import { Provider } from 'react-redux';
-import store from './store';
 import { BrowserRouter } from 'react-router-dom'
 import './App.css';
+import { Routes, Route, Link } from 'react-router-dom'
+import ChallengeSuccess from './ChallengeSuccess'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>  
+      <Route path="/" element={<div>메인</div>}></Route>
+      <Route path="/cs" element={<ChallengeSuccess/>}></Route>
+    </Routes>
   );
 }
-
 export default App;
