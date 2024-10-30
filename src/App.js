@@ -1,6 +1,7 @@
 import React  ,{ forwardRef } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from "@/components/ui/provider"
 import './App.css';
 import { Routes, Route, Link } from 'react-router-dom'
 import ChallengeSuccess from './ChallengeSuccess'
