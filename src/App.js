@@ -4,12 +4,13 @@ import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import SelfChallenge from './SelfChallenge';
 import Information from './Information';
+import CM_DetailaPage from './CM_DetailPage'
 
 function App() {
   return (
     <Provider>
       <BrowserRouter>
-        <SelfChallenge />
+        <CM_DetailaPage />
       </BrowserRouter>
     </Provider>
   );

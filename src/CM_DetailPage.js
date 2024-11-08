@@ -1,14 +1,13 @@
 import React from 'react';
-import { Box, VStack, HStack, Flex, Text, Image, Progress, Button } from '@chakra-ui/react';
-import { ProgressBar, ProgressLabel, ProgressRoot, ProgressValueText } from "./components/ui/progress"
+import { Box, VStack, HStack, Flex, Text, Button, Input } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 
-function SelfChallenge() {
+function CM_DetailaPage() {
   return <div>
-    <Flex direction="column" align="center" justify="center" p="8">
+    <Flex direction="row" p="4" width="100%">
       {/*최상단 네비게이션 메뉴 */}
-      <Box as="nav" w={'100%'} p={6} color='black' borderBottomWidth='2px' borderColor='black' whiteSpace='nowrap'>
+      <Box as="nav" w={'100%'} p={6} color='black' borderBottomWidth='2px' borderColor='black' whiteSpace='nowrap' top="0" position="fixed">
         <Box display='inline-block' p={4} color='black'>
         <HamburgerIcon role="button" w={30} h={30} />
           <span style={{ fontWeight: 'bold', fontSize: '20px', marginLeft: '8px' }}>Random</span>Challenge
@@ -23,72 +22,90 @@ function SelfChallenge() {
         <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 로그인 </Box>
       </Box>
       
-      {/*챌린지 화면*/}
-      <Flex direction="row" align="center" mx="8" mt="4" width="100%">
-      <Flex direction="column" align="center" flex="1" mx="8">
-      <Text fontSize="2xl" fontWeight="bold" mb="4"> RANDOM CHALLENGE: STUDY </Text>  {/*카테고리 이름 가져와서 Random Challenge 뒤에 이어나가기 */}
+      {/*화면 좌 우 설정*/}
+      <Flex direction="row" p="4" width="100%" mt="100px">
+        <Box flex="3" p="4" bg="white" borderRadius="md" boxShadow="md">
+          <Text fontSize="2xl" fontWeight="bold" mb="4">자유게시판</Text>
+          <Box p="4" bg="gray.50" borderRadius="md" mb="4">
+            {/* 게시글 상단 */}
+            <HStack mb="2">
+              <Text fontWeight="bold">익명</Text>
+              <Text fontSize="sm" color="gray.500">01/01 12:12</Text>
+            </HStack>
+            <Text id="Title" fontSize="xl" fontWeight="bold" mb="2">이곳에 제목 삽입</Text>
+            <Text id="Body" mb="4">이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입 이곳에 본문 삽입</Text>
 
-        {/*챌린지 화면 외각 사각형*/}
-        <Box id="B_display" bg="gray" p={10} width="800px" height="600px" display="flex" justifyContent="center" borderRadius="lg" >
-          <VStack> {/*챌린지 전체 세로 배치용*/}
+            <HStack spacing="4" mb="4">
+              <Button variant="ghost" size="sm">좋아요 0</Button>
+              <Button variant="ghost" size="sm">공감</Button>
+              <Button variant="ghost" size="sm">퍼가기</Button>
+            </HStack>
 
-          {/*상단부 Display*/}
-          <Text Id="Point" fontWeight="bold">50포인트</Text>
-          <Box id="S_display" bg='white' width="500px" display="flex" flexDirection="column" alignItems="center" borderRadius="lg" p={4}>
-            <VStack> {/*챌린지 이름, 아이콘 세로 배치용*/}
-            <Text id="Current_C" fontSize="xl" fontWeight="bold" mt={6}>독서실에서 2시간 공부하기</Text>
-            <Image src="/icon-studying-4344987.png" alt="Icon_Study" boxSize="150px" mt={1} />
+            <Box height="1px" bg="gray.200" mb="4" />
+
+            {/* 댓글 */}
+            <VStack align="start" spacing="4" mt="4">
+              <Box>
+                <HStack>
+                  <Text fontWeight="bold">익명1</Text>
+                  <Text fontSize="sm" color="gray.500">01/01 12:12</Text>
+                </HStack>
+                <Text ml="8">댓글 1</Text>
+              </Box>
+              <Box>
+                <HStack>
+                  <Text fontWeight="bold">익명2</Text>
+                  <Text fontSize="sm" color="gray.500">01/01 12:12</Text>
+                </HStack>
+                <Text ml="8">댓글 2</Text>
+              </Box>
+              <Box>
+                <HStack>
+                  <Text fontWeight="bold">익명3</Text>
+                  <Text fontSize="sm" color="gray.500">01/01 12:12</Text>
+                </HStack>
+                <Text ml="8">댓글 3</Text>
+              </Box>
             </VStack>
-          </Box>
 
-          {/*중단부 Display*/}
-          <Box display="flex" flexDirection="row" alignItems="center">
-              {/*난이도박스*/}
-              <Box bg='white' display="flex" width="300px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" mt="3" p={4}>
-                <Text>난이도: Hard</Text>
-                <Image src="/icon-star.png" alt="Icon_Star" boxSize="30px" ml="4" />
-                <Image src="/icon-star.png" alt="Icon_Star" boxSize="30px" ml="2" />
-                <Image src="/icon-star.png" alt="Icon_Star" boxSize="30px" ml="2" />
-              </Box>
-              {/*리셋버튼*/}
-              <Box role="button" cursor="pointer" bg='white' display="flex" alignItems="center" justifyContent="center" borderRadius="50%" width="50px" height="50px" ml="5" mt="3" p={2}>
-                <Image src="/icon-rewind.png" alt="Icon_Rewid" boxSize="30px" />
-              </Box>
-              {/*완료버튼*/}
-              <Box role="button" cursor="pointer" bg='white' display="flex" width="150px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" ml="5" mt="3" p={4}>
-                <Text fontSize="xl">DONE</Text>
-              </Box>
+            {/* 댓글 입력 */}
+            <HStack mt="4">
+              <Input placeholder="댓글을 입력하세요." size="sm" />
+              <Button size="sm">댓글 달기</Button>
+            </HStack>
           </Box>
+        </Box>
 
-          {/*하단부 Display*/}
-          <Box alignItems="center" justifyContent="center">
-            <ProgressRoot defaultValue={40} maxW="240px" striped>
-              <HStack gap="5">
-                <ProgressLabel>Today's Challenge</ProgressLabel>
-                <ProgressBar />
-                <ProgressValueText>40%</ProgressValueText>
-              </HStack>
-            </ProgressRoot>
-          </Box>
+        {/* 오른쪽 화면 */}
+
+        {/* 인기글 */}
+        <Box flex="1" p="4" bg="white" borderRadius="md" boxShadow="md" ml="4">
+          <Text fontSize="xl" fontWeight="bold" mb="4">실시간 인기글</Text>
+          <VStack align="stretch" spacing="2">
+            <Text>인기글 1</Text>
+            <Text>인기글 2 </Text>
+          </VStack>
+
+          {/* 핫 게시물 */}
+          <Box height="1px" bg="gray.200" my="4" />
+          <Text fontSize="xl" fontWeight="bold" mb="4">HOT 게시물</Text>
+          <VStack align="stretch" spacing="2">
+            <Text>핫 게시물 1 </Text>
+            <Text>핫 게시물 2</Text>
+          </VStack>
+
+          {/* 인기글 */}
+          <Box height="1px" bg="gray.200" my="4" />
+
+          <Text fontSize="xl" fontWeight="bold" mb="4">BEST 게시물</Text>
+          <VStack align="stretch" spacing="2">
+            <Text>베스트 게시물 1</Text>
+            <Text>베스트 게시물 2</Text>
           </VStack>
         </Box>
-        </Flex>
-        {/*Other Categories*/}
-        <Box id="Other" borderLeftWidth='2px' borderColor='black' pl={4}>
-          <VStack spacing={3}>
-          <Text fontSize="xl" fontWeight="bold" >Other</Text>
-          <Text fontSize="xl" fontWeight="bold" >Categories</Text>
-            {['Daily', 'Social', 'Money', 'Health', 'Mental', 'Develop', 'Volunteer', 'Challenge'].map(label => (
-          <Button key={label} variant="ghost" size="lg" width="100%" _hover={{ bg: 'gray.100' }}>
-            <Image src="/icon-star.png" alt="icon" boxSize="20px" />
-            {label}
-          </Button>
-        ))}
-      </VStack>
-    </Box>
       </Flex>
     </Flex>
   </div>
 }
 
-export default SelfChallenge
+export default CM_DetailaPage
