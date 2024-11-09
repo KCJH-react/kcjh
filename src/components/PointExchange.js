@@ -19,8 +19,8 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    useDisclosure,
-  } from "@chakra-ui/core";
+    //useDisclosure,
+  } //from "@chakra-ui/core";
 
 function PointExchange(){
   const navigate = useNavigate();
@@ -47,11 +47,11 @@ function PointExchange(){
     const user = {name:"홍길동", point:"1000", avatar:"https://bit.ly/broken-link"}
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalContent, setModalContent] = useState(null);
-    const handleButtonClick = (content) => {
+    //const handleButtonClick = (content) => {
       setModalContent(content);
       onOpen();
     };
-    function ManualClose({ isOpen, onClose }) {
+    //function ManualClose({ isOpen, onClose }) {
     
       return (
         <>
@@ -129,7 +129,7 @@ function PointExchange(){
                     return(
                       
                     <Card.Root key={i} minWidth="140px">
-                    <Card.Body>
+                    <Card.Body> 
                       
                     <Image
                    objectFit="cover"
