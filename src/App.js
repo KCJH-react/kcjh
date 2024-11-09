@@ -14,6 +14,9 @@ function App() {
       <Route path="/pointExchange" element={<PointExchange/>}></Route>
       <Route path="/pointExchangeDetail/:category" element={<PointExchangeDetail/>}></Route>
       <Route path="/CMmain" element={<CMmain></CMmain>}></Route>
+      <Route path="/" element={<MainContent />} />
+      <Route path="/friend-ranking" element={<FriendRanking />} />
+      <Route path="/post" element={<Post />} />
     </Routes>
   );
 }
