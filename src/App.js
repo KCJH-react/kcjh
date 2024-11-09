@@ -5,7 +5,13 @@ import './App.css';
 import { Routes, Route, Link } from 'react-router-dom'
 import PointExchange from './components/PointExchange'
 import PointExchangeDetail from './components/PointExchangeDetail'
-import {CMmain} from "./components/CMmain"
+import { CMmain } from "./components/CMmain"
+import Navbar from './Navbar';
+import MainContent from './MainContent';
+import FriendRanking from './FriendRanking';
+import Footer from './Footer';
+import Post from './Post';
+
 
 function App() {
   return (
