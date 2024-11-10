@@ -11,16 +11,6 @@ import {
     PaginationRoot,
   } from "./ui/pagination"
   import {useNavigate} from 'react-router-dom'
-  import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-  } from "@chakra-ui/core";
 
 function PointExchange(){
   const navigate = useNavigate();
@@ -47,35 +37,6 @@ function PointExchange(){
     const user = {name:"홍길동", point:"1000", avatar:"https://bit.ly/broken-link"}
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [modalContent, setModalContent] = useState(null);
-    const handleButtonClick = (content) => {
-      setModalContent(content);
-      onOpen();
-    };
-    function ManualClose({ isOpen, onClose }) {
-    
-      return (
-        <>
-    
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Create your account</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody pb={6}>
-              </ModalBody>
-    
-              <ModalFooter>
-                <Button colorScheme='blue' mr={3}>
-                  Save
-                </Button>
-                <Button onClick={onClose}>Cancel</Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
-        </>
-      )
-    }
-
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
     // 모달 열기
@@ -129,7 +90,7 @@ function PointExchange(){
                     return(
                       
                     <Card.Root key={i} minWidth="140px">
-                    <Card.Body>
+                    <Card.Body> 
                       
                     <Image
                    objectFit="cover"
@@ -174,7 +135,7 @@ function PointExchange(){
             </Text>
           </Card.Body>
           <Card.Footer gap="2">
-            <Button variant="solid" onClick={() => handleButtonClick(`Button ${index + 1} clicked`)}>Buy now</Button>
+            <Button variant="solid">Buy now</Button>
             <Button variant="ghost"onClick={openModal}>Add to cart</Button>
           </Card.Footer>
         </Card.Root>
