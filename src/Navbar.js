@@ -9,9 +9,9 @@ import {Box,
         Popover,
         PopoverTrigger,
         PopoverContent,
-        useColorModeValue,
         useBreakpointValue,
         useDisclosure,} from '@chakra-ui/react';
+import {useColorModeValue} from '@chakra-ui/system';
 import {HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
