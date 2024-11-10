@@ -6,9 +6,9 @@ import {
   Container,
   Stack,
   Text,
-  useColorModeValue,
   VisuallyHidden,
 } from '@chakra-ui/react'
+import {useColorModeValue} from '@chakra-ui/system';
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { ReactNode } from 'react'
 
