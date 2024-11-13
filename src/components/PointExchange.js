@@ -35,8 +35,6 @@ function PointExchange(){
         }
       };
     const user = {name:"홍길동", point:"1000", avatar:"https://bit.ly/broken-link"}
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const [modalContent, setModalContent] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
     // 모달 열기

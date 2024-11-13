@@ -5,17 +5,17 @@ import {Box,
         Text,
         IconButton,
         Button,Stack,
-        Collapse,Icon,
+        Collapsible,Icon,
         Popover,
         PopoverTrigger,
         PopoverContent,
         useBreakpointValue,
         useDisclosure,} from '@chakra-ui/react';
 import {useColorModeValue} from '@chakra-ui/system';
-import {HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,} from '@chakra-ui/icons';
+// import {HamburgerIcon,
+//   CloseIcon,
+//   ChevronDownIcon,
+//   ChevronRightIcon,} from '@chakra-ui/icons';
 
 export default function Navbar() {
   const { isOpen, onToggle } = useDisclosure();
@@ -32,7 +32,7 @@ export default function Navbar() {
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
         align={'center'}>
-        <Flex
+        {/* <Flex
           flex={{ base: 1, md: 'auto' }}
           ml={{ base: -2 }}
           display={{ base: 'flex', md: 'none' }}>
@@ -61,7 +61,7 @@ export default function Navbar() {
           <Flex display={{ base: 'none', md: 'flex' }} ml={40}>
             <DesktopNav />
           </Flex>
-        </Flex>
+        </Flex> */}
 
         <Stack
           flex={{ base: 1, md: 0 }}
@@ -87,9 +87,9 @@ export default function Navbar() {
         </Stack>
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
+      <Collapsible open={isOpen} animateOpacity>
         <MobileNav />
-      </Collapse>
+      </Collapsible>
     </Box>
   );
 }
@@ -162,7 +162,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
           </Text>
           <Text fontSize={'sm'}>{subLabel}</Text>
         </Box>
-        <Flex
+        {/* <Flex
           transition={'all .3s ease'}
           transform={'translateX(-10px)'}
           opacity={0}
@@ -171,7 +171,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
           align={'center'}
           flex={1}>
           <Icon color={'teal.400'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
+        </Flex> */}
       </Stack>
     </Box>
   );
@@ -204,7 +204,7 @@ const MobileNavItem = ({ label, children, href }) => {
         <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
           {label}
         </Text>
-        {children && (
+        {/* {children && (
           <Icon
             as={ChevronDownIcon}
             transition={'all .25s ease-in-out'}
@@ -212,10 +212,10 @@ const MobileNavItem = ({ label, children, href }) => {
             w={6}
             h={6}
           />
-        )}
+        )} */}
       </Box>
 
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
+      <Collapsible open={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
         <Stack
           mt={2}
           pl={4}
@@ -230,7 +230,7 @@ const MobileNavItem = ({ label, children, href }) => {
               </Box>
             ))}
         </Stack>
-      </Collapse>
+      </Collapsible>
     </Stack>
   );
 };
