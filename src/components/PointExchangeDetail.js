@@ -36,15 +36,16 @@ function PointExchangeDetail(){
     const user = {name:"홍길동", point:"1000", avatar:"https://bit.ly/broken-link"}
 
     return(
-        <div style={{padding:"10px"}}>
-        <Box w="100%" position="relative" boxShadow="1px 1px 4px 0.5px" bg="rgba(0,0,0,0.1)">
+        <div>
+          <div style={{padding: "0px 180px", background:"rgba(198,234,130,0.3)", height:"550px"}}>
+          <Box position="relative" padding={5}>
         <Box margin="1px">
-          <Box w={80} marginY="10px" paddingY="10px">
-              <Center>
+          <Box w={80} marginY="10px">
+              <Box>
                   <h4>카테고리별 목록</h4>
-              </Center>
+              </Box>
           </Box>
-         <Center display="flex" color="white">
+         <Center display="flex" borderTop="1px solid" borderBottom="1px solid" borderColor="gray">
           <Flex 
                   ref={scrollRef}
                   overflowX="auto"
@@ -53,9 +54,6 @@ function PointExchangeDetail(){
                   marginX="25px"
                   marginY="10px"
                   scrollbar="hidden"
-                  
-                  
-                  
           >
 
                   <Card.Root minWidth="320px">
@@ -76,7 +74,8 @@ function PointExchangeDetail(){
          </Center>
          </Box>
         </Box>
-        <Box position="relative" boxShadow="1px 1px 4px 0.5px" border bg="rgba(0,0,0,0.1)">
+          </div>
+          <Box position="relative" top="-120px"  bg="rgba(256,256,256,0.0)" borderBottom="1px solid" borderColor="gray">
         <Box w={80} bg="" marginY="10px" paddingY="10px">
               <Center>
                   <h4>전체 상품 목록</h4>
@@ -84,7 +83,7 @@ function PointExchangeDetail(){
           </Box>
         <Center>
         <Stack gap="4">
-    <Flex w="1200px" gap="4" bg="white" mx="auto" p="10px" borderRadius="4px">
+    <Flex w="1200px" gap="4" mx="auto" p="10px" borderRadius="4px">
       {visibleItems.map((item) => (
         <Card.Root overflow="hidden" width="287px">
         <Image
