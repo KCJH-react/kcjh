@@ -5,7 +5,7 @@ import {Box,
         Text,
         IconButton,
         Button,Stack,
-        Collapsible,Icon,
+        Collapse,Icon,
         Popover,
         PopoverTrigger,
         PopoverContent,
@@ -87,9 +87,9 @@ export default function Navbar() {
         </Stack>
       </Flex>
 
-      <Collapsible open={isOpen} animateOpacity>
+      <Collapse open={isOpen} animateOpacity>
         <MobileNav />
-      </Collapsible>
+      </Collapse>
     </Box>
   );
 }
@@ -215,7 +215,7 @@ const MobileNavItem = ({ label, children, href }) => {
         )} */}
       </Box>
 
-      <Collapsible open={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
+      <Collapse open={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
         <Stack
           mt={2}
           pl={4}
@@ -230,7 +230,7 @@ const MobileNavItem = ({ label, children, href }) => {
               </Box>
             ))}
         </Stack>
-      </Collapsible>
+      </Collapse>
     </Stack>
   );
 };

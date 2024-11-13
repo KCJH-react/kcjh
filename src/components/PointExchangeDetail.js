@@ -1,15 +1,15 @@
 import React,{useState,useEffect}from "react"
 import { Card, HStack, Stack, Strong, Text,Image,Flex,AspectRatio,Box,Center,Input  } from "@chakra-ui/react" // 절대 경로로 무조건
-import { Avatar } from "./ui/avatar"
-import { Button } from "./ui/button"
+// import { Avatar } from "./ui/avatar"
+// import { Button } from "./ui/button"
 import { LuCheck, LuX } from "react-icons/lu"
 import { useRef } from "react";
-import {
-    PaginationItems,
-    PaginationNextTrigger,
-    PaginationPrevTrigger,
-    PaginationRoot,
-  } from "./ui/pagination"
+// import {
+//     PaginationItems,
+//     PaginationNextTrigger,
+//     PaginationPrevTrigger,
+//     PaginationRoot,
+//   } from "./ui/pagination"
 
 function PointExchangeDetail(){
 
@@ -102,13 +102,13 @@ function PointExchangeDetail(){
           </Text>
         </Card.Body>
         <Card.Footer gap="2">
-          <Button variant="solid">Buy now</Button>
-          <Button variant="ghost">Add to cart</Button>
+          {/* <Button variant="solid">Buy now</Button>
+          <Button variant="ghost">Add to cart</Button> */}
         </Card.Footer>
       </Card.Root>
       ))}
     </Flex>
-    <PaginationRoot
+    {/* <PaginationRoot
       page={page}
       count={count}
       pageSize={pageSize}
@@ -120,7 +120,7 @@ function PointExchangeDetail(){
         <PaginationNextTrigger />
       </HStack>
       </Center>
-    </PaginationRoot>
+    </PaginationRoot> */}
   </Stack>
         </Center>
         </Box>

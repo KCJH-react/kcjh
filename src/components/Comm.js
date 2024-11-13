@@ -1,12 +1,12 @@
 import { Tabs,Center,Box,Card,Button,Text,HStack,Flex,Image } from "@chakra-ui/react"
 import { LuCheckSquare, LuFolder, LuUser } from "react-icons/lu"
 import {useState, useEffect} from 'react';
-import {
-    PaginationItems,
-    PaginationNextTrigger,
-    PaginationPrevTrigger,
-    PaginationRoot,
-  } from "./ui/pagination"
+// import {
+//     PaginationItems,
+//     PaginationNextTrigger,
+//     PaginationPrevTrigger,
+//     PaginationRoot,
+//   } from "./ui/pagination"
   import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 
 export const Comm = () => {
@@ -143,7 +143,7 @@ export const Comm = () => {
         </Card.Root>
         ))}
       </Box>
-      <PaginationRoot
+      {/* <PaginationRoot
         page={page}
         count={count}
         pageSize={pageSize}
@@ -155,7 +155,7 @@ export const Comm = () => {
           <PaginationNextTrigger />
         </HStack>
         </Center>
-      </PaginationRoot>
+      </PaginationRoot> */}
       </Tabs.Content>
       <Tabs.Content value="projects">Manage your projects</Tabs.Content>
       <Tabs.Content value="tasks">
