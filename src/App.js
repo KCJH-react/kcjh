@@ -10,7 +10,6 @@ import Navbar from './Navbar';
 import MainContent from './MainContent';
 import FriendRanking from './FriendRanking';
 import Footer from './Footer';
-import Post from './Post';
 
 
 function App() {
@@ -22,7 +21,6 @@ function App() {
       <Route path="/CMmain" element={<CMmain></CMmain>}></Route>
       <Route path="/" element={<MainContent />} />
       <Route path="/friend-ranking" element={<FriendRanking />} />
-      <Route path="/post" element={<Post />} />
     </Routes>
   );
 }
