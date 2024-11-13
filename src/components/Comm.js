@@ -1,6 +1,6 @@
 import { Tabs,Center,Box,Card,Button,Text,HStack,Flex,Image } from "@chakra-ui/react"
 import { LuCheckSquare, LuFolder, LuUser } from "react-icons/lu"
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {
     PaginationItems,
     PaginationNextTrigger,
@@ -23,19 +23,24 @@ export const Comm = () => {
     //const [like, setLike] = useState(0);
 
     const [content,setContent] =useState([
-        {title:'제목1',content:"...",date:"2024.11.06",like:5},
-        {title:'제목2',content:"...",date:"2024.11.06",like:3},
-        {title:'제목3',content:"...",date:"2024.11.06",like:10},
-        {title:'제목4',content:"...",date:"2024.11.06",like:45},
-        {title:'제목5',content:"...",date:"2024.11.06",like:100},
-        {title:'제목6',content:"...",date:"2024.11.06",like:547},
-        {title:'제목7',content:"...",date:"2024.11.06",like:40},
-        {title:'제목8',content:"...",date:"2024.11.06",like:0},
-        {title:'제목9',content:"...",date:"2024.11.06",like:2}
+        {title:'제목1',content:"...",date:"1",like:5},
+        {title:'제목2',content:"...",date:"2",like:3},
+        {title:'제목3',content:"...",date:"3",like:10},
+        {title:'제목4',content:"...",date:"4",like:45},
+        {title:'제목5',content:"...",date:"5",like:100},
+        {title:'제목6',content:"...",date:"6",like:547},
+        {title:'제목7',content:"...",date:"7",like:40},
+        {title:'제목8',content:"...",date:"8",like:0},
+        {title:'제목9',content:"...",date:"9",like:2}
     ]
     )
 
-    const visibleItems = content.slice(startRange, endRange)
+    const [visibleItems, setVisibleItems] = useState(content.slice(startRange, endRange))
+
+    useEffect(()=>{
+      setVisibleItems(content)
+      console.log(1)
+    }, [content])
 
     function DropdownButton() {
       const [isOpen, setIsOpen] = useState(false);
@@ -66,10 +71,12 @@ export const Comm = () => {
                 py="2"
                 onClick={() => {
                   console.log("옵션 1 선택됨");
+                  const newContent = [...content].sort((a,b) => a.date-b.date);
+                  setContent(newContent);
                   setIsOpen(false);
                 }}
               >
-                옵션 1
+                최신순
               </Box>
               <Box
                 as="button"
@@ -79,10 +86,13 @@ export const Comm = () => {
                 py="2"
                 onClick={() => {
                   console.log("옵션 2 선택됨");
+                  const newContent = [...content].sort((a,b) => a.like-b.like);
+                  setContent(newContent);
                   setIsOpen(false);
                 }}
               >
-                옵션 2
+                인기순
+                
               </Box>
             </Box>
           )}

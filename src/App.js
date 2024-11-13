@@ -18,7 +18,7 @@ function App() {
       <Route path="/" element={<div>메인</div>}></Route>
       <Route path="/pointExchange" element={<PointExchange/>}></Route>
       <Route path="/pointExchangeDetail/:category" element={<PointExchangeDetail/>}></Route>
-      <Route path="/CMmain" element={<Comm></Comm>}></Route>
+      <Route path="/comm" element={<Comm></Comm>}></Route>
       <Route path="/" element={<MainContent />} />
       <Route path="/friend-ranking" element={<FriendRanking />} />
     </Routes>
