@@ -3,11 +3,17 @@ import { Box, VStack, HStack, Flex, Text, Button, Input } from '@chakra-ui/react
 import { HamburgerIcon } from '@chakra-ui/icons';
 
 
-function CM_DetailaPage() {
-  return <div>
-    <Flex direction="row" p="4" width="100%">
+function CM_DetailPage() {
+  return <div 
+    style={{
+      padding: "0px 180px",
+      background: "linear-gradient(rgba(198,234,130,0.3) 50%, white 50%)",
+      height: "150vh"
+    }}
+    >
+    <Flex direction="column" p="4" width="100%">
       {/*최상단 네비게이션 메뉴 */}
-      <Box as="nav" w={'100%'} p={6} color='black' borderBottomWidth='2px' borderColor='black' whiteSpace='nowrap' top="0" position="fixed">
+      <Box as="nav" w={'100%'} p={6} color='black' borderBottomWidth='1px' borderColor='gray' whiteSpace='nowrap'>
         <Box display='inline-block' p={4} color='black'>
         <HamburgerIcon role="button" w={30} h={30} />
           <span style={{ fontWeight: 'bold', fontSize: '20px', marginLeft: '8px' }}>Random</span>Challenge
@@ -23,6 +29,7 @@ function CM_DetailaPage() {
       </Box>
       
       {/*화면 좌 우 설정*/}
+      <Box>
       <Flex direction="row" p="4" width="100%" mt="100px">
         <Box flex="3" p="4" bg="white" borderRadius="md" boxShadow="md">
           <Text fontSize="2xl" fontWeight="bold" mb="4">자유게시판</Text>
@@ -104,8 +111,9 @@ function CM_DetailaPage() {
           </VStack>
         </Box>
       </Flex>
+      </Box>
     </Flex>
   </div>
 }
 
-export default CM_DetailaPage
+export default CM_DetailPage
