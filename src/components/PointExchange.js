@@ -172,4 +172,4 @@ function PointExchange(){
 }
 
 
-export default PointExchange;
+export default PointExchange
