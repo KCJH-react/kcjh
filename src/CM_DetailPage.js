@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, VStack, HStack, Flex, Text, Button, Input } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
+import Navbar from './Navbar';
 
 
 function CM_DetailPage() {
@@ -13,20 +13,7 @@ function CM_DetailPage() {
     >
     <Flex direction="column" p="4" width="100%">
       {/*최상단 네비게이션 메뉴 */}
-      <Box as="nav" w={'100%'} p={6} color='black' borderBottomWidth='1px' borderColor='gray' whiteSpace='nowrap'>
-        <Box display='inline-block' p={4} color='black'>
-        <HamburgerIcon role="button" w={30} h={30} />
-          <span style={{ fontWeight: 'bold', fontSize: '20px', marginLeft: '8px' }}>Random</span>Challenge
-        </Box>
-        {/*추후에 onCLick추가해야함*/}
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 소개 </Box> 
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 커뮤니티 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 보상 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 내 도전 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 공지사항 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 회원가입 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 로그인 </Box>
-      </Box>
+      <Navbar />
       
       {/*화면 좌 우 설정*/}
       <Box>

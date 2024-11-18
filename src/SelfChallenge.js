@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, VStack, HStack, Flex, Text, Image, Button } from '@chakra-ui/react';
-import { HamburgerIcon } from '@chakra-ui/icons';
 import RewindIcon from './asset/icon-rewind.png';
 import StarIcon from './asset/icon-star.png';
 import StudyIcon from './asset/icon-studying.png';
+import Navbar from './Navbar'
 
 
 function SelfChallenge() {
@@ -16,20 +16,7 @@ function SelfChallenge() {
     }}>
     <Flex direction="column" align="center" justify="center" p="8">
       {/*최상단 네비게이션 메뉴 */}
-      <Box as="nav" w={'100%'} p={6} color='black' borderBottomWidth='2px' borderColor='black' whiteSpace='nowrap'>
-        <Box display='inline-block' p={4} color='black'>
-        <HamburgerIcon role="button" w={30} h={30} />
-          <span style={{ fontWeight: 'bold', fontSize: '20px', marginLeft: '8px' }}>Random</span>Challenge
-        </Box>
-        {/*추후에 onCLick추가해야함*/}
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 소개 </Box> 
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 커뮤니티 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 보상 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 내 도전 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 공지사항 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 회원가입 </Box>
-        <Box role="button" cursor="pointer" _hover={{ bg: 'gray.100' }} display='inline-block' p={4} marginX={2} color='black'> 로그인 </Box>
-      </Box>
+      <Navbar />
       
       {/*챌린지 화면*/}
       <Flex direction="row" align="center" mx="8" mt="4" width="100%">
@@ -58,7 +45,7 @@ function SelfChallenge() {
                 <Image src={StarIcon} alt="Icon_Star" boxSize="30px" ml="2" />
                 <Image src={StarIcon} alt="Icon_Star" boxSize="30px" ml="2" />
               </Box>
-              {/*리셋버튼*/}
+              {/*리셋버튼, 횟수를 정해두는게 좋을듯*/}
               <Box role="button" cursor="pointer" bg='gray.100' display="flex" alignItems="center" justifyContent="center" borderRadius="50%" width="50px" height="50px" ml="5" mt="3" p={2}>
                 <Image src={RewindIcon} alt="Icon_Rewid" boxSize="30px" />
               </Box>
