@@ -5,7 +5,7 @@ import './App.css';
 import { Routes, Route, Link } from 'react-router-dom'
 import PointExchange from './components/PointExchange'
 import PointExchangeDetail from './components/PointExchangeDetail'
-import { Comm } from "./components/Comm"
+import Commain from "./components/Commain"
 import Navbar from './Navbar';
 import MainContent from './MainContent';
 import FriendRanking from './FriendRanking';
@@ -18,7 +18,6 @@ import Footer from './Footer';
 function App() {
   return (
     <Routes>  
-      <Route path="/" element={<div>메인</div>}></Route>
       <Route path="/pointExchange" element={<PointExchange/>}></Route>
       <Route path="/pointExchangeDetail/:category" element={<PointExchangeDetail/>}></Route>
       <Route path="/comm" element={<Comm></Comm>}></Route>

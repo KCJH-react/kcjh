@@ -1,15 +1,13 @@
 import React,{useState,useEffect}from "react"
 import { Card, HStack, Stack, Strong, Text,Image,Flex,AspectRatio,Box,Center, Input,SimpleGrid  } from "@chakra-ui/react" // 절대 경로로 무조건
-import { Avatar } from "./ui/avatar"
-import { Button } from "./ui/button"
 import { LuCheck, LuX } from "react-icons/lu"
 import { useRef } from "react";
-import {
-    PaginationItems,
-    PaginationNextTrigger,
-    PaginationPrevTrigger,
-    PaginationRoot,
-  } from "./ui/pagination"
+// import {
+//     PaginationItems,
+//     PaginationNextTrigger,
+//     PaginationPrevTrigger,
+//     PaginationRoot,
+//   } from "./ui/pagination"
   import {useNavigate} from 'react-router-dom'
 
 function PointExchange(){
@@ -55,13 +53,13 @@ function PointExchange(){
 
         <Box width="100%" >
           <Flex justify="flex-end">
-        <Avatar name={user.name} size="1xl" src={user.avatar} padding="5px"/>
+        {/* <Avatar name={user.name} size="1xl" src={user.avatar} padding="5px"/> */}
         <Text  textStyle="2xl">{user.name}</Text>
         </Flex>
         </Box>
       <Text color="black" textStyle="3xl" marginLeft="20px" marginTop="10px" textAlign="end">{user.point}POINT</Text> 
 
-      <Button variant="outline" width="100%" margin="3px">계정 정보</Button>
+      {/* <Button variant="outline" width="100%" margin="3px">계정 정보</Button> */}
 
         </Box>
         </Box>
@@ -133,8 +131,8 @@ function PointExchange(){
             </Text>
           </Card.Body>
           <Card.Footer gap="2">
-            <Button variant="solid">Buy now</Button>
-            <Button variant="ghost"onClick={openModal}>Add to cart</Button>
+            {/* <Button variant="solid">Buy now</Button>
+            <Button variant="ghost"onClick={openModal}>Add to cart</Button> */}
           </Card.Footer>
         </Card.Root>
         ))}
@@ -152,7 +150,7 @@ function PointExchange(){
       )}
       </SimpleGrid>
       
-      <PaginationRoot
+      {/* <PaginationRoot
         page={page}
         count={count}
         pageSize={pageSize}
@@ -164,7 +162,7 @@ function PointExchange(){
           <PaginationNextTrigger />
         </HStack>
         </Center>
-      </PaginationRoot>
+      </PaginationRoot> */}
     </Stack>
           </Box>
           </div>
@@ -174,4 +172,4 @@ function PointExchange(){
 }
 
 
-export default PointExchange;
+export default PointExchange
