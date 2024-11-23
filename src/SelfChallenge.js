@@ -27,6 +27,10 @@ function SelfChallenge() {
     navigate('/SelfChallenge', { state: randomChallenge });
   };
 
+  const handleCreateChallenge = () => {
+    navigate('/MakeChallenge');
+  };
+
 
   return <div 
     style={{
@@ -91,8 +95,8 @@ function SelfChallenge() {
               <Text fontSize="lg">{progress}%</Text>
             </HStack>
           </Box>
-          <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="400px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" ml="5" mt="3" p={4}>
-                <Text fontSize="xl">챌린지 만들기</Text>
+          <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="400px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" ml="5" mt="3" p={4} onClick={handleCreateChallenge}>
+                <Text fontSize="xl">챌린지 만들러 가기</Text>
               </Box>
           </VStack>
         </Box>

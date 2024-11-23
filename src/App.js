@@ -13,6 +13,7 @@ import FriendRanking from './FriendRanking';
 import SelfChallenge from './SelfChallenge';
 import Information from './Information';
 import CM_DetailPage from './CM_DetailPage';
+import MakeChallenge from './MakeChallenge';
 import Footer from './Footer';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/SelfChallenge" element={<SelfChallenge />}></Route>
         <Route path="/Information" element={<Information />}></Route>
         <Route path="/CM_DetailPage" element={<CM_DetailPage />}></Route>
+        <Route path="/MakeChallenge" element={<MakeChallenge />}></Route>
         <Route path="/" element={<MainContent />} />
         <Route path="/friend-ranking" element={<FriendRanking />} />
       </Routes>
