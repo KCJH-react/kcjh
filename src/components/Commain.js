@@ -21,8 +21,6 @@ export default function Commain(){
     const category = ["카페", "베이커리", "독서", "외식", "편의점", "운동", "대중문화", "문화상품권"];
     const items = ['제목1','제목2','제목3','제목4','제목5','제목6']
 
-    //const [like, setLike] = useState(0);
-
     const [content,setContent] =useState([
         {title:'제목1',content:"...",date:"1",like:5},
         {title:'제목2',content:"...",date:"2",like:3},
@@ -36,12 +34,7 @@ export default function Commain(){
     ]
     )
 
-    const [visibleItems, setVisibleItems] = useState(content.slice(startRange, endRange))
-
-    useEffect(()=>{
-      setVisibleItems(content)
-      console.log(1)
-    }, [content])
+    useEffect(()=>{},[content])
 
     function DropdownButton() {
       const [isOpen, setIsOpen] = useState(false);
@@ -106,12 +99,10 @@ export default function Commain(){
     <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.5)"}}>
       <Box display="flex" alignItems="center" justifyContent="center" height="400px">
         <Text fontSize="2em" fontWeight="bold">Challenge COMM</Text>
-        
-        
       </Box>
     </div>
     <Box w="80%" margin="auto" position="relative" top="-100px">
-    <Pagination></Pagination>
+    <Pagination contents={content} setContents={setContent}></Pagination>
     </Box>
     </Box>  
 )

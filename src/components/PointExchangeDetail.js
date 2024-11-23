@@ -1,18 +1,36 @@
 import React,{useState,useEffect}from "react"
-import { Card, HStack, Stack, Strong, Text,Image,Flex,AspectRatio,Box,Center,Input  } from "@chakra-ui/react" // 절대 경로로 무조건
-// import { Avatar } from "./ui/avatar"
-// import { Button } from "./ui/button"
+import { Card, CardHeader, CardBody, CardFooter, HStack, Stack, Strong, Text,Image,Flex,AspectRatio,Box,Center,Input,Grid  } from "@chakra-ui/react" // 절대 경로로 무조건
 import { LuCheck, LuX } from "react-icons/lu"
 import { useRef } from "react";
-// import {
-//     PaginationItems,
-//     PaginationNextTrigger,
-//     PaginationPrevTrigger,
-//     PaginationRoot,
-//   } from "./ui/pagination"
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+
+const Button = styled.button`
+  background-color: #000; /* 검정 배경 */
+  color: #FFF; /* 하얀 글씨 */
+  border: none; /* 테두리 제거 */
+  border-radius: 8px; /* 둥근 모서리 */
+  padding: 0px 20px; /* 패딩 */
+  margin: 5px;
+  font-size: 16px; /* 글씨 크기 */
+  cursor: pointer; /* 클릭 가능한 포인터 */
+  transition: transform 0.2s, background-color 0.3s; /* 클릭/호버 애니메이션 */
+  flex:1;
+
+  &:hover {
+    background-color: #333; /* 호버 시 밝은 검정 */
+  }
+
+  &:active {
+    transform: scale(0.95); /* 클릭 시 살짝 작아짐 */
+  }
+`;
 
 function PointExchangeDetail(){
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const categoryId = useParams().categoryId;
+  console.log(categoryId)
     const pageSize = 4
     const [page, setPage] = useState(1)
     const count = 20
@@ -20,9 +38,11 @@ function PointExchangeDetail(){
     const startRange = (page - 1) * pageSize
     const endRange = startRange + pageSize
 
-    const category = "카페";
-    const items = ['커피','커피','커피','커피','커피','커피']
-    const visibleItems = items.slice(startRange, endRange)
+    const categories = location.state || {};
+    console.log(categories);
+    const allItems = categories.category.items;
+    const visibleItems = allItems
+    console.log(visibleItems)
 
     const scrollRef = useRef(null);
     const scroll = (direction) => {
@@ -33,98 +53,155 @@ function PointExchangeDetail(){
           });
         }
       };
-    const user = {name:"홍길동", point:"1000", avatar:"https://bit.ly/broken-link"}
+    const user = {name:"홍길동", point:1000, avatar:"https://bit.ly/broken-link"}
+    const [userpoint, setUserPoint] = useState(user.point);
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+
+    const [content, setContent] = useState('');
+    const [test, setTest] = useState(true);
+
+    // 모달 열기
+    useEffect(()=>{
+      if(content === '')return;
+      const openModal = () => {
+        setIsModalOpen(true);
+      };
+      openModal()
+    }, [content])
+  
+    // 모달 닫기
+    const closeModal = () => {
+      setIsModalOpen(false);
+    };
+    function Modal(){
+      return(        
+      <div className="modal">
+        <div className="modal-content">
+          <span className="close-btn" onClick={closeModal}>
+            &times;
+          </span>
+          <h2></h2>
+          <p>{content.name}의 {content.points}입니다. 교환하시겠습니까?</p>
+          <p></p>
+          {
+            !test? <p>고객님의 포인트가 부족합니다.</p> : null
+          }
+          <button onClick={()=>{
+            const exchangedPoint = userpoint - Number(content.points); 
+            if(exchangedPoint < 0){setTest(false);return;}
+            else setUserPoint(exchangedPoint);closeModal();
+            }}>교환하기</button>
+          <button onClick={closeModal}>닫기</button>
+        </div>
+      </div>
+      )
+    }
 
     return(
-        <div>
-          <div style={{padding: "0px 180px", background:"rgba(198,234,130,0.3)", height:"550px"}}>
-          <Box position="relative" padding={5}>
-        <Box margin="1px">
-          <Box w={80} marginY="10px">
-              <Box>
-                  <h4>카테고리별 목록</h4>
-              </Box>
-          </Box>
-         <Center display="flex" borderTop="1px solid" borderBottom="1px solid" borderColor="gray">
-          <Flex 
-                  ref={scrollRef}
-                  overflowX="auto"
-                  whiteSpace="nowrap"
-                  gap={4} // 버튼 영역 확보
-                  marginX="25px"
-                  marginY="10px"
-                  scrollbar="hidden"
-          >
+      <Grid>
+      <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.3)"}}>
+    <Box display="flex" justifyContent="flex-end" borderBottom="1px solid" borderColor="gray" paddingX="2" padding="10px" height="440px">
+    <Box position="relative" top="-100px" marginY="auto" borderTop="1px solid" borderBottom="1px solid" borderColor="gray" paddingX="2" w="290px" padding="20px">
 
-                  <Card.Root minWidth="320px">
-                  <Card.Body>
-                  <Image
-                 objectFit="cover"
-                 maxW="320px"
-                 src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-                 alt="Caffe Latte"
-               />
-                  </Card.Body>
-                  <Card.Footer>
-                   <Input colorPalette="gray" flex="1">
-                   </Input>
-                  </Card.Footer>
-                 </Card.Root>
-          </Flex>
-         </Center>
-         </Box>
-        </Box>
-          </div>
-          <Box position="relative" top="-120px"  bg="rgba(256,256,256,0.0)" borderBottom="1px solid" borderColor="gray">
-        <Box w={80} bg="" marginY="10px" paddingY="10px">
-              <Center>
-                  <h4>전체 상품 목록</h4>
-              </Center>
-          </Box>
-        <Center>
-        <Stack gap="4">
-    <Flex w="1200px" gap="4" mx="auto" p="10px" borderRadius="4px">
-      {visibleItems.map((item) => (
-        <Card.Root overflow="hidden" width="287px">
-        <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-          alt="Green double couch with wooden legs"
-          
-        />
-        <Card.Body gap="2">
-          <Card.Title>{item}</Card.Title>
-          <Card.Description>
-            This sofa is perfect for modern tropical spaces, baroque inspired
-            spaces.
-          </Card.Description>
-          <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
-            $450
-          </Text>
-        </Card.Body>
-        <Card.Footer gap="2">
-          {/* <Button variant="solid">Buy now</Button>
-          <Button variant="ghost">Add to cart</Button> */}
-        </Card.Footer>
-      </Card.Root>
-      ))}
+    <Box width="100%">
+      <Flex justify="flex-end">
+    <Text  textStyle="2xl">{user.name}</Text>
     </Flex>
-    {/* <PaginationRoot
-      page={page}
-      count={count}
-      pageSize={pageSize}
-      onPageChange={(e) => setPage(e.page)}
-    ><Center>
-      <HStack>
-        <PaginationPrevTrigger />
-        <PaginationItems />
-        <PaginationNextTrigger />
-      </HStack>
-      </Center>
-    </PaginationRoot> */}
-  </Stack>
-        </Center>
+    </Box>
+  <Text color="black" textStyle="3xl" marginLeft="20px" marginTop="10px" textAlign="end">{userpoint}POINT</Text> 
+    </Box>
+    </Box>
+      <Box position="relative" top="-210px" boxShadow="1px 1px 4px 0.5px" bg="rgba(256,256,256,0.8)">
+      <Box>
+        <Box w={80} paddingY="10px">
+            <Center>
+                <h4>카테고리별</h4>
+            </Center>
         </Box>
+       <Center display="flex" color="white">
+        <Flex 
+                ref={scrollRef}
+                overflowX="auto"
+                whiteSpace="nowrap"
+                gap={4} // 버튼 영역 확보
+                marginX="25px"
+                marginY="10px"
+                scrollbar="hidden"
+                
+        >
+                          <Card minWidth="140px">
+                <CardBody> 
+                  
+                <Image
+               objectFit="cover"
+               maxW="100px"
+               src={`/category/icon${categoryId}.png`}
+               alt="Caffe Latte"
+               onClick={()=>{navigate(`/pointExchangeDetail/`,{state: {categories}})}}
+             />
+                </CardBody>
+                <Text>{categories.category.categoryName}</Text>
+               </Card>
+        </Flex>
+       </Center>
+       </Box>
+      </Box>
       </div>
+      <div style={{padding: "0PX 180px"}}>
+      <Box position="relative" top="-180px" bg="rgba(256,256,256,0.8)" borderBottom="1px solid" borderColor="gray">
+      <Box w={80} bg="" marginY="10px" paddingY="5px">
+            <Center>
+                <h4>전체 상품 목록</h4>
+            </Center>
+        </Box>
+      <Stack gap="4" margin="5px">
+        <Grid
+    templateColumns="repeat(4, auto)" // 4개의 컬럼으로 나눔
+    gap="20px" // 아이템 간격
+    justifyContent="center"
+  >
+    {
+      console.log(allItems)
+    }
+    {visibleItems.map((items,index) => {
+                  console.log(items)
+                  return(
+                  <Card key={index} overflow="hidden" height="400px" width="260px">
+                  <Image
+                    src={items.image}
+                    alt="Green double couch with wooden legs"
+                    maxH="200px"
+                    minW="200px"
+                  />
+                  <CardHeader>{items.name}</CardHeader>
+                  <CardBody gap="2">
+                    {
+                      console.log(items.name)
+                    }
+                    <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
+                      {items.details}
+                    </Text>
+                    <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
+                      {items.points}
+                    </Text>
+                  </CardBody>
+                  <CardFooter gap="2"><Flex justify="center" width="100%" height="100%"><Button onClick={()=>{setContent(items)}}><Text fontSize='1em'>교환하기</Text></Button></Flex>
+                    
+                  </CardFooter>
+                 </Card>
+                  )
+    }
+  )}
+        </Grid>
+      </Stack>
+      {
+      isModalOpen && (
+        <Modal></Modal>
+    )
+    }
+      </Box>
+      </div>
+    </Grid>
     )
 }
 
