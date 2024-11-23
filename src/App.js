@@ -16,7 +16,7 @@ function App() {
   return (
     <Routes>  
       <Route path="/pointExchange" element={<PointExchange/>}></Route>
-      <Route path="/pointExchangeDetail/:category" element={<PointExchangeDetail/>}></Route>
+      <Route path="/pointExchangeDetail/:categoryId" element={<PointExchangeDetail/>}></Route>
       <Route path="/comm" element={<Commain></Commain>}></Route>
       <Route path="/" element={<MainContent />} />
       <Route path="/friend-ranking" element={<FriendRanking />} />
