@@ -7,20 +7,27 @@ import PointExchange from './components/PointExchange'
 import PointExchangeDetail from './components/PointExchangeDetail'
 import Commain from "./components/Commain"
 import Navbar from './Navbar';
+import Comm from './components/Comm';
 import MainContent from './MainContent';
 import FriendRanking from './FriendRanking';
+import Information from './Information';
 import Footer from './Footer';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 
+const theme = extendTheme({});
 
 function App() {
   return (
-    <Routes>  
-      <Route path="/pointExchange" element={<PointExchange/>}></Route>
-      <Route path="/pointExchangeDetail/:categoryId" element={<PointExchangeDetail/>}></Route>
-      <Route path="/comm" element={<Commain></Commain>}></Route>
-      <Route path="/" element={<MainContent />} />
-      <Route path="/friend-ranking" element={<FriendRanking />} />
-    </Routes>
+    <ChakraProvider theme={theme}>
+      <Routes>  
+        <Route path="/pointExchange" element={<PointExchange/>}></Route>
+        <Route path="/pointExchangeDetail/:category" element={<PointExchangeDetail/>}></Route>
+        <Route path="/comm" element={<Comm></Comm>}></Route>
+        <Route path="/Information" element={<Information />}></Route>
+        <Route path="/" element={<MainContent />} />
+        <Route path="/friend-ranking" element={<FriendRanking />} />
+      </Routes>
+    </ChakraProvider>
   );
 }
 export default App;
