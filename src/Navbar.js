@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <Box>
       <Flex
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue('rgba(256, 256, 256, 0.8)', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
         minH={'60px'}
         py={{ base: 2 }}
@@ -26,7 +26,9 @@ export default function Navbar() {
         borderBottom={1}
         borderStyle={'solid'}
         borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}>
+        align={'center'}
+        boxShadow={'md'}>
+        {/*로고 옆 버튼*/}
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} align='center'>
           <Box
             onClick={onToggle}
@@ -35,14 +37,16 @@ export default function Navbar() {
             bg={useColorModeValue('gray.100', 'gray.700')}
             borderRadius={'md'}
             _hover={{ bg: useColorModeValue('gray.200', 'gray.600') }}
-            mr={4}
-          >
+            boxShadow={'sm'}
+            mr={4}>
             메뉴
           </Box>
+          {/*로고*/}
           <Text
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
+            color={useColorModeValue('gray.800', 'white')}
+            fontWeight={700}>
             RANDOM CHALLENGE
           </Text>
 
@@ -51,6 +55,7 @@ export default function Navbar() {
           </Flex>
         </Flex>
 
+        {/*로그인, 회원가입 버튼*/}
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={'flex-end'}
@@ -69,7 +74,8 @@ export default function Navbar() {
             href={'#'}
             _hover={{
               bg: 'teal.300',
-            }}>
+            }}
+            boxShadow={'md'}>
             회원가입
           </Button>
         </Stack>
@@ -81,14 +87,14 @@ export default function Navbar() {
     </Box>
   );
 }
-
+{/*데스크탑에서의 네비바*/}
 const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
+  const popoverContentBgColor = useColorModeValue('rgba(256, 256, 256, 0.8)', 'gray.800');
 
   return (
-    <Stack direction={'row'} spacing={{ base: 20, md: 30, lg: 40 }}>
+    <Stack direction={'row'} spacing={{ base: 20, md: 30, lg: 44 }}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
@@ -129,7 +135,7 @@ const DesktopNav = () => {
     </Stack>
   );
 };
-
+{/*데스크탑에서의 네비바 하위 메뉴 항목 랜더링*/}
 const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
     <Box
@@ -154,17 +160,17 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
     </Box>
   );
 };
-
+{/*모바일에서의 네비바*/}
 const MobileNav = () => {
   return (
-    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }}>
+    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }} boxShadow={'md'}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
     </Stack>
   );
 };
-
+{/*모바일에서의 네비바 하위 메뉴 항목 랜더링*/}
 const MobileNavItem = ({ label, children, href }) => {
   const { isOpen, onToggle } = useDisclosure();
 
@@ -203,11 +209,11 @@ const MobileNavItem = ({ label, children, href }) => {
     </Stack>
   );
 };
-
+{/* 메뉴항목*/}
 const NAV_ITEMS = [
   {
     label: '소개',
-    href: '#',
+    href: 'inf',
   },
   {
     label: '커뮤니티',
@@ -224,5 +230,9 @@ const NAV_ITEMS = [
   {
     label: '공지사항',
     href: '#',
+  },
+  {
+    label: '랭킹',
+    href: 'rank',
   },
 ];
