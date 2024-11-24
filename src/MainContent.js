@@ -1,6 +1,8 @@
 'use client';
 
+import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Button, Select, Heading, Stack, Text } from '@chakra-ui/react';
+import challenge from './Challenge';
 
 const Feature = ({ title, text, icon }) => {
   return (
@@ -22,6 +24,15 @@ const Feature = ({ title, text, icon }) => {
   );
 };
 export default function MainContent() {
+
+  const navigate = useNavigate();
+
+  const handleGenerateChallenge = () => {
+    const randomChallenge = challenge[Math.floor(Math.random() * challenge.length)];
+    console.log(randomChallenge);  // 챌린지 객체가 제대로 선택되는지 확인
+    navigate('/SelfChallenge', { state: randomChallenge });
+  };
+
   return (
     /*현재진행중인 챌린지*/
     <Box p={4}>
@@ -36,7 +47,7 @@ export default function MainContent() {
         <Stack flex={2} spacing={2} align="center" minW={{ base: '100%', md: '30%' }} mt={{ base: 4, md: 0 }} textAlign="center" ml={-80}>
           <Heading size="sm">(이 버튼에 대한 설명 1줄)</Heading>
           <Text>(이 버튼에 대한 설명 2줄)</Text>
-          <Button colorScheme="teal" size="lg" alignSelf="center">GENERATE CHALLENGE</Button>
+          <Button colorScheme="teal" size="lg" alignSelf="center" onClick={handleGenerateChallenge}>GENERATE CHALLENGE</Button> {/*챌린지 생성 버튼 */}
           <Flex gap={2} mt={2} wrap="wrap" justify="center">
             {/*종류 난이도 기간*/}
             <Select placeholder="종류" w={{ base: '100%', md: 'auto' }}>

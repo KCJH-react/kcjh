@@ -77,3 +77,33 @@
 .close-btn:focus {
   color: black;
 }
+
+.w-btn {
+  position: relative;
+  border: none;
+  display: inline-block;
+  padding: 13px 20px;
+  border-radius: 5px;
+  font-family: "paybooc-Light", sans-serif;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 255, .2);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s;
+  margin: 3px;
+}
+
+.w-btn-green2 {
+  background-color: #77af9c;
+  color: #d7fff1;
+}
+.sort{
+  background: #171205;
+  border: none;
+  width: 100px;
+  height: 60px;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+}

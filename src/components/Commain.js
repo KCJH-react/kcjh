@@ -1,6 +1,7 @@
 import { Tabs,Center,Box,Card,Button,Text,HStack,Flex,Image } from "@chakra-ui/react"
 import { LuCheckSquare, LuFolder, LuUser } from "react-icons/lu"
 import {useState, useEffect} from 'react';
+import Pagination from './Pagination';
 // import {
 //     PaginationItems,
 //     PaginationNextTrigger,
@@ -9,7 +10,7 @@ import {useState, useEffect} from 'react';
 //   } from "./ui/pagination"
   import { Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 
-export default function Comm(){
+export default function Commain(){
     const pageSize = 4
     const [page, setPage] = useState(1)
     const count = 20
@@ -19,8 +20,6 @@ export default function Comm(){
 
     const category = ["카페", "베이커리", "독서", "외식", "편의점", "운동", "대중문화", "문화상품권"];
     const items = ['제목1','제목2','제목3','제목4','제목5','제목6']
-
-    //const [like, setLike] = useState(0);
 
     const [content,setContent] =useState([
         {title:'제목1',content:"...",date:"1",like:5},
@@ -35,12 +34,7 @@ export default function Comm(){
     ]
     )
 
-    const [visibleItems, setVisibleItems] = useState(content.slice(startRange, endRange))
-
-    useEffect(()=>{
-      setVisibleItems(content)
-      console.log(1)
-    }, [content])
+    useEffect(()=>{},[content])
 
     function DropdownButton() {
       const [isOpen, setIsOpen] = useState(false);
@@ -104,65 +98,12 @@ export default function Comm(){
     <Box>
     <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.5)"}}>
       <Box display="flex" alignItems="center" justifyContent="center" height="400px">
-        <Text fontSize="5xl" fontWeight="bold">Challenge COMM</Text>
+        <Text fontSize="2em" fontWeight="bold">Challenge COMM</Text>
       </Box>
     </div>
     <Box w="80%" margin="auto" position="relative" top="-100px">
-    <Tabs.Root defaultValue="members" variant="plain">
-      <Tabs.List bg="bg.muted" rounded="l3" p="1">
-        <Tabs.Trigger value="members">
-          <LuUser />
-          Members
-        </Tabs.Trigger>
-        <Tabs.Trigger value="projects">
-          <LuFolder />
-          Projects
-        </Tabs.Trigger>
-        <Tabs.Trigger value="tasks">
-          <LuCheckSquare />
-          Settings
-        </Tabs.Trigger>
-        <Tabs.Indicator rounded="l2" />
-      </Tabs.List>
-      <Tabs.Content value="members" bg="white" borderRadius="3px" margin="3px" shadow="0px 0px 10px 3px rgba(0, 0, 255, .2)">
-        <Flex justifyContent="space-between" marginX="18px">
-          <Text fontSize="2xl" fontWeight="bold">게시물</Text><DropdownButton></DropdownButton>
-        </Flex>
-      <Box w="1200px" gap="4" bg="white" mx="auto" p="10px" borderRadius="4px">
-        {visibleItems.map((c) => (
-          <Card.Root overflow="hidden">
-          <Card.Body gap="2">
-            <Card.Title>{c.title}</Card.Title>
-            <Card.Description>
-             {c.date}
-            </Card.Description> 
-            <Box>{c.like}</Box>
-          </Card.Body>
-          <Card.Footer gap="2">
-          </Card.Footer>
-        </Card.Root>
-        ))}
-      </Box>
-      {/* <PaginationRoot
-        page={page}
-        count={count}
-        pageSize={pageSize}
-        onPageChange={(e) => setPage(e.page)}
-      ><Center>
-        <HStack>
-          <PaginationPrevTrigger />
-          <PaginationItems />
-          <PaginationNextTrigger />
-        </HStack>
-        </Center>
-      </PaginationRoot> */}
-      </Tabs.Content>
-      <Tabs.Content value="projects">Manage your projects</Tabs.Content>
-      <Tabs.Content value="tasks">
-        Manage your tasks for freelancers
-      </Tabs.Content>
-    </Tabs.Root>
+    <Pagination contents={content} setContents={setContent}></Pagination>
     </Box>
     </Box>  
-  )
+)
 }
