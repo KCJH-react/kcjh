@@ -1,8 +1,35 @@
-import React from 'react';
-import { Box, Button, Flex, Heading, IconButton, Input } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Box, Button, Input, Heading, IconButton } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
 
 function SignUp({ onCategoryFilterClick, onClose }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    if (!username.trim() || !email.trim() || !password.trim()) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+    const newUser = { username, email, password };
+
+    if (existingUsers.some((user) => user.username === username)) {
+      alert('이미 존재하는 사용자입니다. 다른 사용자 이름을 입력해주세요.');
+      return;
+    }
+
+    existingUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(existingUsers));
+    alert('회원가입 성공!');
+
+    onCategoryFilterClick();
+  };
+
   return (
     <>
       <Box
@@ -30,31 +57,29 @@ function SignUp({ onCategoryFilterClick, onClose }) {
         left="50%"
         transform="translate(-50%, -50%)"
       >
-        <IconButton 
-          icon={<CloseIcon />} 
-          aria-label="Close" 
-          position="absolute" 
-          top="4" 
-          right="4" 
-          onClick={onClose} 
-          size="sm" 
-          variant="unstyled" 
+        <IconButton
+          icon={<CloseIcon />}
+          aria-label="Close"
+          position="absolute"
+          top="4"
+          right="4"
+          onClick={onClose}
+          size="sm"
+          variant="unstyled"
           color="gray.500"
-          _hover={{ color: "gray.700" }}
-          fontSize="lg"
         />
 
         <Heading as="h2" size="md" mb="8" color="gray.700">
           회원가입
         </Heading>
 
-        <form>
+        <form onSubmit={handleSignUp}>
           <Box mb="6">
             <Input
               type="text"
               placeholder="Username"
-              variant="filled"
-              fontSize="md"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               bg="gray.100"
               borderRadius="full"
             />
@@ -64,8 +89,8 @@ function SignUp({ onCategoryFilterClick, onClose }) {
             <Input
               type="email"
               placeholder="Email"
-              variant="filled"
-              fontSize="md"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               bg="gray.100"
               borderRadius="full"
             />
@@ -75,8 +100,8 @@ function SignUp({ onCategoryFilterClick, onClose }) {
             <Input
               type="password"
               placeholder="Password"
-              variant="filled"
-              fontSize="md"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               bg="gray.100"
               borderRadius="full"
             />
@@ -84,17 +109,9 @@ function SignUp({ onCategoryFilterClick, onClose }) {
 
           <Button
             w="70%"
-            h="40px"
-            borderRadius="full"
-            fontSize="md"
-            bg="#01A5A6"
+            bg="#BFE18B"
             color="white"
-            _hover={{ bg: "#01908C" }}
-            _focus={{ boxShadow: "none" }}
-            onClick={(e) => {
-              e.preventDefault();
-              onCategoryFilterClick();
-            }}
+            type="submit"
           >
             회원가입
           </Button>
