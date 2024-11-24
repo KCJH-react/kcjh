@@ -1,60 +1,109 @@
-'use client'
-import React from 'react';
-import { Box, Flex, Heading, Stack, Text, Button, Avatar, Badge } from '@chakra-ui/react';
-import { FaCrown } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { Box, Flex, Text, Image, Button, VStack, HStack, Stack, Center } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 추가
+import userIcon from './asset/user-icon.png';
 
-export default function FriendRanking() {
+function FriendRanking() {
+  const [friendRankData, setFriendRankData] = useState([]);
+  const [myRank, setMyRank] = useState(null);
+  const myUsername = "CurrentUser"; // 현재 사용자 이름 (변경 가능)
+  const navigate = useNavigate(); // 페이지 이동 훅
+
+  useEffect(() => {
+    // LocalStorage에서 데이터 가져오기
+    const storedData = JSON.parse(localStorage.getItem("rankData")) || [];
+    const friends = JSON.parse(localStorage.getItem("friends")) || ["Friend1", "Friend2", "Friend3"]; // 친구 리스트
+
+    // 친구와 현재 사용자 필터링
+    const filteredFriends = storedData.filter(user => friends.includes(user.username) || user.username === myUsername);
+    const sortedFriends = filteredFriends.sort((a, b) => b.score - a.score);
+    setFriendRankData(sortedFriends);
+
+    // 내 랭킹 계산
+    const myRankIndex = sortedFriends.findIndex(user => user.username === myUsername);
+    if (myRankIndex !== -1) {
+      setMyRank({ rank: myRankIndex + 1, score: sortedFriends[myRankIndex].score });
+    } else {
+      setMyRank({ rank: "-", score: "-" });
+    }
+  }, []);
+
   return (
-    <Box p={4}>
-      <Box mb={8}>
-        <Heading size="md" mb={4}>MY RANK</Heading>
-        <Flex align="center" gap={4}>
-          <Avatar size="lg" />
-          <Box>
-            <Text fontSize="2xl" fontWeight="bold">name</Text>
-            <Text fontSize="lg" color="red.500">??</Text>
-          </Box> 
-        </Flex>
-        <Flex mt={4} justifyContent="center">
-          <Box w="150px" h="100px" bg="gray.300" borderRadius="md" display="flex" alignItems="center" justifyContent="center">
-            <Text fontSize="3xl">1</Text>
-          </Box>
-          <Box w="150px" h="75px" bg="gray.300" borderRadius="md" ml={2} display="flex" alignItems="center" justifyContent="center"mt={6}>
-            <Text fontSize="2xl">2</Text>
-          </Box>
-          <Box w="150px" h="50px" bg="gray.300" borderRadius="md" ml={2} display="flex" alignItems="center" justifyContent="center"mt={12}>
-            <Text fontSize="xl">3</Text>
-          </Box>
-        </Flex>
+    <Box w="100%" minH="100vh" bg="gray.50" overflowX="hidden" p="0" m="0">
+      {/* MY RANK 섹션 */}
+      <Box position="relative" textAlign="left" mb="8" px="4">
+        <Text fontSize="2xl" fontWeight="bold">MY RANK</Text>
+        <HStack spacing="4" mt="4">
+          <Image src={userIcon} boxSize="40px" />
+          <Text fontSize="lg" textDecoration="underline" textUnderlineOffset="3px">
+            {myRank ? `${myRank.rank}등 ♦️${myRank.score}` : "랭킹 정보 없음"}
+          </Text>
+        </HStack>
       </Box>
 
-      <Box bg="gray.100" p={6} borderRadius="md" boxShadow="md">
-        <Flex justify="space-between" align="center" mb={4}>
-            <Heading size="md">RANK</Heading>
-            <Flex gap={4}>
-                <Button colorScheme="yellow">친구 랭킹</Button>
-                <Button colorScheme="yellow" variant="outline">전체 랭킹</Button>
-            </Flex>
-        </Flex>
-        
-        <Stack spacing={4}>
-          {[1, 2, 3].map((rank) => (
-            <Flex key={rank} align="center" bg={rank === 1 ? 'yellow.200' : rank === 2 ? 'green.200' : 'orange.200'} p={4} borderRadius="md">
-              <Badge colorScheme="yellow" fontSize="xl" mr={4}>{rank}</Badge>
-              <Avatar size="md" mr={4} />
-              <Box flex={1}>
-                <Text fontWeight="bold">Username</Text>
+      {/* TOP 3 섹션 */}
+      <Center mb="8">
+        <Flex align="flex-end" justify="center" gap="0">
+          {friendRankData.slice(0, 3).map((user, index) => (
+            <VStack key={index} position="relative">
+              <Image src={userIcon} boxSize="40px" mb="-5px" />
+              <Box
+                bg="gray.300"
+                w="100px"
+                h={`${170 - index * 50}px`} // 순위에 따라 높이 조절
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text fontSize="xl" color="white">{index + 1}</Text>
               </Box>
-              <Flex align="center" gap={2}>
-                <FaCrown color="gold" />
-                <Text fontWeight="bold">{rank === 1 ? 100 : rank === 2 ? 50 : 25}</Text>
-                <Text color="red.500" ml={4}>{rank === 1 ? 1010 : rank === 2 ? 800 : 500}</Text>
-              </Flex>
-            </Flex>
+            </VStack>
           ))}
-        </Stack>
-        
+        </Flex>
+      </Center>
+
+      {/* FRIENDS RANK 섹션 */}
+      <Text fontSize="2xl" fontWeight="bold" textAlign="left" px="4">FRIEND RANK</Text>
+      <Box bg="gray.100" mt="3" w="100%" px="4" py="6" mx="0">
+        <HStack spacing="3" justify="flex-end" mb="4">
+          {/* 버튼에 네비게이트 추가 */}
+          <Button bg="yellow.300" fontWeight="bold" size="sm" onClick={() => navigate('/rank')}>
+            전체 랭킹 보기
+          </Button>
+        </HStack>
+        <VStack spacing="4">
+          {friendRankData.slice(0, 4).map((user, index) => (
+            <HStack
+              key={index}
+              w="100%"
+              maxW="600px"
+              bg={index < 3 ? (index === 0 ? 'gold' : index === 1 ? 'lightgreen' : 'orange') : 'gray.400'}
+              p="4"
+              justify="space-between"
+              borderRadius="md"
+            >
+              <HStack spacing="2">
+                <Text fontSize="2xl" fontWeight="bold" color="white">{index + 1}</Text>
+                <Box w="2px" h="100%" bg="white" />
+                <Image src={userIcon} boxSize="40px" />
+                <Text>{user.username}</Text>
+              </HStack>
+              <HStack spacing="2">
+                <Stack spacing="0" align="center">
+                  <Text>👑</Text>
+                  <Text fontSize="lg">{user.score}</Text>
+                </Stack>
+                <Stack spacing="0" align="center">
+                  <Text>♦️</Text>
+                  <Text fontSize="lg">{user.score}</Text>
+                </Stack>
+              </HStack>
+            </HStack>
+          ))}
+        </VStack>
       </Box>
     </Box>
   );
 }
+
+export default FriendRanking;
