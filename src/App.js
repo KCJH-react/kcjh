@@ -7,7 +7,6 @@ import PointExchange from './components/PointExchange'
 import PointExchangeDetail from './components/PointExchangeDetail'
 import Commain from "./components/Commain"
 import Navbar from './Navbar';
-import Comm from './components/Comm';
 import MainContent from './MainContent';
 import FriendRanking from './FriendRanking';
 import SelfChallenge from './SelfChallenge';
@@ -25,7 +24,7 @@ function App() {
       <Routes>  
         <Route path="/pointExchange" element={<PointExchange/>}></Route>
         <Route path="/pointExchangeDetail/:category" element={<PointExchangeDetail/>}></Route>
-        <Route path="/comm" element={<Comm></Comm>}></Route>
+        <Route path="/comm" element={<Commain></Commain>}></Route>
         <Route path="/SelfChallenge" element={<SelfChallenge />}></Route>
         <Route path="/Information" element={<Information />}></Route>
         <Route path="/CM_DetailPage" element={<CM_DetailPage />}></Route>
