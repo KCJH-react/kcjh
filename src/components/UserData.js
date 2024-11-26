@@ -1,12 +1,41 @@
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setPoint, addChallengeSuccess } from '../userSlice';
 
-const store = configureStore({
-  reducer: {
-    user: userReducer,
-  },
-});
-export default store;
+export const useName = () => {
+    const { name } = useSelector(
+      (state) => state.user
+    );
+    return name;
+  };
+export const usePoint = () => {
+  const { point } = useSelector(
+    (state) => state.user
+  );
+  return point;
+};
+export const useChallengeSuccessList = () => {
+    const { challengeSuccessList } = useSelector(
+      (state) => state.user
+    );
+    return challengeSuccessList;
+  };
+export const UserPersonalChallengeList = () => {
+  const { personalChallengeList } = useSelector(
+    (state) => state.user
+  );
+
+  return personalChallengeList;
+};
+//각 사용자 정보를 가져오는 get함수.
+
+export const useSetUserPoint = (dispatch) => {
+    const setUserPoint = (value) => {
+      dispatch(setPoint(value));
+    };
+    return setUserPoint;
+};
+//사용자의 정보를 수정하는 set함수.
 
 //데이터 읽기 예시
 // import { useSelector } from 'react-redux';

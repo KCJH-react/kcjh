@@ -1,15 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  point: 0,
+  name: 'USER',
+  point: 100,
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
+  friendList: [],
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setName: (state, action) => {
+      state.name = action.payload;
+    },
     setPoint: (state, action) => {
       state.point = action.payload;
     },
@@ -29,6 +34,14 @@ const userSlice = createSlice({
         (challenge) => challenge.id !== action.payload
       );
     },
+    addFriend: (state, action) => {
+      state.friendList.push(action.payload);
+    },
+    removeFriend: (state, action) => {
+      state.friendList = state.friendList.filter(
+        (challenge) => challenge.id !== action.payload
+      );
+    },
   },
 });
 
@@ -38,6 +51,8 @@ export const {
   removeChallengeSuccess,
   addPersonalChallenge,
   removePersonalChallenge,
+  addFriend,
+  removeFriend
 } = userSlice.actions;
 
 export default userSlice.reducer;

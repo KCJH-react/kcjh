@@ -5,6 +5,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from "react-redux";
+import store from './store';
 
 localStorage.removeItem("rankData");
 localStorage.removeItem("friends");
@@ -27,11 +29,13 @@ if (!localStorage.getItem("rankData")) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+     <Provider store={store}>
     <ChakraProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </ChakraProvider>
+    </Provider>
   </React.StrictMode>
 );
 

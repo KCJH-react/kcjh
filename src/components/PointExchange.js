@@ -3,13 +3,20 @@ import { Card, CardHeader, CardBody, CardFooter, HStack, Stack, Text,Image,Flex,
 import { LuCheck, LuX } from "react-icons/lu"
 import { useRef } from "react";
 import {useNavigate} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { setPoint, addChallengeSuccess } from '../userSlice';
+import { useSelector } from 'react-redux';
+import {usePoint, useSetUserPoint, useName} from './UserData'
 
 function PointExchange(){
+  const dispatch = useDispatch(); 
+  const setPoint = useSetUserPoint(dispatch);
+
   const navigate = useNavigate();
+
     const pageSize = 4
     const [page, setPage] = useState(1)
     const count = 20
-
     const startRange = (page - 1) * pageSize
     const endRange = startRange + pageSize
 
@@ -273,13 +280,13 @@ function PointExchange(){
           });
         }
       };
-    const user = {name:"홍길동", point:1000, avatar:"https://bit.ly/broken-link"}
-    const [userpoint, setUserPoint] = useState(user.point);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
     const [content, setContent] = useState('');
     const [test, setTest] = useState(true);
 
+    const user = {name:"홍길동", point:1000, avatar:"https://bit.ly/broken-link"}
+    const userpoint =usePoint();
     // 모달 열기
     useEffect(()=>{
       if(content === '')return;
@@ -293,7 +300,7 @@ function PointExchange(){
     const closeModal = () => {
       setIsModalOpen(false);
     };
-    function Modal(){
+    const Modal = () => {
       return(        
       <div className="modal">
         <div className="modal-content">
@@ -307,75 +314,94 @@ function PointExchange(){
             !test? <p>고객님의 포인트가 부족합니다.</p> : null
           }
           <button onClick={()=>{
-            const exchangedPoint = userpoint - Number(content.points); 
+            const exchangedPoint = Number(userpoint) - Number(content.points); 
             if(exchangedPoint < 0){setTest(false);return;}
-            else setUserPoint(exchangedPoint);closeModal();
+            setPoint(exchangedPoint);closeModal();
             }}>교환하기</button>
           <button onClick={closeModal}>닫기</button>
         </div>
       </div>
       )
     }
+
+    //데이터 읽기 예시
+// import { useSelector } from 'react-redux';
+
+// const UserInfo = () => {
+//   const { point, challengeSuccessList, personalChallengeList } = useSelector(
+//     (state) => state.user
+//   );
+
+//   return (
+//     <div>
+//       <p>Points: {point}</p>
+//       <p>Successful Challenges: {challengeSuccessList.length}</p>
+//       <p>Personal Challenges: {personalChallengeList.length}</p>
+//     </div>
+//   );
+// };
+
+// 데이터 업데이트 예시(삭제, 변경)
+// import { useDispatch } from 'react-redux';
+// import { setPoint, addChallengeSuccess } from './userSlice';
+
+// const UpdateUser = () => {
+//   const dispatch = useDispatch();
+
+//   const addPoint = () => dispatch(setPoint(100));
+//   const addChallenge = () =>
+//     dispatch(addChallengeSuccess({ id: 1, name: 'New Challenge' }));
+
+//   return (
+//     <div>
+//       <button onClick={addPoint}>Add Points</button>
+//       <button onClick={addChallenge}>Add Challenge</button>
+//     </div>
+//   );
+// };
+
+
   
     return(
         <Grid>
-          <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.3)"}}>
-        <Box display="flex" justifyContent="flex-end" borderBottom="1px solid" borderColor="gray" paddingX="2" padding="10px" height="440px">
-        <Box position="relative" top="-100px" marginY="auto" borderTop="1px solid" borderBottom="1px solid" borderColor="gray" paddingX="2" w="290px" padding="20px">
-
-        <Box width="100%">
-          <Flex justify="flex-end">
-        <Text  textStyle="2xl">{user.name}</Text>
-        </Flex>
+          <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.5)"}}>
+          <Center position="relative" top="40px" marginY="40px"><Text fontSize="3xl" fontWeight="bold">Point Exchange</Text></Center>
+        <Box display="flex" justifyContent="flex-end" borderBottom="1px solid" borderColor="gray" padding="10px" height="440px">
+          <UserData/>
         </Box>
-      <Text color="black" textStyle="3xl" marginLeft="20px" marginTop="10px" textAlign="end">{userpoint}POINT</Text> 
-        </Box>
-        </Box>
-          <Box position="relative" top="-210px" boxShadow="1px 1px 4px 0.5px" bg="rgba(256,256,256,0.8)">
+          <Box position="relative" top="-210px" boxShadow="1px 1px 4px 0.5px" bg="white">
           <Box>
             <Box w={80} paddingY="10px">
                 <Center>
                     <h4>카테고리별</h4>
                 </Center>
             </Box>
-           <Center display="flex" color="white">
-            <Flex 
-                    ref={scrollRef}
-                    overflowX="auto"
-                    whiteSpace="nowrap"
-                    gap={4} // 버튼 영역 확보
-                    marginX="25px"
-                    marginY="10px"
-                    scrollbar="hidden"
-                    
-            >
-            {
-                categories.map((category, i)=>{
-                  const categoryId = i+1;
-                    return(
-                      
-                    <Card key={i} minWidth="140px">
-                    <CardBody> 
-                      
-                    <Image
-                   objectFit="cover"
-                   maxW="100px"
-                   src={`/category/icon${i+1}.png`}
-                   alt="Caffe Latte"
-                   onClick={()=>{navigate(`/pointExchangeDetail/${categoryId}`,{state: {category}})}}
-                 />
-                    </CardBody>
-                    <Text>{category.categoryName}</Text>
-                   </Card>
-                    )
-                })}
-            </Flex>
-           </Center>
-           </Box>
+             <Center display="flex" color="white">
+              <Flex ref={scrollRef} overflowX="auto" whiteSpace="nowrap" gap={4} marginX="25px" marginY="10px" scrollbar="hidden">
+              {
+                  categories.map((category, i)=>{
+                    const categoryId = i+1;
+                      return(
+                        
+                      <Card key={i} minWidth="140px">
+                      <CardBody> 
+                      <Image objectFit="cover" maxW="100px" src={`/category/icon${i+1}.png`} alt="Caffe Latte"
+                        onClick={()=>{navigate(`/pointExchangeDetail/${categoryId}`,{state: {category}})}
+                      }
+                   />
+                      </CardBody>
+                      <Text>{category.categoryName}</Text>
+                     </Card>
+                      )
+                  })
+              }
+              </Flex>
+             </Center>
+            </Box>
           </Box>
           </div>
           <div style={{padding: "0PX 180px"}}>
-          <Box position="relative" top="-180px" bg="rgba(256,256,256,0.8)" borderBottom="1px solid" borderColor="gray">
+          <Box position="relative" top="-180px" bg="white" borderBottom="1px solid" borderColor="gray">
           <Box w={80} bg="" marginY="10px" paddingY="5px">
                 <Center>
                     <h4>전체 상품 목록</h4>
@@ -384,7 +410,7 @@ function PointExchange(){
           <Stack gap="4" margin="5px">
             <Grid
         templateColumns="repeat(4, auto)" // 4개의 컬럼으로 나눔
-        gap="20px" // 아이템 간격
+        gap="30px" // 아이템 간격
         justifyContent="center"
       >
         {
@@ -438,5 +464,20 @@ function PointExchange(){
     )
 }
 
+const UserData = () =>{
+  
+  const user = useName();
+  const userpoint = usePoint();
+  return (
+    <Box position="relative" top="-100px" marginY="auto" borderTop="2px solid" borderBottom="2px solid" borderColor="black" paddingX="2" w="290px" padding="20px"> 
+    <Box width="100%">
+      <Flex justify="flex-end">
+        <Text  fontSize="2xl" fontWeight="bold">{user}</Text>
+      </Flex>
+    </Box>
+    <Text color="black" fontSize="3xl" fontWeight="bold" marginLeft="20px" marginTop="10px" textAlign="end">{userpoint}POINT</Text> 
+  </Box>
+  )
+}
 
 export default PointExchange
