@@ -37,6 +37,10 @@ export const useSetUserPoint = (dispatch) => {
 };
 //사용자의 정보를 수정하는 set함수.
 
+//주의사항
+//1. 사용자 저의 함수는 무조건 use로 시작해야 됨.
+//2. useSetUserPoint 형식 참고해서 다른 redux 함수 만들 것.
+
 //데이터 읽기 예시
 // import { useSelector } from 'react-redux';
 

@@ -360,8 +360,6 @@ function PointExchange(){
 //   );
 // };
 
-
-  
     return(
         <Grid>
           <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.5)"}}>
