@@ -11,8 +11,6 @@ function Information() {
       height: "150vh"
     }}>
     <Flex direction="column" align="center" justify="center" p="8">
-      {/*최상단 네비게이션 메뉴 */}
-      <Navbar />
 
       {/*외부 배경*/}
       <Box p="8" borderRadius="md">
