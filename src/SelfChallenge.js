@@ -17,6 +17,7 @@ function SelfChallenge() {
     content: "Default Challenge Content",
     category: "Category",
     difficulty: "Easy",
+    icon: StudyIcon,
     points: 0,
   };
 
