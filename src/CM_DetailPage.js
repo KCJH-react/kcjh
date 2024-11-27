@@ -12,8 +12,6 @@ function CM_DetailPage() {
     }}
     >
     <Flex direction="column" p="4" width="100%">
-      {/*최상단 네비게이션 메뉴 */}
-      <Navbar />
       
       {/*화면 좌 우 설정*/}
       <Box>

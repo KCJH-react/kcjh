@@ -14,7 +14,7 @@ import Information from './Information';
 import CM_DetailPage from './CM_DetailPage';
 import MakeChallenge from './MakeChallenge';
 import Footer from './Footer';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, Box } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 const theme = extendTheme({});
@@ -22,17 +22,22 @@ const theme = extendTheme({});
 function App() {
   return (
     <ChakraProvider theme={theme}>
-      <Routes>
-      <Route path="/pointExchange" element={<PointExchange />} />
-      <Route path="/pointExchangeDetail/:category" element={<PrivateRoute element={<PointExchangeDetail />} />} />
-      <Route path="/comm" element={<PrivateRoute element={<Commain />} />} />
-      <Route path="/SelfChallenge" element={<PrivateRoute element={<SelfChallenge />} />} />
-      <Route path="/Information" element={<PrivateRoute element={<Information />} />} />
-      <Route path="/CM_DetailPage" element={<PrivateRoute element={<CM_DetailPage />} />} />
-      <Route path="/MakeChallenge" element={<PrivateRoute element={<MakeChallenge />} />} />
-      <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
-      <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
-      </Routes>
+      <Box className = "App">
+        <Navbar />
+          <Routes>
+            <Route path="/pointExchange" element={<PointExchange />} />
+            <Route path="/pointExchangeDetail/:category" element={<PrivateRoute element={<PointExchangeDetail />} />} />
+            <Route path="/comm" element={<PrivateRoute element={<Commain />} />} />
+            <Route path="/SelfChallenge" element={<PrivateRoute element={<SelfChallenge />} />} />
+            <Route path="/Information" element={<PrivateRoute element={<Information />} />} />
+            <Route path="/CM_DetailPage" element={<PrivateRoute element={<CM_DetailPage />} />} />
+            <Route path="/MakeChallenge" element={<PrivateRoute element={<MakeChallenge />} />} />
+            <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
+            <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
+          </Routes>
+        <Box h="20"/>
+      <Footer />
+    </Box>
     </ChakraProvider>
   );
 }

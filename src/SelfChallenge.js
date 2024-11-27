@@ -39,8 +39,6 @@ function SelfChallenge() {
       height: "150vh"
     }}>
     <Flex direction="column" align="center" justify="center" p="8">
-      {/*최상단 네비게이션 메뉴 */}
-      <Navbar />
       
       {/*챌린지 화면*/}
       <Flex direction="row" align="center" mx="8" mt="4" width="100%">
