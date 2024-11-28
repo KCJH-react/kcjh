@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Text, Image, Button, VStack, HStack, Stack, Center } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom'; // 페이지 이동을 위한 추가
+import { useNavigate } from 'react-router-dom';
 import userIcon from './asset/user-icon.png';
 
 function RankSystem() {
   const [rankData, setRankData] = useState([]);
   const [myRank, setMyRank] = useState(null);
-  const myUsername = "CurrentUser"; // 현재 사용자 이름 (변경 가능)
-  const navigate = useNavigate(); // 페이지 이동 훅
+  const myUsername = "CurrentUser";
+  const navigate = useNavigate();
 
   useEffect(() => {
     // LocalStorage에서 랭킹 데이터 불러오기
@@ -25,7 +25,7 @@ function RankSystem() {
   }, []);
 
   return (
-    <Box w="100%" minH="100vh" bg="gray.50" overflowX="hidden" p="0" m="0">
+    <Box w="100%" minH="100vh" bg="#D6F0A8" overflowX="hidden" p="0" m="0">
       {/* MY RANK 섹션 */}
       <Box position="relative" textAlign="left" mb="8" px="4">
         <Text fontSize="2xl" fontWeight="bold">MY RANK</Text>
@@ -44,9 +44,9 @@ function RankSystem() {
             <VStack key={index} position="relative">
               <Image src={userIcon} boxSize="40px" mb="-5px" />
               <Box
-                bg="gray.300"
+                bg="#389E6B"
                 w="100px"
-                h={`${170 - index * 50}px`} // 순위에 따라 높이 조절
+                h={`${170 - index * 50}px`}
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -60,13 +60,12 @@ function RankSystem() {
 
       {/* RANK 섹션 */}
       <Text fontSize="2xl" fontWeight="bold" textAlign="left" px="4">RANK</Text>
-      <Box bg="gray.100" mt="3" w="100%" px="4" py="6" mx="0">
+      <Box bg="#F7FCED" mt="3" w="100%" px="4" py="6" mx="0">
         <HStack spacing="3" justify="flex-end" mb="4">
-          {/* 버튼에 네비게이트 추가 */}
-          <Button bg="yellow.300" fontWeight="bold" size="sm" onClick={() => navigate('/friend-ranking')}>
+          <Button bg="green.600" color="white" fontWeight="bold" size="sm" _hover={{ bg: "green.700" }} onClick={() => navigate('/friend-ranking')}>
             친구 랭킹
           </Button>
-          <Button bg="yellow.300" fontWeight="bold" size="sm" ml="2">
+          <Button bg="green.600" color="white" fontWeight="bold" size="sm" _hover={{ bg: "green.700" }} ml="2">
             전체 랭킹
           </Button>
         </HStack>
@@ -76,7 +75,7 @@ function RankSystem() {
               key={index}
               w="100%"
               maxW="600px"
-              bg={index < 3 ? (index === 0 ? 'gold' : index === 1 ? 'lightgreen' : 'orange') : 'gray.400'}
+              bg={index < 3 ? (index === 0 ? 'gold' : index === 1 ? '#F7E58A' : '#CBE9A2') : '#B5D584'}
               p="4"
               justify="space-between"
               borderRadius="md"

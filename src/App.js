@@ -8,6 +8,7 @@ import PointExchangeDetail from './components/PointExchangeDetail'
 import Commain from "./components/Commain"
 import Navbar from './Navbar';
 import MainContent from './MainContent';
+import RankSystem from './RankSystem';
 import FriendRanking from './FriendRanking';
 import SelfChallenge from './SelfChallenge';
 import Information from './Information';
@@ -27,13 +28,14 @@ function App() {
           <Routes>
             <Route path="/pointExchange" element={<PointExchange />} />
             <Route path="/pointExchangeDetail/:category" element={<PrivateRoute element={<PointExchangeDetail />} />} />
-            <Route path="/comm" element={<PrivateRoute element={<Commain />} />} />
+            <Route path="/commain" element={<PrivateRoute element={<Commain />} />} />
             <Route path="/SelfChallenge" element={<PrivateRoute element={<SelfChallenge />} />} />
             <Route path="/Information" element={<PrivateRoute element={<Information />} />} />
             <Route path="/CM_DetailPage" element={<PrivateRoute element={<CM_DetailPage />} />} />
             <Route path="/MakeChallenge" element={<PrivateRoute element={<MakeChallenge />} />} />
             <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
             <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
+            <Route path="/rank" element={<PrivateRoute element={<RankSystem />} />} />
           </Routes>
         <Box h="20"/>
       <Footer />

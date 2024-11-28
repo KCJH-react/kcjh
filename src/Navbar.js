@@ -1,66 +1,69 @@
 'use client';
 
-import {Box,
-        Flex,
-        Text,
-        Button,Stack,
-        Collapse,
-        Popover,
-        PopoverTrigger,
-        PopoverContent,
-        useBreakpointValue,
-        useDisclosure,} from '@chakra-ui/react';
-import {useColorModeValue} from '@chakra-ui/system';
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Stack,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+import { useColorModeValue } from '@chakra-ui/system';
+import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
-  const { isOpen, onToggle } = useDisclosure();
+  const navigate = useNavigate();
+
+  const handleMenuClick = () => {
+    navigate('/');
+  };
 
   return (
-    <Box>
+    <Box width="100%" overflow="hidden">
       <Flex
         bg={useColorModeValue('rgba(256, 256, 256, 0.8)', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
         minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.900')}
+        height={'60px'}
+        px={4}
         align={'center'}
-        boxShadow={'md'}>
-        {/*로고 옆 버튼*/}
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} align='center'>
+        boxShadow={'md'}
+        justify="space-between"
+        overflow="hidden">
+        
+        {/* 로고와 메뉴 버튼 */}
+        <Flex align="center" flex="0 1 auto">
           <Box
-            onClick={onToggle}
+            onClick={handleMenuClick}
             as="button"
             p={2}
-            bg={useColorModeValue('gray.100', 'gray.700')}
+            bg={useColorModeValue('teal.300', 'teal.500')}
             borderRadius={'md'}
-            _hover={{ bg: useColorModeValue('gray.200', 'gray.600') }}
+            color={'white'}
+            _hover={{ bg: useColorModeValue('teal.300', 'teal.700') }}
             boxShadow={'sm'}
             mr={4}>
             메뉴
           </Box>
-          {/*로고*/}
+          {/* 로고 */}
           <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}
             fontWeight={700}>
             RANDOM CHALLENGE
           </Text>
-
-          <Flex display={{ base: 'none', md: 'flex' }} ml={40}>
-            <DesktopNav />
-          </Flex>
         </Flex>
 
-        {/*로그인, 회원가입 버튼*/}
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}>
+        {/* 네비게이션 항목을 한 줄에 고정 */}
+        <Flex align="center" justify="center" flex="1" overflow="hidden">
+          <DesktopNav />
+        </Flex>
+
+        {/* 로그인, 회원가입 버튼 */}
+        <Stack flex="0 1 auto" justify={'flex-end'} direction={'row'} spacing={6}>
           <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
             로그인
           </Button>
@@ -80,21 +83,18 @@ export default function Navbar() {
           </Button>
         </Stack>
       </Flex>
-
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse>
     </Box>
   );
 }
-{/*데스크탑에서의 네비바*/}
+
+{/*네비바*/}
 const DesktopNav = () => {
   const linkColor = useColorModeValue('gray.600', 'gray.200');
   const linkHoverColor = useColorModeValue('gray.800', 'white');
   const popoverContentBgColor = useColorModeValue('rgba(256, 256, 256, 0.8)', 'gray.800');
 
   return (
-    <Stack direction={'row'} spacing={{ base: 20, md: 30, lg: 44 }}>
+    <Stack direction={'row'} spacing={{ base: 8, md: 10, lg: 20 }} flexWrap="nowrap">
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
@@ -106,6 +106,7 @@ const DesktopNav = () => {
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
+                whiteSpace="nowrap"
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
@@ -135,7 +136,8 @@ const DesktopNav = () => {
     </Stack>
   );
 };
-{/*데스크탑에서의 네비바 하위 메뉴 항목 랜더링*/}
+
+{/*네비바 하위 메뉴 항목 랜더링*/}
 const DesktopSubNav = ({ label, href, subLabel }) => {
   return (
     <Box
@@ -160,68 +162,20 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
     </Box>
   );
 };
-{/*모바일에서의 네비바*/}
-const MobileNav = () => {
-  return (
-    <Stack bg={useColorModeValue('white', 'gray.800')} p={4} display={{ md: 'none' }} boxShadow={'md'}>
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-    </Stack>
-  );
-};
-{/*모바일에서의 네비바 하위 메뉴 항목 랜더링*/}
-const MobileNavItem = ({ label, children, href }) => {
-  const { isOpen, onToggle } = useDisclosure();
 
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
-      <Box
-        py={2}
-        as="a"
-        href={href ?? '#'}
-        justifyContent="space-between"
-        alignItems="center"
-        _hover={{
-          textDecoration: 'none',
-        }}>
-        <Text fontWeight={600} color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
-      </Box>
-
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}>
-          {children &&
-            children.map((child) => (
-              <Box as="a" key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Box>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
-  );
-};
-{/* 메뉴항목*/}
+{/* 메뉴항목 */}
 const NAV_ITEMS = [
   {
     label: '소개',
-    href: 'inf',
+    href: 'information',
   },
   {
     label: '커뮤니티',
-    href: '#',
+    href: 'commain',
   },
   {
     label: '보상',
-    href: '#',
+    href: 'pointExchange',
   },
   {
     label: '내 도전',
