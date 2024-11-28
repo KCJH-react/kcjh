@@ -80,7 +80,7 @@ export default function MainContent() {
         {/* 챌린지 생성 버튼 섹션 */}
         <Stack flex="1" spacing={2} align="center" minW="400px" maxW="400px" textAlign="center">
           <Heading size="sm">(종류, 난이도, 기간을 정하세요!)</Heading>
-          <Text>(GENERATE CHALLENGE 버튼을 눌러 챌린지를 생성하세요!)</Text>
+          <Text>(GENERATE CHALLENGE 버튼으로 챌린지를 생성하세요!)</Text>
           <Button colorScheme="teal" size="lg" alignSelf="center" onClick={handleGenerateChallenge}>GENERATE CHALLENGE</Button>
           <Flex gap={2} mt={2} wrap="nowrap" justify="center">
             <Select placeholder="종류" w="150px">
