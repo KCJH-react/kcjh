@@ -122,7 +122,7 @@ const MYTab = () =>{
         <Tr>
            <Td>2024-03-25</Td>
           <Td>asdf1234@naver.com</Td>
-           <Td>KCJH</Td>
+           <Td>{useName()}</Td>
            <Td>*********</Td>
         </Tr>
       </Tbody>
