@@ -4,9 +4,9 @@ import { LuCheck, LuX } from "react-icons/lu"
 import { useRef } from "react";
 import {useNavigate} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { setPoint, addChallengeSuccess } from '../userSlice';
+import { setPoint, addChallengeSuccess } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
-import {usePoint, useSetUserPoint, useName} from './UserData'
+import {usePoint, useSetUserPoint, useName} from '../redux/userData'
 
 function PointExchange(){
   const dispatch = useDispatch(); 

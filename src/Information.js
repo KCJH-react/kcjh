@@ -1,77 +1,198 @@
-import React from 'react';
-import { Box, VStack, HStack, Flex, Text, Image} from '@chakra-ui/react';
+import React, { useState } from "react";
+import { Box, VStack, HStack, Flex, Text, Image, Button} from '@chakra-ui/react';
 import Navbar from './Navbar';
-
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
+import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
+import {useName, usePoint} from './redux/userData';
 
 function Information() {
+  
+  const user = useName();
+  const userpoint = usePoint();
+
   return <div 
     style={{
       padding: "0px 180px",
-      background: "linear-gradient(rgba(198,234,130,0.3) 50%, white 50%)",
+      background: "linear-gradient(rgba(198,234,130,0.6) 50%, white 50%)",
       height: "150vh"
     }}>
-    <Flex direction="column" align="center" justify="center" p="8">
+    <Flex direction="column"p="8">
 
-      {/*외부 배경*/}
-      <Box p="8" borderRadius="md">
-
-        {/*계정 정보 시작*/}
-        <Box borderBottom="1px solid" bordercolor="gray">
-        <Text fontSize="2xl" fontWeight="bold" mt="8" mb="4"> 계정 정보 </Text>
-        {/*시작 날짜_StartDate*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" borderTopRadius="40px" ml="5" mt="3" p={4}>
-            <Text fontSize="xl" flex="1">챌린지를 시작한 날짜</Text>
-            <Text id="StartDate" textAlign="right">2024-03-25</Text>
-        </Box>
-
-        {/*이메일_Email -> 클릭시 이메일 수정가능*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" ml="5" mt="1" p={4}>
-            <Text fontSize="xl" flex="1">이메일 수정하기</Text>
-            <Text id="Email" textAlign="right">asdf1234@naver.com</Text>
-        </Box>
-
-        {/*닉네임_Nickname -> 클릭시 닉네임 수정가능*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" ml="5" mt="1" p={4}>
-            <Text fontSize="xl" flex="1">닉네임 수정하기</Text>
-            <Text id="Nickname" textAlign="right">KCJH</Text>
-        </Box>
-
-        {/*비밀번호_Pw -> 클릭시 인증 후 비밀번호 변경가능*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" justifyContent="center" borderBottomRadius="40px" ml="5" mt="1" mb="10" p={4}>
-            <Text fontSize="xl">비밀번호 변경하기</Text>
-        </Box>
-        {/*계정 정보 끝*/}
+    <Tabs variant='soft-rounded' colorScheme='green'>
+  <TabList>
+    <Tab color="black"><Text fontSize="1xl" fontWeight="bold"> 계정 정보 </Text></Tab>
+    <Tab color="black"><Text fontSize="1xl" fontWeight="bold"> 친구 추가 </Text></Tab>
+  </TabList>
+  <TabPanels position="relative" top="50px">
+    <TabPanel >
+      <Box bordercolor="gray" bg="white" borderRadius="3px" paddingBottom="40px" >
+        {/* marginY="30px" */}
+        <MYTab/>
       </Box>
-
-        {/*챌린지 관련*/}
-        <Box borderBottom="1px solid" bordercolor="gray">
-        <Text fontSize="2xl" fontWeight="bold" mt="8" mb="4"> 챌린지 정보 </Text>
-        {/*내 포인트_Point -> 클릭시 포인트 사용 로그창*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" borderTopRadius="40px" ml="5" mt="3" p={4}>
-            <Text fontSize="xl" flex="1">내 포인트</Text>
-            <Text id="Point" textAlign="right">150포인트</Text>
-        </Box>
-
-        {/*만든 개인챌린지_MakeChall*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" ml="5" mt="1" p={4}>
-            <Text fontSize="xl" flex="1">내 챌린지</Text>
-            <Text id="MakeChall" textAlign="right">5개</Text>
-        </Box>
-
-        {/*성공한 챌린지_SuccessChall*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" ml="5" mt="1" p={4}>
-            <Text fontSize="xl" flex="1">성공한 챌린지</Text>
-            <Text id="SuccessChall" textAlign="right">5개</Text>
-        </Box>
-
-        {/*챌린지 비율_Challrate*/}
-        <Box role="button" cursor="pointer" bg='gray.50' display="flex" width="400px" flexDirection="row" alignItems="center" borderBottomRadius="40px" ml="5" mt="1" p={4}>
-            <Text fontSize="xl" flex="1">챌린지 성공률</Text>
-            <Text id="Challrate" textAlign="right">84%</Text>
-        </Box>
-        </Box>
-        </Box>
+      <Box bordercolor="gray" bg="white" paddingBottom="10px">
+        <ChallengeTab/>
+      </Box>
+    </TabPanel>
+    <TabPanel>
+      <FriendAdder/>
+      <Box bordercolor="gray" bg="white" marginTop="140px">
+        <FriendTab/>
+      </Box>
+    </TabPanel>
+  </TabPanels>
+</Tabs>
       </Flex>
   </div>
 }
+
+const FriendAdder = () => {
+  const [friendName, setFriendName] = useState(""); // 입력값 상태
+  const [friendList, setFriendList] = useState([]); // 친구 목록 상태
+
+  const handleAddFriend = () => {
+    if (friendName.trim() !== "") {
+      setFriendList([...friendList, friendName]); // 친구 추가
+      setFriendName(""); // 입력값 초기화
+    }
+  };
+
+  return (
+    <div style={{ position:"relative", top:"60px", maxWidth: "400px", margin: "auto", textAlign: "center" }}>
+      <div style={{ marginBottom: "10px" }}>
+        <input
+          type="text"
+          value={friendName}
+          placeholder="친구 이름 입력"
+          onChange={(e) => setFriendName(e.target.value)}
+          style={{
+            padding: "8px",
+            width: "70%",
+            border: "1px solid #ccc",
+            borderRadius: "4px",
+          }}
+        />
+        <button
+          onClick={handleAddFriend}
+          style={{
+            padding: "8px 12px",
+            marginLeft: "8px",
+            border: "none",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            borderRadius: "4px",
+            cursor: "pointer",
+          }}
+        >
+          추가
+        </button>
+      </div>
+      <ul style={{ listStyleType: "none", padding: "0" }}>
+        {friendList.map((friend, index) => (
+          <li
+            key={index}
+            style={{
+              padding: "8px",
+              marginBottom: "6px",
+              backgroundColor: "#f9f9f9",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+            }}
+          >
+            {friend}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const MYTab = () =>{
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>챌린지 시작일</Th>
+          <Th>이메일</Th>
+          <Th>닉네임</Th>
+          <Th>비밀번호</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+           <Td>2024-03-25</Td>
+          <Td>asdf1234@naver.com</Td>
+           <Td>{useName()}</Td>
+           <Td>*********</Td>
+        </Tr>
+      </Tbody>
+      <Tbody>
+      <Tr>
+          <Th>사용자 정보 변경</Th>
+          <Th>이메일 수정하기</Th>
+          <Th>닉네임 수정하기</Th>
+          <Th>비밀번호 변경하기</Th>
+        </Tr>
+      </Tbody>
+    </Table>
+    </TableContainer>
+  )
+}
+
+const ChallengeTab = () =>{
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>현재 포인트</Th>
+          <Th>내 챌린지</Th>
+          <Th>성공한 챌린지</Th>
+          <Th>챌린지 성공률</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+          <Td>150포인트</Td>
+          <Td>5개</Td>
+          <Td>5개</Td>
+          <Td>84%</Td>
+        </Tr>
+      </Tbody>
+      <Tfoot>
+      </Tfoot>
+    </Table>
+   </TableContainer>
+  )
+}
+
+const FriendTab = () =>{
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>요청 대기 목록</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
+        </Tr>
+      </Tbody>
+      <Tbody>
+        <Tr>
+        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
+        </Tr>
+      </Tbody>
+      <Tbody>
+        <Tr>
+        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
+        </Tr>
+      </Tbody>
+    </Table>
+   </TableContainer>
+  )
+}
+
 export default Information

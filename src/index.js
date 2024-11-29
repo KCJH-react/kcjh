@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
-import store from './store';
+import store from './redux/store';
 
 localStorage.removeItem("rankData");
 localStorage.removeItem("friends");
