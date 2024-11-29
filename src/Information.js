@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
 import {useEmail, useName, usePoint, useStartDate, 
-  usePassword, useChallengeSuccessList, usePersonalChallengeList} from './redux/userData';
+  usePassword, useChallengeSuccessList, usePersonalChallengeList, useChallengeList} from './redux/userData';
 
 function Information() {
   
@@ -129,12 +129,22 @@ const MYTab = () =>{
            <Td>{maskedPassword}</Td>
         </Tr>
       </Tbody>
+      <br/>
+      <br/>
       <Tbody>
-      <Tr>
-          <Th>사용자 정보 변경</Th>
+        <Tr>
+          <Th>입력하기</Th>
+          <Th><input placeholder="이메일을 입력해주세요."/></Th>
+          <Th><input placeholder="닉네임을 입력해주세요."/></Th>
+          <Th><input placeholder="비밀번호를 입력해주세요."/></Th>
+        </Tr>
+      </Tbody>
+      <Tbody>
+        <Tr>
           <Th>이메일 수정하기</Th>
-          <Th>닉네임 수정하기</Th>
-          <Th>비밀번호 변경하기</Th>
+          <Th><button>이메일 수정하기</button></Th>
+          <Th><button>닉네임 수정하기</button></Th>
+          <Th><button>비밀번호 변경하기</button></Th>
         </Tr>
       </Tbody>
     </Table>
@@ -143,6 +153,10 @@ const MYTab = () =>{
 }
 
 const ChallengeTab = () =>{
+
+  const success = useChallengeSuccessList().length;
+  const total = Math.round(Number(useChallengeList().length) / Number(success));
+
   return(
     <TableContainer>
     <Table size='sm'>
@@ -158,8 +172,8 @@ const ChallengeTab = () =>{
         <Tr>
           <Td>{usePoint()} Point</Td>
           <Td>{useChallengeSuccessList().length}개</Td>
-          <Td>{usePersonalChallengeList().length}개</Td>
-          <Td>84%</Td>
+          <Td>{success}개</Td>
+          <Td>{success === 0? 0 : total}%</Td>
         </Tr>
       </Tbody>
       <Tfoot>
