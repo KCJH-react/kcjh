@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-import { setPoint, addChallengeSuccess } from './userSlice';
+import { setPoint, addChallengeSuccess, setEmail, setName, setPassword } from './userSlice';
 
 export const useName = () => {
     const { name } = useSelector(
       (state) => state.user
     );
     return name;
-  };
+};
 export const usePoint = () => {
   const { point } = useSelector(
     (state) => state.user
@@ -31,13 +31,19 @@ export const useEmail = () => {
   );
   return email;
 };
+export const useChallengeList = () => {
+  const { challengeList } = useSelector(
+    (state) => state.user
+  );
+  return challengeList;
+};
 export const useChallengeSuccessList = () => {
     const { challengeSuccessList } = useSelector(
       (state) => state.user
     );
     return challengeSuccessList;
 };
-export const UserPersonalChallengeList = () => {
+export const usePersonalChallengeList = () => {
   const { personalChallengeList } = useSelector(
     (state) => state.user
   );
@@ -52,6 +58,25 @@ export const useSetUserPoint = (dispatch) => {
     };
     return setUserPoint;
 };
+export const useSetUserEmail = (dispatch) => {
+  const setUserEmail = (value) => {
+    dispatch(setEmail(value));
+  };
+  return setUserEmail;
+};
+export const useSetUserName = (dispatch) => {
+  const setUserName = (value) => {
+    dispatch(setName(value));
+  };
+  return setUserName;
+};
+export const useSetUserPw = (dispatch) => {
+  const setUserPw = (value) => {
+    dispatch(setPassword(value));
+  };
+  return setUserPw;
+};
+
 //사용자의 정보를 수정하는 set함수.
 
 //주의사항
