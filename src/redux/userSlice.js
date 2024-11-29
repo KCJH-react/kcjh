@@ -25,6 +25,9 @@ const userSlice = createSlice({
     setPassword: (state, action) => {
       state.password = action.payload;
     },
+    setEmail: (state, action) => {
+      state.email = action.payload;
+    },
     setStartDate: (state, action) => {
       state.password = action.payload;
     },
@@ -64,7 +67,11 @@ const userSlice = createSlice({
 });
 
 export const {
+  setName,
   setPoint,
+  setEmail,
+  setStartDate,
+  setPassword,
   addChallengeSuccess,
   removeChallengeSuccess,
   addPersonalChallenge,
