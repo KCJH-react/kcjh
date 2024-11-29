@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import { Box, VStack, HStack, Flex, Text, Image, Button} from '@chakra-ui/react';
 import Navbar from './Navbar';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react'
+import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
+import {useName, usePoint} from './redux/userData';
 
 function Information() {
+  
+  const user = useName();
+  const userpoint = usePoint();
+
   return <div 
     style={{
       padding: "0px 180px",
@@ -28,114 +23,20 @@ function Information() {
     <Tab color="black"><Text fontSize="1xl" fontWeight="bold"> 계정 정보 </Text></Tab>
     <Tab color="black"><Text fontSize="1xl" fontWeight="bold"> 친구 추가 </Text></Tab>
   </TabList>
-  <TabPanels position="relative" top="20px">
-    <TabPanel>
-      <Box bordercolor="gray" bg="white" borderRadius="3px" paddingBottom="30px">
-        <TableContainer marginY="30px">
-          <Table size='sm'>
-            <Thead bg="rgba(0,0,0,0.2)">
-              <Tr >
-                <Th>챌린지 시작일</Th>
-                <Th>이메일</Th>
-                <Th>닉네임</Th>
-                <Th>비밀번호</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              <Tr>
-                 <Td>2024-03-25</Td>
-                <Td>asdf1234@naver.com</Td>
-                 <Td>KCJH</Td>
-                 <Td>*********</Td>
-              </Tr>
-            </Tbody>
-            <Tbody>
-            <Tr>
-                <Th>사용자 정보 변경</Th>
-                <Th>이메일 수정하기</Th>
-                <Th>닉네임 수정하기</Th>
-                <Th>비밀번호 변경하기</Th>
-              </Tr>
-            </Tbody>
-          </Table>
-        </TableContainer>
+  <TabPanels position="relative" top="50px">
+    <TabPanel >
+      <Box bordercolor="gray" bg="white" borderRadius="3px" paddingBottom="40px" >
+        {/* marginY="30px" */}
+        <MYTab/>
       </Box>
       <Box bordercolor="gray" bg="white" paddingBottom="10px">
-       <TableContainer>
-        <Table size='sm'>
-          <Thead bg="rgba(0,0,0,0.2)">
-            <Tr >
-              <Th>현재 포인트</Th>
-              <Th>내 챌린지</Th>
-              <Th>성공한 챌린지</Th>
-              <Th>챌린지 성공률</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>150포인트</Td>
-              <Td>5개</Td>
-              <Td>5개</Td>
-              <Td>84%</Td>
-            </Tr>
-          </Tbody>
-          <Tfoot>
-          </Tfoot>
-        </Table>
-       </TableContainer>
-      </Box>
-      <Box bordercolor="gray" bg="white">
-       <TableContainer>
-        <Table size='sm'>
-          <Thead bg="rgba(0,0,0,0.2)">
-            <Tr >
-              <Th>친구 목록</Th>
-              <Th></Th>
-              <Th>친구 랭킹 정보</Th>
-              <Th></Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>150포인트</Td>
-              <Td></Td>
-              <Td>5개</Td>
-              <Td></Td>
-            </Tr>
-          </Tbody>
-          <Tfoot>
-          </Tfoot>
-        </Table>
-       </TableContainer>
+        <ChallengeTab/>
       </Box>
     </TabPanel>
     <TabPanel>
       <FriendAdder/>
       <Box bordercolor="gray" bg="white" marginTop="140px">
-       <TableContainer>
-        <Table size='sm'>
-          <Thead bg="rgba(0,0,0,0.2)">
-            <Tr >
-              <Th>요청 대기 목록</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-            <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
-            </Tr>
-          </Tbody>
-          <Tbody>
-            <Tr>
-            <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
-            </Tr>
-          </Tbody>
-          <Tbody>
-            <Tr>
-            <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
-            </Tr>
-          </Tbody>
-        </Table>
-       </TableContainer>
+        <FriendTab/>
       </Box>
     </TabPanel>
   </TabPanels>
@@ -204,4 +105,94 @@ const FriendAdder = () => {
     </div>
   );
 };
+
+const MYTab = () =>{
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>챌린지 시작일</Th>
+          <Th>이메일</Th>
+          <Th>닉네임</Th>
+          <Th>비밀번호</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+           <Td>2024-03-25</Td>
+          <Td>asdf1234@naver.com</Td>
+           <Td>KCJH</Td>
+           <Td>*********</Td>
+        </Tr>
+      </Tbody>
+      <Tbody>
+      <Tr>
+          <Th>사용자 정보 변경</Th>
+          <Th>이메일 수정하기</Th>
+          <Th>닉네임 수정하기</Th>
+          <Th>비밀번호 변경하기</Th>
+        </Tr>
+      </Tbody>
+    </Table>
+    </TableContainer>
+  )
+}
+
+const ChallengeTab = () =>{
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>현재 포인트</Th>
+          <Th>내 챌린지</Th>
+          <Th>성공한 챌린지</Th>
+          <Th>챌린지 성공률</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+          <Td>150포인트</Td>
+          <Td>5개</Td>
+          <Td>5개</Td>
+          <Td>84%</Td>
+        </Tr>
+      </Tbody>
+      <Tfoot>
+      </Tfoot>
+    </Table>
+   </TableContainer>
+  )
+}
+
+const FriendTab = () =>{
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>요청 대기 목록</Th>
+        </Tr>
+      </Thead>
+      <Tbody>
+        <Tr>
+        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
+        </Tr>
+      </Tbody>
+      <Tbody>
+        <Tr>
+        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
+        </Tr>
+      </Tbody>
+      <Tbody>
+        <Tr>
+        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
+        </Tr>
+      </Tbody>
+    </Table>
+   </TableContainer>
+  )
+}
+
 export default Information

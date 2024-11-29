@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { setPoint, addChallengeSuccess } from '../userSlice';
+import { setPoint, addChallengeSuccess } from './userSlice';
 
 export const useName = () => {
     const { name } = useSelector(
@@ -14,12 +13,30 @@ export const usePoint = () => {
   );
   return point;
 };
+export const usePassword = () => {
+  const { password } = useSelector(
+    (state) => state.user
+  );
+  return password;
+};
+export const useStartDate = () => {
+  const { startDate } = useSelector(
+    (state) => state.user
+  );
+  return startDate;
+};
+export const useEmail = () => {
+  const { email } = useSelector(
+    (state) => state.user
+  );
+  return email;
+};
 export const useChallengeSuccessList = () => {
     const { challengeSuccessList } = useSelector(
       (state) => state.user
     );
     return challengeSuccessList;
-  };
+};
 export const UserPersonalChallengeList = () => {
   const { personalChallengeList } = useSelector(
     (state) => state.user
