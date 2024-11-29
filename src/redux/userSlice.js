@@ -6,7 +6,7 @@ const initialState = {
   email: 'qwer1234@naver.com',
   password: '1234',
   startDate: '2024-11-29',
-  challengeList: [], // 챌린지 성공 목록 계정정보에 챌린지 성공률 표시 위해서.
+  challengeListNum: 10, // 챌린지 성공 목록 계정정보에 챌린지 성공률 표시 위해서.
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
   friendList: [],
@@ -30,6 +30,9 @@ const userSlice = createSlice({
     },
     setStartDate: (state, action) => {
       state.password = action.payload;
+    },
+    setChallengeListNum: (state, action) => {
+      state.challengeListNum = action.payload;
     },
     addChallengeSuccess: (state, action) => {
       state.challengeSuccessList.push(action.payload);
@@ -72,6 +75,7 @@ export const {
   setEmail,
   setStartDate,
   setPassword,
+  setChallengeListNum,
   addChallengeSuccess,
   removeChallengeSuccess,
   addPersonalChallenge,

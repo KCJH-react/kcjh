@@ -4,19 +4,16 @@ import Navbar from './Navbar';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
 import {useEmail, useName, usePoint, useStartDate, usePassword, useSetUserName, useSetUserPw,
-  useChallengeSuccessList, usePersonalChallengeList, useChallengeList,
-  useSetUserEmail} from './redux/userData';
+  useChallengeSuccessList, usePersonalChallengeList, useChallengeListNum,
+  useSetUserEmail, useSetChallengeListNum,  useFriendList} from './redux/userData';
   import { useDispatch } from 'react-redux';
 
 function Information() {
-  
-  const user = useName();
-  const userpoint = usePoint();
 
   return <div 
     style={{
       padding: "0px 180px",
-      background: "linear-gradient(rgba(198,234,130,0.6) 50%, white 50%)",
+      background: "linear-gradient(rgba(198,234,130,0.7) 50%, white 50%)",
       height: "150vh"
     }}>
     <Flex direction="column"p="8">
@@ -34,11 +31,14 @@ function Information() {
       <Box bordercolor="gray" bg="white" paddingBottom="10px">
         <ChallengeTab/>
       </Box>
+      <Box bordercolor="gray" bg="white" paddingBottom="10px">
+        <FriendTab/>
+      </Box>
     </TabPanel>
     <TabPanel>
       <FriendAdder/>
       <Box bordercolor="gray" bg="white" marginTop="140px">
-        <FriendTab/>
+        <AddFriendTab/>
       </Box>
     </TabPanel>
   </TabPanels>
@@ -204,7 +204,7 @@ const MYTab = () =>{
 const ChallengeTab = () =>{
 
   const success = useChallengeSuccessList().length;
-  const total = Math.round(Number(useChallengeList().length) / Number(success));
+  const total = Math.round(Number(useChallengeListNum()) / Number(success));
 
   return(
     <TableContainer>
@@ -232,7 +232,7 @@ const ChallengeTab = () =>{
   )
 }
 
-const FriendTab = () =>{
+const AddFriendTab = () =>{
   return(
     <TableContainer>
     <Table size='sm'>
@@ -256,6 +256,53 @@ const FriendTab = () =>{
         <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
         </Tr>
       </Tbody>
+    </Table>
+   </TableContainer>
+  )
+}
+
+const FriendTab = () =>{
+
+  const dispatch = useDispatch();
+  const friendList = useFriendList();
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>친구 목록</Th>
+          <Th>친구 랭킹</Th>
+          <Th></Th>
+          <Th></Th>
+        </Tr>
+      </Thead>
+      {
+        friendList.length > 0?
+
+        friendList.map((f,i)=>{
+          return(
+            <Tbody>
+            <Tr>
+              <Td>{f}</Td>
+              <Td></Td>
+              <Td></Td>
+              <Td></Td>
+            </Tr>
+          </Tbody>
+          )
+        })
+        :
+        <Tbody>
+        <Tr>
+          <Td>친구 정보가 없습니다.</Td>
+          <Td></Td>
+          <Td></Td>
+          <Td></Td>
+        </Tr>
+      </Tbody>
+      }
+      <Tfoot>
+      </Tfoot>
     </Table>
    </TableContainer>
   )
