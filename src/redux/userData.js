@@ -31,13 +31,19 @@ export const useEmail = () => {
   );
   return email;
 };
+export const useChallengeList = () => {
+  const { challengeList } = useSelector(
+    (state) => state.user
+  );
+  return challengeList;
+};
 export const useChallengeSuccessList = () => {
     const { challengeSuccessList } = useSelector(
       (state) => state.user
     );
     return challengeSuccessList;
 };
-export const UserPersonalChallengeList = () => {
+export const usePersonalChallengeList = () => {
   const { personalChallengeList } = useSelector(
     (state) => state.user
   );

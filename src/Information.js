@@ -3,7 +3,8 @@ import { Box, VStack, HStack, Flex, Text, Image, Button} from '@chakra-ui/react'
 import Navbar from './Navbar';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
-import {useName, usePoint} from './redux/userData';
+import {useEmail, useName, usePoint, useStartDate, 
+  usePassword, useChallengeSuccessList, usePersonalChallengeList} from './redux/userData';
 
 function Information() {
   
@@ -26,7 +27,6 @@ function Information() {
   <TabPanels position="relative" top="50px">
     <TabPanel >
       <Box bordercolor="gray" bg="white" borderRadius="3px" paddingBottom="40px" >
-        {/* marginY="30px" */}
         <MYTab/>
       </Box>
       <Box bordercolor="gray" bg="white" paddingBottom="10px">
@@ -107,6 +107,9 @@ const FriendAdder = () => {
 };
 
 const MYTab = () =>{
+
+  const maskedPassword = "*".repeat(usePassword().length);
+  
   return(
     <TableContainer>
     <Table size='sm'>
@@ -120,10 +123,10 @@ const MYTab = () =>{
       </Thead>
       <Tbody>
         <Tr>
-           <Td>2024-03-25</Td>
-          <Td>asdf1234@naver.com</Td>
+           <Td>{useStartDate()}</Td>
+          <Td>{useEmail()}</Td>
            <Td>{useName()}</Td>
-           <Td>*********</Td>
+           <Td>{maskedPassword}</Td>
         </Tr>
       </Tbody>
       <Tbody>
@@ -153,9 +156,9 @@ const ChallengeTab = () =>{
       </Thead>
       <Tbody>
         <Tr>
-          <Td>150포인트</Td>
-          <Td>5개</Td>
-          <Td>5개</Td>
+          <Td>{usePoint()} Point</Td>
+          <Td>{useChallengeSuccessList().length}개</Td>
+          <Td>{usePersonalChallengeList().length}개</Td>
           <Td>84%</Td>
         </Tr>
       </Tbody>

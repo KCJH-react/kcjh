@@ -6,6 +6,7 @@ const initialState = {
   email: 'qwer1234@naver.com',
   password: '1234',
   startDate: '2024-11-29',
+  challengeList: [], // 챌린지 성공 목록 계정정보에 챌린지 성공률 표시 위해서.
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
   friendList: [],
@@ -32,6 +33,14 @@ const userSlice = createSlice({
     },
     removeChallengeSuccess: (state, action) => {
       state.challengeSuccessList = state.challengeSuccessList.filter(
+        (challenge) => challenge.id !== action.payload
+      );
+    },
+    addChallenge: (state, action) => {
+      state.challengeList.push(action.payload);
+    },
+    removeChallenge: (state, action) => {
+      state.challengeList = state.challengeList.filter(
         (challenge) => challenge.id !== action.payload
       );
     },
