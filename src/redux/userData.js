@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { setPoint, addChallengeSuccess, setEmail, setName, setPassword } from './userSlice';
+import { setPoint, setEmail, setName, setPassword, setChallengeListNum, addFriend, removeFriend } from './userSlice';
 
 export const useName = () => {
     const { name } = useSelector(
@@ -31,11 +31,13 @@ export const useEmail = () => {
   );
   return email;
 };
-export const useChallengeList = () => {
-  const { challengeList } = useSelector(
+//사용자 정보 get함수.
+
+export const useChallengeListNum = () => {
+  const { challengeListNum } = useSelector(
     (state) => state.user
   );
-  return challengeList;
+  return challengeListNum;
 };
 export const useChallengeSuccessList = () => {
     const { challengeSuccessList } = useSelector(
@@ -50,7 +52,16 @@ export const usePersonalChallengeList = () => {
 
   return personalChallengeList;
 };
-//각 사용자 정보를 가져오는 get함수.
+//챌린지 정보 get함수.
+
+export const useFriendList = () => {
+  const { friendList } = useSelector(
+    (state) => state.user
+  );
+
+  return friendList;
+};
+//친구 정보 get함수.
 
 export const useSetUserPoint = (dispatch) => {
     const setUserPoint = (value) => {
@@ -76,8 +87,29 @@ export const useSetUserPw = (dispatch) => {
   };
   return setUserPw;
 };
+//유저 정보 set함수.
 
-//사용자의 정보를 수정하는 set함수.
+export const useSetChallengeListNum = (dispatch) => {
+  const setUserChallengeListNum = (value) => {
+    dispatch(setChallengeListNum(value));
+  };
+  return setUserChallengeListNum;
+};
+//챌린지 정보 set함수.
+
+export const useAddFriendListNum = (dispatch) => {
+  const setUserAddFriend = (value) => {
+    dispatch(addFriend(value));
+  };
+  return setUserAddFriend;
+};
+export const useRemoveFriendListNum = (dispatch) => {
+  const setUserRemoveFriend = (value) => {
+    dispatch(removeFriend(value));
+  };
+  return setUserRemoveFriend;
+};
+//친구 정보 set함수.
 
 //주의사항
 //1. 사용자 저의 함수는 무조건 use로 시작해야 됨.
