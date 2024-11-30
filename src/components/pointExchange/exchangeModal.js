@@ -8,7 +8,7 @@ const ExchangeModal = ({setIsModalOpen , content}) => {
     const dispatch = useDispatch();
     const setPoint = useSetUserPoint(dispatch);
 
-    return(        
+    return(
     <div className="modal">
       <div className="modal-content">
         <span className="close-btn" onClick={()=>{setIsModalOpen(false)}}>

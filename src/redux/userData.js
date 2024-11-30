@@ -107,6 +107,12 @@ export const useResponseList = () => {
 };
 //
 
+export const useSetUserId = (dispatch) => {
+  const setUserId = (value) => {
+    dispatch(setId(value));
+  };
+  return setUserId;
+};
 export const useSetUserPoint = (dispatch) => {
     const setUserPoint = (value) => {
       dispatch(setPoint(value));
