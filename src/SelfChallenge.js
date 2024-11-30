@@ -7,13 +7,24 @@ import StudyIcon from './asset/icon-study.png';
 import Navbar from './Navbar'
 import Challenge from './Challenge'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCurrentChallenge, useSetCurrentChallenge } from './redux/userData';
+import getChallengeById from './getChallenge';
 
 
 
 function SelfChallenge() {
+
+  const dispatch = useDispatch(); 
+  const getChallenge = useCurrentChallenge();
+  const setChallenge = useSetCurrentChallenge(dispatch);
+
   const progress = 40;
   const location = useLocation();
-  const challenge = location.state || {
+
+  const challengeIndex = useCurrentChallenge();
+  
+  const challenge = getChallengeById(challengeIndex) || {
     content: "Default Challenge Content",
     category: "Category",
     difficulty: "Easy",
@@ -27,6 +38,8 @@ function SelfChallenge() {
     const randomChallenge = Challenge[Math.floor(Math.random() * Challenge.length)];
     navigate('/SelfChallenge', { state: randomChallenge });
   };
+
+
 
   const handleCreateChallenge = () => {
     navigate('/MakeChallenge');

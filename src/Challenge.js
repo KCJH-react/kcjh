@@ -4,7 +4,7 @@ import MindIcon from './asset/icon-mind.png';
 
 const Challenge = [
     {
-      id: 1,
+      id: 0,
       type: "time",
       category: "Study",
       icon: StudyIcon,
@@ -15,7 +15,7 @@ const Challenge = [
     },
 
     {
-      id: 2,
+      id: 1,
       type: "count",
       category: "Exercise",
       icon: ExerciseIcon,
@@ -26,7 +26,7 @@ const Challenge = [
     },
 
     {
-      id: 3,
+      id: 2,
       type: "time",
       category: "Mind",
       icon: MindIcon,
@@ -37,7 +37,7 @@ const Challenge = [
     },
 
     {
-      id: 4,
+      id: 3,
       type: "time",
       category: "Exercise",
       icon: ExerciseIcon,
@@ -48,7 +48,7 @@ const Challenge = [
     },
 
     {
-      id: 2,
+      id: 4,
       type: "time",
       category: "Study",
       icon: StudyIcon,
