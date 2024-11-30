@@ -1,6 +1,12 @@
 import { useSelector } from 'react-redux';
-import { setPoint, setEmail, setName, setPassword, setChallengeListNum, addFriend, removeFriend, addRequestList, removeRequestList } from './userSlice';
+import { setId, setPoint, setEmail, setName, setPassword, setChallengeListNum, addFriend, removeFriend, addRequestList, removeRequestList, addResponseList, removeResponseList } from './userSlice';
 
+export const useId = () => {
+  const { id } = useSelector(
+    (state) => state.user
+  );
+  return id;
+};
 export const useName = () => {
     const { name } = useSelector(
       (state) => state.user
@@ -71,6 +77,15 @@ export const useRequestList = () => {
 };
 //
 
+export const useResponseList = () => {
+  const { responseList } = useSelector(
+    (state) => state.user
+  );
+
+  return responseList;
+};
+//
+
 export const useSetUserPoint = (dispatch) => {
     const setUserPoint = (value) => {
       dispatch(setPoint(value));
@@ -130,7 +145,18 @@ export const useRemoveRequestList = (dispatch) => {
   };
   return setUserRemoveRequestList;
 };
-
+export const useAddResponseList = (dispatch) => {
+  const setUserAddResponseList = (value) => {
+    dispatch(addResponseList(value));
+  };
+  return setUserAddResponseList;
+};
+export const useRemoveResponseList = (dispatch) => {
+  const setUserRemoveResponseList = (value) => {
+    dispatch(removeResponseList(value));
+  };
+  return setUserRemoveResponseList;
+};
 
 //주의사항
 //1. 사용자 저의 함수는 무조건 use로 시작해야 됨.

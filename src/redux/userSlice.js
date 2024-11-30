@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  id: -1,
   name: 'USER',
   point: 100,
   email: 'qwer1234@naver.com',
@@ -11,13 +12,16 @@ const initialState = {
   personalChallengeList: [], // 개인 챌린지 목록
   friendList: [{ name: '이영희', challengeSuccess: 3 }],
   requestList: [{ name: '김철수', challengeSuccess: 5 }],
-  responseList: []
+  responseList: [{ id: 6, name: '정하영', challengeSuccess: 2 }]
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setId: (state, action) => {
+      state.id = action.payload;
+    },
     setName: (state, action) => {
       state.name = action.payload;
     },
@@ -61,7 +65,14 @@ const userSlice = createSlice({
       );
     },
     addFriend: (state, action) => {
-      state.friendList.push(action.payload);
+    
+      const newFriend = state.responseList.filter(
+        (challenge) => {if(challenge.name === action.payload) return {name: challenge.name, challengeSuccess: challenge.challengeSuccess}}
+      );
+      state.friendList.push(...newFriend);
+      state.responseList = state.responseList.filter(
+        (challenge) => challenge.name !== action.payload
+      );
     },
     removeFriend: (state, action) => {
       state.friendList = state.friendList.filter(
@@ -76,10 +87,19 @@ const userSlice = createSlice({
         (challenge) => challenge.name !== action.payload
       );
     },
+    addResponseList: (state, action) => {
+      state.responseList.push(action.payload);
+    },
+    removeResponseList: (state, action) => {
+      state.responseList = state.requestList.filter(
+        (challenge) => challenge.name !== action.payload
+      );
+    },
   },
 });
 
 export const {
+  setId,
   setName,
   setPoint,
   setEmail,
@@ -93,7 +113,9 @@ export const {
   addFriend,
   removeFriend,
   addRequestList,
-  removeRequestList
+  removeRequestList,
+  addResponseList,
+  removeResponseList
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,21 +1,21 @@
 const initialState = {
     members: [
-      { name: '이영희', challengeSuccess: 3 },
-      { name: '김철수', challengeSuccess: 5 },
-      { name: '박민수', challengeSuccess: 7 },
-      { name: '최지은', challengeSuccess: 4 },
-      { name: '한지민', challengeSuccess: 6 },
-      { name: '정하영', challengeSuccess: 2 },
-      { name: '유민호', challengeSuccess: 8 },
-      { name: '오세연', challengeSuccess: 1 },
-      { name: '강수진', challengeSuccess: 0 },
-      { name: '홍길동', challengeSuccess: 9 },
+      { id: 1,  name: '이영희', challengeSuccess: 3 },
+      { id: 2, name: '김철수', challengeSuccess: 5 },
+      { id: 3, name: '박민수', challengeSuccess: 7 },
+      { id: 4, name: '최지은', challengeSuccess: 4 },
+      { id: 5, name: '한지민', challengeSuccess: 6 },
+      { id: 6, name: '정하영', challengeSuccess: 2 },
+      { id: 7, name: '유민호', challengeSuccess: 8 },
+      { id: 8, name: '오세연', challengeSuccess: 1 },
+      { id: 9, name: '강수진', challengeSuccess: 0 },
+      { id: 10, name: '홍길동', challengeSuccess: 9 },
     ],
   };
   
-  const updateMember = (name, challengeCount) => ({
+  const updateMember = (id, name, challengeCount) => ({
     type: 'UPDATE_MEMBER',
-    payload: { name, challengeCount },
+    payload: { id, name, challengeCount },
   });
   
 const memberReducer = (state = initialState, action) => {
