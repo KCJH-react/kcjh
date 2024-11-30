@@ -263,29 +263,32 @@ const AddFriendTab = () =>{
 
 const FriendTab = () =>{
 
+  const name = useName();
+  const challengeSuccess = useChallengeSuccessList().length;
   const dispatch = useDispatch();
   const friendList = useFriendList();
+  const [totalRank, setTotalRank] = useState([...friendList ,{name, challengeSuccess}]).sort((a,b)=>a.challengeSuccess - b.challengeSuccess);
+
   return(
     <TableContainer>
     <Table size='sm'>
       <Thead bg="rgba(0,0,0,0.2)">
         <Tr >
           <Th>친구 목록</Th>
+          <Th> </Th>
           <Th>친구 랭킹</Th>
-          <Th></Th>
           <Th></Th>
         </Tr>
       </Thead>
       {
         friendList.length > 0?
-
-        friendList.map((f,i)=>{
+        totalRank.map((f,i)=>{
           return(
             <Tbody>
             <Tr>
-              <Td>{f}</Td>
-              <Td></Td>
-              <Td></Td>
+              <Td>{f.name}</Td>
+              <Td> </Td>
+              <Td>{i+1}</Td>
               <Td></Td>
             </Tr>
           </Tbody>

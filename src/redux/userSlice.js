@@ -9,7 +9,9 @@ const initialState = {
   challengeListNum: 10, // 챌린지 성공 목록 계정정보에 챌린지 성공률 표시 위해서.
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
-  friendList: [],
+  friendList: [{ name: '이영희', challengeSuccess: 3 }],
+  requestList: [],
+  responseList: []
 };
 
 const userSlice = createSlice({
