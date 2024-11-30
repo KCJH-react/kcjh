@@ -11,7 +11,6 @@ import {
     PopoverCloseButton,
   } from '@chakra-ui/react'
 
-  
 const Pagination = ({contents,setContents}) => {
     const start=0;
     const end=5;
