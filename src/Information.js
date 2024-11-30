@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, VStack, HStack, Flex, Text, Image, Button, useDisclosure} from '@chakra-ui/react';
 import Navbar from './Navbar';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
@@ -6,7 +6,20 @@ import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} fr
 import {useEmail, useName, usePoint, useStartDate, usePassword, useSetUserName, useSetUserPw,
   useChallengeSuccessList, usePersonalChallengeList, useChallengeListNum,
   useSetUserEmail, useSetChallengeListNum,  useFriendList} from './redux/userData';
-  import { useDispatch } from 'react-redux';
+  import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+  } from '@chakra-ui/react'
+import {useTotalMember} from './redux/memberData';
+import { useDispatch } from 'react-redux';
+import { debounce } from "lodash";
 
 function Information() {
 
@@ -48,32 +61,97 @@ function Information() {
 }
 
 const FriendAdder = () => {
-  const [friendName, setFriendName] = useState(""); // 입력값 상태
-  const [friendList, setFriendList] = useState([]); // 친구 목록 상태
+  const [friendName, setFriendName] = useState('');
+  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [openState, setOpenState] = useState(true);
 
-  const handleAddFriend = () => {
-    if (friendName.trim() !== "") {
-      setFriendList([...friendList, friendName]); // 친구 추가
-      setFriendName(""); // 입력값 초기화
+  const [totalMember, setTotalMember] = useState(useTotalMember());
+  console.log(totalMember);
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setFriendName(value);
+    debouncedFilter(value)
+    
+  };
+  useEffect(() => {
+    if (friendName !== "" && openState === true) {
+      setIsPopoverOpen(true)
+      // 입력값에 따라 필터링
+      const filtered = totalMember.filter((member) =>
+        member.name.includes(friendName)
+      );
+      setFilteredMembers(filtered);
+    } else {//setIsPopoverOpen(false)
+      // 빈 값인 경우 모든 멤버 보여주기
+      return;
     }
+  }, [filteredMembers, openState]); // friendName이 변경될 때마다 실행
+
+  const handleOptionClick = () => {
+    setFilteredMembers([]); // 자동 완성 목록 닫기
+    setOpenState(false)
+    setIsPopoverOpen(false)
   };
 
+  const handleAddFriend = () => {
+  };
+  const initialFocusRef = React.useRef()
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    // 비동기적으로 호출되도록 debounce 처리
+    const debouncedFilter = debounce((value) => {
+      const filtered = totalMember.filter((member) =>
+        member.name.includes(value)
+      );
+      setFilteredMembers(filtered);
+    }, 500); // 300ms 후에 실행
+    
   return (
     <div style={{ position:"relative", top:"60px", maxWidth: "400px", margin: "auto", textAlign: "center" }}>
       <div style={{ marginBottom: "10px" }}>
-        <input
-          type="text"
-          value={friendName}
-          placeholder="친구 이름 입력"
-          onChange={(e) => setFriendName(e.target.value)}
-          style={{
-            padding: "8px",
-            width: "70%",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-          }}
-        />
-        <button
+        
+
+      <Popover
+        isOpen={isPopoverOpen}  // Popover의 열림/닫힘을 상태로 제어
+        //onClose={() => setOpenState(false)}  // Popover가 닫힐 때 상태를 false로 설정
+        initialFocusRef={null}
+        placement="bottom"
+        //onBlur={() => setOpenState(false)}
+      >
+          <input
+            type="text"
+            value={friendName}
+            placeholder="친구 이름 입력"
+            onChange={handleInputChange}
+            style={{
+              width: "100%",
+              backgroundColor: "white",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              marginTop: "5px",
+              padding: "5px 0",
+              listStyle: "none",
+              zIndex: "1000",
+              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            }}
+            //onFocus={() => setIsPopoverOpen(true)} // input이 focus될 때 Popover 열기
+           //onBlur={() => setOpenState(false)} // input이 blur될 때 Popover 닫기
+          />
+        <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
+          <PopoverHeader pt={4} fontWeight="bold" border="0">
+            <Text>친구목록</Text>
+          </PopoverHeader>
+          <PopoverArrow bg="blue.800" />
+          <PopoverCloseButton onClick={handleOptionClick} />
+          <PopoverBody>
+            {filteredMembers.map((m, i) => (
+              <div key={i}>{m.name}</div>
+            ))}
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+      <button
           onClick={handleAddFriend}
           style={{
             padding: "8px 12px",
@@ -88,22 +166,6 @@ const FriendAdder = () => {
           추가
         </button>
       </div>
-      <ul style={{ listStyleType: "none", padding: "0" }}>
-        {friendList.map((friend, index) => (
-          <li
-            key={index}
-            style={{
-              padding: "8px",
-              marginBottom: "6px",
-              backgroundColor: "#f9f9f9",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-            }}
-          >
-            {friend}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

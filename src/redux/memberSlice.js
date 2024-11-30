@@ -1,7 +1,15 @@
 const initialState = {
     members: [
-      { name: '김철수', challengeCount: 5 },
-      { name: '이영희', challengeCount: 3 },
+      { name: '이영희', challengeSuccess: 3 },
+      { name: '김철수', challengeSuccess: 5 },
+      { name: '박민수', challengeSuccess: 7 },
+      { name: '최지은', challengeSuccess: 4 },
+      { name: '한지민', challengeSuccess: 6 },
+      { name: '정하영', challengeSuccess: 2 },
+      { name: '유민호', challengeSuccess: 8 },
+      { name: '오세연', challengeSuccess: 1 },
+      { name: '강수진', challengeSuccess: 0 },
+      { name: '홍길동', challengeSuccess: 9 },
     ],
   };
   
