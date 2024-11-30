@@ -1,8 +1,7 @@
 import { Tabs, Center, Box, Card, Button, Text, HStack, Flex, Image } from "@chakra-ui/react";
 import { LuCheckSquare, LuFolder, LuUser } from "react-icons/lu";
 import { useState, useEffect } from "react";
-import Pagination from "./Pagination";
-import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import Pagination from "./commPagination";
 
 export default function Commain() {
   const pageSize = 4;
@@ -28,61 +27,6 @@ export default function Commain() {
   ]);
 
   useEffect(() => {}, [content]);
-
-  function DropdownButton() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleMenu = () => setIsOpen(!isOpen);
-
-    return (
-      <Box position="relative" display="inline-block">
-        <Button onClick={toggleMenu}>옵션 선택</Button>
-        {isOpen && (
-          <Box
-            position="absolute"
-            top="100%"
-            mt="2"
-            w="100%"
-            bg="white"
-            boxShadow="md"
-            borderRadius="md"
-            zIndex="1"
-          >
-            <Box
-              as="button"
-              display="block"
-              w="100%"
-              px="4"
-              py="2"
-              onClick={() => {
-                console.log("옵션 1 선택됨");
-                const newContent = [...content].sort((a, b) => a.date - b.date);
-                setContent(newContent);
-                setIsOpen(false);
-              }}
-            >
-              최신순
-            </Box>
-            <Box
-              as="button"
-              display="block"
-              w="100%"
-              px="4"
-              py="2"
-              onClick={() => {
-                console.log("옵션 2 선택됨");
-                const newContent = [...content].sort((a, b) => a.like - b.like);
-                setContent(newContent);
-                setIsOpen(false);
-              }}
-            >
-              인기순
-            </Box>
-          </Box>
-        )}
-      </Box>
-    );
-  }
 
   return (
     <Box>

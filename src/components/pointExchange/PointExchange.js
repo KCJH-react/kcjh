@@ -22,9 +22,6 @@ import ExchangeModal from "./exchangeModal";
 import UserData from "./PointExchangeUserData";
 
 const PointExchange = () => {
-  const dispatch = useDispatch();
-  const setPoint = useSetUserPoint(dispatch);
-
   const navigate = useNavigate();
 
   const categories = [
@@ -274,11 +271,8 @@ const PointExchange = () => {
       ],
     },
   ];
-  const allItems = categories.filter((a) => a.items);
-  const visibleItems = allItems;
-  console.log(visibleItems);
+  const visibleItems = categories.filter((a) => a.items);
 
-  const scrollRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const [content, setContent] = useState("");
@@ -315,15 +309,7 @@ const PointExchange = () => {
               </Center>
             </Box>
             <Center display="flex" color="white">
-              <Flex
-                ref={scrollRef}
-                overflowX="auto"
-                whiteSpace="nowrap"
-                gap={4}
-                marginX="25px"
-                marginY="10px"
-                scrollbar="hidden"
-              >
+              <Flex overflowX="auto" whiteSpace="nowrap" gap={4} marginX="25px" marginY="10px">
                 {categories.map((category, i) => {
                   const categoryId = i + 1;
                   return (
@@ -367,7 +353,6 @@ const PointExchange = () => {
               gap="30px" // 아이템 간격
               justifyContent="center"
             >
-              {console.log(visibleItems[0].items)}
               {visibleItems.map((items, index) => (
                 <div>
                   {items.items.map((item, index) => {
@@ -381,7 +366,6 @@ const PointExchange = () => {
                         />
                         <CardHeader>{item.name}</CardHeader>
                         <CardBody gap="2">
-                          {console.log(item.name)}
                           <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
                             {item.details}
                           </Text>
