@@ -4,21 +4,16 @@ import { LuCheck, LuX } from "react-icons/lu"
 import { useRef } from "react";
 import {useNavigate} from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { setPoint, addChallengeSuccess } from '../redux/userSlice';
+import { setPoint, addChallengeSuccess } from '../../redux/userSlice';
 import { useSelector } from 'react-redux';
-import {usePoint, useSetUserPoint, useName} from '../redux/userData'
+import {usePoint, useSetUserPoint, useName} from '../../redux/userData'
+import ExchangeModal from './exchangeModal';
 
-function PointExchange(){
+const PointExchange = () => {
   const dispatch = useDispatch(); 
   const setPoint = useSetUserPoint(dispatch);
 
   const navigate = useNavigate();
-
-    const pageSize = 4
-    const [page, setPage] = useState(1)
-    const count = 20
-    const startRange = (page - 1) * pageSize
-    const endRange = startRange + pageSize
 
     const categories = [
       {
@@ -272,96 +267,31 @@ function PointExchange(){
     console.log(visibleItems)
 
     const scrollRef = useRef(null);
-    const scroll = (direction) => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollBy({
-            left: direction === "left" ? -320 : 320, // 한 번에 스크롤할 픽셀 수
-            behavior: "smooth",
-          });
-        }
-      };
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
     const [content, setContent] = useState('');
-    const [test, setTest] = useState(true);
 
-    const user = {name:"홍길동", point:1000, avatar:"https://bit.ly/broken-link"}
-    const userpoint =usePoint();
     // 모달 열기
-    useEffect(()=>{
-      if(content === '')return;
-      const openModal = () => {
-        setIsModalOpen(true);
-      };
-      openModal()
-    }, [content])
-  
-    // 모달 닫기
-    const closeModal = () => {
-      setIsModalOpen(false);
-    };
-    const Modal = () => {
-      return(        
-      <div className="modal">
-        <div className="modal-content">
-          <span className="close-btn" onClick={closeModal}>
-            &times;
-          </span>
-          <h2></h2>
-          <p>{content.name}의 {content.points}입니다. 교환하시겠습니까?</p>
-          <p></p>
-          {
-            !test? <p>고객님의 포인트가 부족합니다.</p> : null
-          }
-          <button onClick={()=>{
-            const exchangedPoint = Number(userpoint) - Number(content.points); 
-            if(exchangedPoint < 0){setTest(false);return;}
-            setPoint(exchangedPoint);closeModal();
-            }}>교환하기</button>
-          <button onClick={closeModal}>닫기</button>
-        </div>
-      </div>
-      )
-    }
+    // useEffect(()=>{
+    //   if(content === '')return;
+    //   const openModal = () => {
+    //     setIsModalOpen(true);
+    //   };
+    //   openModal()
+    // }, [content])
 
-    //데이터 읽기 예시
-// import { useSelector } from 'react-redux';
-
-// const UserInfo = () => {
-//   const { point, challengeSuccessList, personalChallengeList } = useSelector(
-//     (state) => state.user
-//   );
-
-//   return (
-//     <div>
-//       <p>Points: {point}</p>
-//       <p>Successful Challenges: {challengeSuccessList.length}</p>
-//       <p>Personal Challenges: {personalChallengeList.length}</p>
-//     </div>
-//   );
-// };
-
-// 데이터 업데이트 예시(삭제, 변경)
-// import { useDispatch } from 'react-redux';
-// import { setPoint, addChallengeSuccess } from './userSlice';
-
-// const UpdateUser = () => {
-//   const dispatch = useDispatch();
-
-//   const addPoint = () => dispatch(setPoint(100));
-//   const addChallenge = () =>
-//     dispatch(addChallengeSuccess({ id: 1, name: 'New Challenge' }));
-
-//   return (
-//     <div>
-//       <button onClick={addPoint}>Add Points</button>
-//       <button onClick={addChallenge}>Add Challenge</button>
-//     </div>
-//   );
-// };
-
+    const openModal = (item) => {
+      setContent(item);
+      setIsModalOpen(true);
+  };
+    
     return(
         <Grid>
+        {
+          isModalOpen && (
+            <ExchangeModal setIsModalOpen={setIsModalOpen} content={content}/>
+        )
+        }
           <div style={{padding: "0PX 180px", background:"rgba(198,234,130,0.5)"}}>
           <Center position="relative" top="40px" marginY="40px"><Text fontSize="3xl" fontWeight="bold">Point Exchange</Text></Center>
         <Box display="flex" justifyContent="flex-end" borderBottom="1px solid" borderColor="gray" padding="10px" height="440px">
@@ -440,7 +370,7 @@ function PointExchange(){
                   </Text>
                 </CardBody>
                 <CardFooter gap="2">
-                  <button onClick={()=>{setContent(item)}}><Text fontSize='1em'>교환하기</Text></button>
+                  <button onClick={()=>{setContent(item); openModal(item);}}><Text fontSize='1em'>교환하기</Text></button>
                 </CardFooter>
                </Card>
                 )
@@ -448,14 +378,10 @@ function PointExchange(){
               
             }
           </div>
+          
         ))}
             </Grid>
           </Stack>
-          {
-          isModalOpen && (
-            <Modal></Modal>
-        )
-        }
           </Box>
           </div>
         </Grid>

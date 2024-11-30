@@ -1,12 +1,61 @@
-import React, { useState, useEffect } from "react";
-import { Box, VStack, HStack, Flex, Text, Image, Button, useDisclosure} from '@chakra-ui/react';
+import 
+React, 
+{ 
+  useState, 
+  useEffect 
+} from "react";
+import { 
+  Box, 
+  VStack, 
+  HStack, 
+  Flex, 
+  Text, 
+  Image, 
+  Button, 
+  useDisclosure
+} from '@chakra-ui/react';
 import Navbar from './Navbar';
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
-import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
-import {useId, useEmail, useName, usePoint, useStartDate, usePassword, useSetUserName, useSetUserPw,
-  useChallengeSuccessList, usePersonalChallengeList, useChallengeListNum,
-  useSetUserEmail, useSetChallengeListNum,  useFriendList, useAddRequestList, 
-  useRemoveRequestList, useRequestList, useAddResponseList, useRemoveResponseList, useResponseList, useAddFriendList} from './redux/userData';
+import { 
+  Tabs, 
+  TabList, 
+  TabPanels, 
+  Tab, 
+  TabPanel 
+} from '@chakra-ui/react'
+import {
+  Table, 
+  Thead, 
+  Tbody, 
+  Tfoot,
+  Tr, 
+  Th, 
+  Td, 
+  TableCaption, 
+  TableContainer
+} from '@chakra-ui/react'
+import {
+  useId, 
+  useEmail, 
+  useName, 
+  usePoint, 
+  useStartDate, 
+  usePassword, 
+  useSetUserName, 
+  useSetUserPw,
+  useChallengeSuccessList, 
+  usePersonalChallengeList, 
+  useChallengeListNum,
+  useSetUserEmail, 
+  useSetChallengeListNum, 
+  useFriendList, 
+  useAddRequestList, 
+  useRemoveRequestList, 
+  useRequestList, 
+  useAddResponseList, 
+  useRemoveResponseList, 
+  useResponseList, 
+  useAddFriendList
+} from './redux/userData';
   import {
     Popover,
     PopoverTrigger,
