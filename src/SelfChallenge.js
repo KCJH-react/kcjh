@@ -3,19 +3,28 @@ import { Box, VStack, HStack, Flex, Text, Image, Button } from '@chakra-ui/react
 import RewindIcon from './asset/icon-rewind.png';
 import StarIcon from './asset/icon-star.png';
 import ExerciseIcon from './asset/icon-exercise.png';
+import ShareIcon from './asset/icon-share.png';
 import StudyIcon from './asset/icon-study.png';
-import Navbar from './Navbar'
 import Challenge from './Challenge'
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCurrentChallenge, useSetCurrentChallenge } from './redux/userData';
+import getChallengeById from './getChallenge';
 
 
 
 function SelfChallenge() {
+
+  const dispatch = useDispatch(); 
+  const challengeIndex = useCurrentChallenge();
+  const setChallenge = useSetCurrentChallenge(dispatch);
+
   const progress = 40;
   const location = useLocation();
-  const challenge = location.state || {
+  
+  const challenge = getChallengeById(challengeIndex)  || {
     content: "Default Challenge Content",
-    category: "Category",
+    category: "Default Category",
     difficulty: "Easy",
     icon: StudyIcon,
     points: 0,
@@ -24,14 +33,17 @@ function SelfChallenge() {
   const navigate = useNavigate();
 
   const handleGenerateChallenge = () => {
-    const randomChallenge = Challenge[Math.floor(Math.random() * Challenge.length)];
-    navigate('/SelfChallenge', { state: randomChallenge });
+    const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
+    setChallenge(randomChallengeIndex);
   };
 
   const handleCreateChallenge = () => {
     navigate('/MakeChallenge');
   };
 
+  const handleShare = () => {
+    navigate('/CM_DetailPage');
+  };
 
   return <div 
     style={{
@@ -47,12 +59,16 @@ function SelfChallenge() {
       <Text fontSize="2xl" fontWeight="bold" mb="4"> RANDOM CHALLENGE: {challenge.category} </Text>  {/*카테고리 이름 가져와서 Random Challenge 뒤에 이어나가기 */}
 
         {/*챌린지 화면 외각 사각형*/}
-        <Box id="B_display" bg="white" p={10} width="800px" height="600px" display="flex" justifyContent="center" borderRadius="lg" boxShadow="md">
+        <Box id="B_display" bg="white" p={10} width="800px" height="600px" display="flex" justifyContent="center" borderRadius="lg" boxShadow="md" position="relative">
+          <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="50px" height="50px" position="absolute" top="10px" right="10px" borderRadius="50%" p={2} onClick={handleShare}>
+            <Image src={ShareIcon} alt="Icon_share" boxSize="30px" />
+          </Box>
           <VStack> {/*챌린지 전체 세로 배치용*/}
 
           {/*상단부 Display*/}
           <Text Id="Point" fontWeight="bold">{challenge.points}포인트</Text>
           <Box id="S_display" bg='gray.100' width="500px" display="flex" flexDirection="column" alignItems="center" borderRadius="lg" p={4}>
+            
             <VStack> {/*챌린지 이름, 아이콘 세로 배치용*/}
             <Text id="Current_C" fontSize="xl" fontWeight="bold" mt={6}>{challenge.content}</Text>
             <Image src={challenge.icon} alt="Icon_Study" boxSize="150px" mt={1} />

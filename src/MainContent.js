@@ -3,7 +3,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Button, Select, Heading, Stack, Text } from '@chakra-ui/react';
-import challenge from './Challenge';
+import { useDispatch } from 'react-redux';
+import { useCurrentChallenge, useSetCurrentChallenge } from './redux/userData';
+import Challenge from './Challenge';
 
 const Feature = ({ title, text, icon }) => {
   return (
@@ -30,6 +32,10 @@ export default function MainContent() {
   const [myRank, setMyRank] = useState(null);
   const navigate = useNavigate();
 
+  const dispatch = useDispatch(); 
+  const getChallenge = useCurrentChallenge();
+  const setChallenge = useSetCurrentChallenge(dispatch);
+
   useEffect(() => {
     // LocalStorage에서 랭킹 데이터 불러오기
     const storedData = JSON.parse(localStorage.getItem('rankData')) || [];
@@ -40,9 +46,9 @@ export default function MainContent() {
   }, []);
 
   const handleGenerateChallenge = () => {
-    const randomChallenge = challenge[Math.floor(Math.random() * challenge.length)];
-    console.log(randomChallenge);
-    navigate('/SelfChallenge', { state: randomChallenge });
+    const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
+    setChallenge(randomChallengeIndex);
+    navigate('/SelfChallenge');
   };
 
   const handleRewardClick = () => {
@@ -94,9 +100,9 @@ export default function MainContent() {
               <option>UNIVERSITY</option>
             </Select>
             <Select placeholder="난이도" w="150px">
-              <option>난이도1</option>
-              <option>난이도2</option>
-              <option>난이도3</option>
+              <option>Easy</option>
+              <option>Medium</option>
+              <option>Hard</option>
             </Select>
             <Select placeholder="기간" w="150px">
               <option>1일</option>

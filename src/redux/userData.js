@@ -13,7 +13,8 @@ import {
   addRequestList, 
   removeRequestList, 
   addResponseList, 
-  removeResponseList 
+  removeResponseList,
+  setCurrentChallenge
 } from './userSlice';
 
 export const useId = () => {
@@ -70,8 +71,13 @@ export const usePersonalChallengeList = () => {
   const { personalChallengeList } = useSelector(
     (state) => state.user
   );
-
   return personalChallengeList;
+};
+export const useCurrentChallenge = () => {
+  const { currentChallenge } = useSelector(
+    (state) => state.user
+  );
+  return currentChallenge;
 };
 //챌린지 정보 get함수.
 
@@ -132,6 +138,12 @@ export const useSetChallengeListNum = (dispatch) => {
     dispatch(setChallengeListNum(value));
   };
   return setUserChallengeListNum;
+};
+export const useSetCurrentChallenge = (dispatch) => {
+  const setChallenge = (value) => {
+    dispatch(setCurrentChallenge(value));
+  };
+  return setChallenge;
 };
 //챌린지 정보 set함수.
 
