@@ -10,6 +10,7 @@ const initialState = {
   challengeListNum: 10, // 챌린지 성공 목록 계정정보에 챌린지 성공률 표시 위해서.
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
+  currentChallenge: 0,
   friendList: [{ name: '이영희', challengeSuccess: 3 }],
   requestList: [{ name: '김철수', challengeSuccess: 5 }],
   responseList: [{ id: 6, name: '정하영', challengeSuccess: 2 }]
@@ -42,6 +43,9 @@ const userSlice = createSlice({
     },
     addChallengeSuccess: (state, action) => {
       state.challengeSuccessList.push(action.payload);
+    },
+    setCurrentChallenge: (state, action) => {
+      state.currentChallenge = action.payload
     },
     removeChallengeSuccess: (state, action) => {
       state.challengeSuccessList = state.challengeSuccessList.filter(
@@ -110,6 +114,7 @@ export const {
   removeChallengeSuccess,
   addPersonalChallenge,
   removePersonalChallenge,
+  setCurrentChallenge,
   addFriend,
   removeFriend,
   addRequestList,

@@ -1,5 +1,21 @@
-import { useSelector } from 'react-redux';
-import { setId, setPoint, setEmail, setName, setPassword, setChallengeListNum, addFriend, removeFriend, addRequestList, removeRequestList, addResponseList, removeResponseList } from './userSlice';
+import { 
+  useSelector 
+} from 'react-redux';
+import { 
+  setId, 
+  setPoint, 
+  setEmail, 
+  setName, 
+  setPassword, 
+  setChallengeListNum, 
+  addFriend, 
+  removeFriend, 
+  addRequestList, 
+  removeRequestList, 
+  addResponseList, 
+  removeResponseList,
+  setCurrentChallenge
+} from './userSlice';
 
 export const useId = () => {
   const { id } = useSelector(
@@ -55,8 +71,13 @@ export const usePersonalChallengeList = () => {
   const { personalChallengeList } = useSelector(
     (state) => state.user
   );
-
   return personalChallengeList;
+};
+export const useCurrentChallenge = () => {
+  const { currentChallenge } = useSelector(
+    (state) => state.user
+  );
+  return currentChallenge;
 };
 //챌린지 정보 get함수.
 
@@ -86,6 +107,12 @@ export const useResponseList = () => {
 };
 //
 
+export const useSetUserId = (dispatch) => {
+  const setUserId = (value) => {
+    dispatch(setId(value));
+  };
+  return setUserId;
+};
 export const useSetUserPoint = (dispatch) => {
     const setUserPoint = (value) => {
       dispatch(setPoint(value));
@@ -117,6 +144,12 @@ export const useSetChallengeListNum = (dispatch) => {
     dispatch(setChallengeListNum(value));
   };
   return setUserChallengeListNum;
+};
+export const useSetCurrentChallenge = (dispatch) => {
+  const setChallenge = (value) => {
+    dispatch(setCurrentChallenge(value));
+  };
+  return setChallenge;
 };
 //챌린지 정보 set함수.
 
