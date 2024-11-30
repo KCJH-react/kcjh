@@ -1,25 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  HStack,
-  Stack,
-  Text,
-  Image,
-  Flex,
-  Box,
-  Center,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react"; // 절대 경로로 무조건
-import { useRef } from "react";
+import React, { useState } from "react";
+import { Card, CardBody, Stack, Text, Image, Flex, Box, Center, Grid } from "@chakra-ui/react"; // 절대 경로로 무조건
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSetUserPoint } from "../../redux/userData";
 import ExchangeModal from "./exchangeModal";
 import UserData from "./PointExchangeUserData";
+import ItemCard from "./ItemCard";
 
 const PointExchange = () => {
   const navigate = useNavigate();
@@ -311,23 +295,7 @@ const PointExchange = () => {
             <Center display="flex" color="white">
               <Flex overflowX="auto" whiteSpace="nowrap" gap={4} marginX="25px" marginY="10px">
                 {categories.map((category, i) => {
-                  const categoryId = i + 1;
-                  return (
-                    <Card key={i} minWidth="140px">
-                      <CardBody>
-                        <Image
-                          objectFit="cover"
-                          maxW="100px"
-                          src={`/category/icon${i + 1}.png`}
-                          alt="Caffe Latte"
-                          onClick={() => {
-                            navigate(`/pointExchangeDetail/${categoryId}`, { state: { category } });
-                          }}
-                        />
-                      </CardBody>
-                      <Text>{category.categoryName}</Text>
-                    </Card>
-                  );
+                  return <CategoriesCard category={category} i={i} navigate={navigate} />;
                 })}
               </Flex>
             </Center>
@@ -342,7 +310,7 @@ const PointExchange = () => {
           borderBottom="1px solid"
           borderColor="gray"
         >
-          <Box w={80} bg="" marginY="10px" paddingY="5px">
+          <Box w={80} marginY="10px" paddingY="5px">
             <Center>
               <h4>전체 상품 목록</h4>
             </Center>
@@ -353,37 +321,10 @@ const PointExchange = () => {
               gap="30px" // 아이템 간격
               justifyContent="center"
             >
-              {visibleItems.map((items, index) => (
+              {visibleItems.map((items) => (
                 <div>
                   {items.items.map((item, index) => {
-                    return (
-                      <Card key={index} overflow="hidden" height="400px" width="260px">
-                        <Image
-                          src={item.image}
-                          alt="Green double couch with wooden legs"
-                          maxH="200px"
-                          minW="200px"
-                        />
-                        <CardHeader>{item.name}</CardHeader>
-                        <CardBody gap="2">
-                          <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
-                            {item.details}
-                          </Text>
-                          <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
-                            {item.points}
-                          </Text>
-                        </CardBody>
-                        <CardFooter gap="2">
-                          <button
-                            onClick={() => {
-                              openModal(item);
-                            }}
-                          >
-                            <Text fontSize="1em">교환하기</Text>
-                          </button>
-                        </CardFooter>
-                      </Card>
-                    );
+                    return <ItemCard item={item} index={index} openModal={openModal} />;
                   })}
                 </div>
               ))}
@@ -392,6 +333,27 @@ const PointExchange = () => {
         </Box>
       </div>
     </Grid>
+  );
+};
+
+const CategoriesCard = ({ navigate, category, i }) => {
+  const categoryId = i + 1;
+
+  return (
+    <Card key={i} minWidth="140px">
+      <CardBody>
+        <Image
+          objectFit="cover"
+          maxW="100px"
+          src={`/category/icon${i + 1}.png`}
+          alt="Caffe Latte"
+          onClick={() => {
+            navigate(`/pointExchangeDetail/${categoryId}`, { state: { category } });
+          }}
+        />
+      </CardBody>
+      <Text>{category.categoryName}</Text>
+    </Card>
   );
 };
 

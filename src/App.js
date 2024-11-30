@@ -1,8 +1,6 @@
-import React, { forwardRef } from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import React from "react";
 import "./App.css";
-import { Routes, Route, Link, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import PointExchange from "./components/pointExchange/PointExchange";
 import PointExchangeDetail from "./components/pointExchange/PointExchangeDetail";
 import Commain from "./components/cm/commain";

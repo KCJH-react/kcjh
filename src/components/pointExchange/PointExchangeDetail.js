@@ -1,48 +1,9 @@
-import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  HStack,
-  Stack,
-  Strong,
-  Text,
-  Image,
-  Flex,
-  AspectRatio,
-  Box,
-  Center,
-  Input,
-  Grid,
-} from "@chakra-ui/react"; // 절대 경로로 무조건
-import { LuCheck, LuX } from "react-icons/lu";
-import { useRef } from "react";
+import React, { useState } from "react";
+import { Card, CardBody, Stack, Text, Image, Flex, Box, Center, Grid } from "@chakra-ui/react"; // 절대 경로로 무조건
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 import ExchangeModal from "./exchangeModal";
 import UserData from "./PointExchangeUserData";
-
-const Button = styled.button`
-  background-color: #000; /* 검정 배경 */
-  color: #fff; /* 하얀 글씨 */
-  border: none; /* 테두리 제거 */
-  border-radius: 8px; /* 둥근 모서리 */
-  padding: 0px 20px; /* 패딩 */
-  margin: 5px;
-  font-size: 16px; /* 글씨 크기 */
-  cursor: pointer; /* 클릭 가능한 포인터 */
-  transition: transform 0.2s, background-color 0.3s; /* 클릭/호버 애니메이션 */
-  flex: 1;
-
-  &:hover {
-    background-color: #333; /* 호버 시 밝은 검정 */
-  }
-
-  &:active {
-    transform: scale(0.95); /* 클릭 시 살짝 작아짐 */
-  }
-`;
+import ItemCard from "./ItemCard";
 
 function PointExchangeDetail() {
   const navigate = useNavigate();
@@ -65,7 +26,7 @@ function PointExchangeDetail() {
       {isModalOpen && (
         <ExchangeModal setIsModalOpen={setIsModalOpen} content={content}></ExchangeModal>
       )}
-      <div style={{ padding: "0PX 180px", background: "rgba(198,234,130,0.3)" }}>
+      <div style={{ padding: "0PX 180px", background: "rgba(198,234,130,0.5)" }}>
         <Box
           display="flex"
           justifyContent="flex-end"
@@ -135,38 +96,8 @@ function PointExchangeDetail() {
               gap="20px" // 아이템 간격
               justifyContent="center"
             >
-              {visibleItems.map((items, index) => {
-                console.log(items);
-                return (
-                  <Card key={index} overflow="hidden" height="400px" width="260px">
-                    <Image
-                      src={items.image}
-                      alt="Green double couch with wooden legs"
-                      maxH="200px"
-                      minW="200px"
-                    />
-                    <CardHeader>{items.name}</CardHeader>
-                    <CardBody gap="2">
-                      <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
-                        {items.details}
-                      </Text>
-                      <Text textStyle="2xl" fontWeight="medium" letterSpacing="tight" mt="2">
-                        {items.points}
-                      </Text>
-                    </CardBody>
-                    <CardFooter gap="2">
-                      <Flex justify="center" width="100%" height="100%">
-                        <Button
-                          onClick={() => {
-                            openModal(items);
-                          }}
-                        >
-                          <Text fontSize="1em">교환하기</Text>
-                        </Button>
-                      </Flex>
-                    </CardFooter>
-                  </Card>
-                );
+              {visibleItems.map((item, index) => {
+                return <ItemCard item={item} index={index} openModal={openModal} />;
               })}
             </Grid>
           </Stack>
