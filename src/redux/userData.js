@@ -1,6 +1,12 @@
 import { useSelector } from 'react-redux';
-import { setPoint, setEmail, setName, setPassword, setChallengeListNum, addFriend, removeFriend, setCurrentChallenge } from './userSlice';
+import { setId, setPoint, setEmail, setName, setPassword, setChallengeListNum, addFriend, removeFriend, addRequestList, removeRequestList, addResponseList, removeResponseList, setCurrentChallenge } from './userSlice';
 
+export const useId = () => {
+  const { id } = useSelector(
+    (state) => state.user
+  );
+  return id;
+};
 export const useName = () => {
     const { name } = useSelector(
       (state) => state.user
@@ -67,6 +73,23 @@ export const useFriendList = () => {
   return friendList;
 };
 //친구 정보 get함수.
+export const useRequestList = () => {
+  const { requestList } = useSelector(
+    (state) => state.user
+  );
+
+  return requestList;
+};
+//
+
+export const useResponseList = () => {
+  const { responseList } = useSelector(
+    (state) => state.user
+  );
+
+  return responseList;
+};
+//
 
 export const useSetUserPoint = (dispatch) => {
     const setUserPoint = (value) => {
@@ -108,19 +131,43 @@ export const useSetCurrentChallenge = (dispatch) => {
 };
 //챌린지 정보 set함수.
 
-export const useAddFriendListNum = (dispatch) => {
+export const useAddFriendList = (dispatch) => {
   const setUserAddFriend = (value) => {
     dispatch(addFriend(value));
   };
   return setUserAddFriend;
 };
-export const useRemoveFriendListNum = (dispatch) => {
+export const useRemoveFriendList = (dispatch) => {
   const setUserRemoveFriend = (value) => {
     dispatch(removeFriend(value));
   };
   return setUserRemoveFriend;
 };
 //친구 정보 set함수.
+export const useAddRequestList = (dispatch) => {
+  const setUserAddRequestList = (value) => {
+    dispatch(addRequestList(value));
+  };
+  return setUserAddRequestList;
+};
+export const useRemoveRequestList = (dispatch) => {
+  const setUserRemoveRequestList = (value) => {
+    dispatch(removeRequestList(value));
+  };
+  return setUserRemoveRequestList;
+};
+export const useAddResponseList = (dispatch) => {
+  const setUserAddResponseList = (value) => {
+    dispatch(addResponseList(value));
+  };
+  return setUserAddResponseList;
+};
+export const useRemoveResponseList = (dispatch) => {
+  const setUserRemoveResponseList = (value) => {
+    dispatch(removeResponseList(value));
+  };
+  return setUserRemoveResponseList;
+};
 
 //주의사항
 //1. 사용자 저의 함수는 무조건 use로 시작해야 됨.
@@ -161,4 +208,3 @@ export const useRemoveFriendListNum = (dispatch) => {
 //     </div>
 //   );
 // };
-
