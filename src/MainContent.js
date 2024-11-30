@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Button, Select, Heading, Stack, Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { useCurrentChallenge, useSetCurrentChallenge } from './redux/userData';
-import challenge from './Challenge';
+import Challenge from './Challenge';
 
 const Feature = ({ title, text, icon }) => {
   return (
@@ -46,7 +46,7 @@ export default function MainContent() {
   }, []);
 
   const handleGenerateChallenge = () => {
-    const randomChallengeIndex = Math.floor(Math.random() * challenge.length);
+    const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
     setChallenge(randomChallengeIndex);
     navigate('/SelfChallenge');
   };
