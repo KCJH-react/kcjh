@@ -10,7 +10,7 @@ const initialState = {
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
   friendList: [{ name: '이영희', challengeSuccess: 3 }],
-  requestList: [],
+  requestList: [{ name: '김철수', challengeSuccess: 5 }],
   responseList: []
 };
 
@@ -68,6 +68,14 @@ const userSlice = createSlice({
         (challenge) => challenge.id !== action.payload
       );
     },
+    addRequestList: (state, action) => {
+      state.requestList.push(action.payload);
+    },
+    removeRequestList: (state, action) => {
+      state.requestList = state.requestList.filter(
+        (challenge) => challenge.name !== action.payload
+      );
+    },
   },
 });
 
@@ -83,7 +91,9 @@ export const {
   addPersonalChallenge,
   removePersonalChallenge,
   addFriend,
-  removeFriend
+  removeFriend,
+  addRequestList,
+  removeRequestList
 } = userSlice.actions;
 
 export default userSlice.reducer;

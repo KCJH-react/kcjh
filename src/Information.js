@@ -5,7 +5,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
 import {useEmail, useName, usePoint, useStartDate, usePassword, useSetUserName, useSetUserPw,
   useChallengeSuccessList, usePersonalChallengeList, useChallengeListNum,
-  useSetUserEmail, useSetChallengeListNum,  useFriendList} from './redux/userData';
+  useSetUserEmail, useSetChallengeListNum,  useFriendList, useAddRequestList, useRemoveRequestList, useRequestList} from './redux/userData';
   import {
     Popover,
     PopoverTrigger,
@@ -50,9 +50,6 @@ function Information() {
     </TabPanel>
     <TabPanel>
       <FriendAdder/>
-      <Box bordercolor="gray" bg="white" marginTop="140px">
-        <AddFriendTab/>
-      </Box>
     </TabPanel>
   </TabPanels>
 </Tabs>
@@ -64,9 +61,13 @@ const FriendAdder = () => {
   const [friendName, setFriendName] = useState('');
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [openState, setOpenState] = useState(true);
+  const [propsAddFriendTab, setPropsAddFriendTab] = useState([]);
+  const dispatch = useDispatch();
+  const addRequestList = useAddRequestList(dispatch);
+  const requestList = useRequestList()
 
   const [totalMember, setTotalMember] = useState(useTotalMember());
-  console.log(totalMember);
+  //console.log(totalMember);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -95,8 +96,21 @@ const FriendAdder = () => {
   };
 
   const handleAddFriend = () => {
+    const existed = totalMember.filter((member) =>
+      friendName === member.name
+    );
+    //전체 유저 중에 포함되는지.
+    const notExisted = requestList.filter((member) =>
+      friendName === member.name
+    );
+    //요청목록에 포함되는지.
+    if(existed && notExisted.length === 0){
+      addRequestList(...existed)
+    }
+    else{
+      alert("해당 유저는 이미 친구추가 상태입니다.")
+    }
   };
-  const initialFocusRef = React.useRef()
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     // 비동기적으로 호출되도록 debounce 처리
@@ -108,16 +122,15 @@ const FriendAdder = () => {
     }, 500); // 300ms 후에 실행
     
   return (
+    <div>
     <div style={{ position:"relative", top:"60px", maxWidth: "400px", margin: "auto", textAlign: "center" }}>
-      <div style={{ marginBottom: "10px" }}>
+      <div style={{ display: 'flex' }}>
         
 
       <Popover
-        isOpen={isPopoverOpen}  // Popover의 열림/닫힘을 상태로 제어
-        //onClose={() => setOpenState(false)}  // Popover가 닫힐 때 상태를 false로 설정
+        isOpen={isPopoverOpen}
         initialFocusRef={null}
-        placement="bottom"
-        //onBlur={() => setOpenState(false)}
+        autoFocus={false}
       >
           <input
             type="text"
@@ -125,18 +138,18 @@ const FriendAdder = () => {
             placeholder="친구 이름 입력"
             onChange={handleInputChange}
             style={{
+              position: 'relative',
+              top:'-55px',
               width: "100%",
               backgroundColor: "white",
               border: "1px solid #ccc",
               borderRadius: "4px",
-              marginTop: "5px",
               padding: "5px 0",
               listStyle: "none",
-              zIndex: "1000",
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
             }}
-            //onFocus={() => setIsPopoverOpen(true)} // input이 focus될 때 Popover 열기
-           //onBlur={() => setOpenState(false)} // input이 blur될 때 Popover 닫기
+            onFocus={() => setIsPopoverOpen(true)} // input이 focus될 때 Popover 열기
+            onBlur={() => setIsPopoverOpen(false)} // input이 blur될 때 Popover 닫기
           />
         <PopoverContent color="white" bg="blue.800" borderColor="blue.800">
           <PopoverHeader pt={4} fontWeight="bold" border="0">
@@ -154,9 +167,11 @@ const FriendAdder = () => {
       <button
           onClick={handleAddFriend}
           style={{
-            padding: "8px 12px",
-            marginLeft: "8px",
+            position: 'relative',
+            top:'-55px',
+            width: '70px',
             border: "none",
+            marginLeft: '3px',
             backgroundColor: "#4CAF50",
             color: "white",
             borderRadius: "4px",
@@ -166,6 +181,9 @@ const FriendAdder = () => {
           추가
         </button>
       </div>
+      
+    </div>
+    <Box bordercolor="gray" bg="white" marginTop="140px"><AddFriendTab/></Box>
     </div>
   );
 };
@@ -294,7 +312,12 @@ const ChallengeTab = () =>{
   )
 }
 
-const AddFriendTab = () =>{
+const AddFriendTab = React.memo(() =>{
+
+  const dispatch = useDispatch();
+  const requestList = useRequestList();
+  const removeRequestList = useRemoveRequestList(dispatch)
+  console.log(requestList)
   return(
     <TableContainer>
     <Table size='sm'>
@@ -303,25 +326,25 @@ const AddFriendTab = () =>{
           <Th>요청 대기 목록</Th>
         </Tr>
       </Thead>
-      <Tbody>
-        <Tr>
-        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
-        </Tr>
-      </Tbody>
-      <Tbody>
-        <Tr>
-        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
-        </Tr>
-      </Tbody>
-      <Tbody>
-        <Tr>
-        <Td><Flex justifyContent="space-between">준익<button>친추 취소</button></Flex></Td>
-        </Tr>
-      </Tbody>
+      {
+        requestList.map((r, i)=>{
+          return(
+            <Tbody>
+            <Tr>
+            <Td>
+              <Flex justifyContent="space-between">{r.name}
+                <button onClick={()=>{removeRequestList(r.name)}}>친추 취소</button>
+              </Flex>
+            </Td>
+            </Tr>
+          </Tbody>
+          )
+        })
+      }
     </Table>
    </TableContainer>
   )
-}
+})
 
 const FriendTab = () =>{
 
