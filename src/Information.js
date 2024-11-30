@@ -3,9 +3,10 @@ import { Box, VStack, HStack, Flex, Text, Image, Button, useDisclosure} from '@c
 import Navbar from './Navbar';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react'
 import {Table, Thead, Tbody, Tfoot,Tr, Th, Td, TableCaption, TableContainer,} from '@chakra-ui/react'
-import {useEmail, useName, usePoint, useStartDate, usePassword, useSetUserName, useSetUserPw,
+import {useId, useEmail, useName, usePoint, useStartDate, usePassword, useSetUserName, useSetUserPw,
   useChallengeSuccessList, usePersonalChallengeList, useChallengeListNum,
-  useSetUserEmail, useSetChallengeListNum,  useFriendList, useAddRequestList, useRemoveRequestList, useRequestList} from './redux/userData';
+  useSetUserEmail, useSetChallengeListNum,  useFriendList, useAddRequestList, 
+  useRemoveRequestList, useRequestList, useAddResponseList, useRemoveResponseList, useResponseList, useAddFriendList} from './redux/userData';
   import {
     Popover,
     PopoverTrigger,
@@ -50,6 +51,7 @@ function Information() {
     </TabPanel>
     <TabPanel>
       <FriendAdder/>
+
     </TabPanel>
   </TabPanels>
 </Tabs>
@@ -184,6 +186,7 @@ const FriendAdder = () => {
       
     </div>
     <Box bordercolor="gray" bg="white" marginTop="140px"><AddFriendTab/></Box>
+    <Box bordercolor="gray" bg="white"><ResponseFriendTab/></Box>
     </div>
   );
 };
@@ -348,12 +351,18 @@ const AddFriendTab = React.memo(() =>{
 
 const FriendTab = () =>{
 
+  const id = useId();
   const name = useName();
   const challengeSuccess = useChallengeSuccessList().length;
   const dispatch = useDispatch();
   const friendList = useFriendList();
-  const [totalRank, setTotalRank] = useState([...friendList ,{name, challengeSuccess}]).sort((a,b)=>a.challengeSuccess - b.challengeSuccess);
-
+  console.log(friendList)
+  const [totalRank, setTotalRank] = useState([]);
+  useEffect(()=>{
+    const rank = [...friendList ,{id, name, challengeSuccess}].sort((a,b)=>b.challengeSuccess - a.challengeSuccess);
+    setTotalRank(rank)
+  }, [friendList]);
+  console.log(totalRank)
   return(
     <TableContainer>
     <Table size='sm'>
@@ -368,12 +377,13 @@ const FriendTab = () =>{
       {
         friendList.length > 0?
         totalRank.map((f,i)=>{
+          console.log(f)
           return(
             <Tbody>
             <Tr>
               <Td>{f.name}</Td>
               <Td> </Td>
-              <Td>{i+1}</Td>
+              <Td>{i+1} 등</Td>
               <Td></Td>
             </Tr>
           </Tbody>
@@ -388,6 +398,7 @@ const FriendTab = () =>{
           <Td></Td>
         </Tr>
       </Tbody>
+      //예외처리: 친구가 한명도 없을 경우.
       }
       <Tfoot>
       </Tfoot>
@@ -395,5 +406,38 @@ const FriendTab = () =>{
    </TableContainer>
   )
 }
+const ResponseFriendTab = React.memo(() =>{
+
+  const dispatch = useDispatch();
+  const requestList = useResponseList();
+  const addFriendList = useAddFriendList(dispatch)
+  console.log(requestList)
+  return(
+    <TableContainer>
+    <Table size='sm'>
+      <Thead bg="rgba(0,0,0,0.2)">
+        <Tr >
+          <Th>나에게 친추한 유저</Th>
+        </Tr>
+      </Thead>
+      {
+        requestList.map((r, i)=>{
+          return(
+            <Tbody>
+            <Tr>
+            <Td>
+              <Flex justifyContent="space-between">{r.name}
+                <button onClick={()=>{addFriendList(r.name)}}>친추 추가</button>
+              </Flex>
+            </Td>
+            </Tr>
+          </Tbody>
+          )
+        })
+      }
+    </Table>
+   </TableContainer>
+  )
+})
 
 export default Information
