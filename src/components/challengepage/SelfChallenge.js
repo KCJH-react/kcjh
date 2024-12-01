@@ -16,11 +16,12 @@ function SelfChallenge() {
   const fileInputRef = useRef(null);
 
   const authToken = sessionStorage.getItem('authToken');
-  const username = authToken;
   const userData = JSON.parse(localStorage.getItem('totalUserData'));
-  const userIndex = userData.findIndex(user => user.name === username); //username일치하는 데이터 찾기
+  const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
   const currentUser = userData[userIndex];
-  const challengeIndex = currentUser.currentChallenge; //현재 챌린지 Id
+  const challengeIndex = currentUser.currentChallenge;
+
+  const navigate = useNavigate();
 
   const handleFileUploadClick = () => {
     alert("챌린지 내역을 업로드해주세요");
@@ -45,27 +46,20 @@ function SelfChallenge() {
 
       if (!currentUser.challengeSuccessList.includes(challenge.id)) {
         currentUser.challengeSuccessList.push(challenge.id);
+        currentUser.point += challenge.points;
+        currentUser.challengeListNum += 1;
         alert(`챌린지 성공 목록에 추가되었습니다: ${challenge.id}`);
       } else {
         alert("이 챌린지는 이미 성공 목록에 추가되었습니다.");
       }
-
       userData[userIndex] = currentUser;
       localStorage.setItem('totalUserData', JSON.stringify(userData));
-
+      alert(`현재 포인트, ${currentUser.point}` );
     } else
     alert("파일 업로드 실패");
 
   };
 
-  const handleCheckToken = () => {
-    const authToken = sessionStorage.getItem('authToken');
-    alert(`로그인정보: ${authToken}`);
-  };
-
-  const location = useLocation();
-
-  
   const challenge = getChallengeById(challengeIndex)  || {
     content: "Default Challenge Content",
     category: "Default Category",
@@ -74,8 +68,6 @@ function SelfChallenge() {
     points: 0,
   };
 
-  const navigate = useNavigate();
-
   const handleGenerateChallenge = () => {
     const authToken = sessionStorage.getItem('authToken');
     if (!authToken) { //로그인 확인
@@ -83,9 +75,8 @@ function SelfChallenge() {
       return;
     }
       const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
-      const username = authToken;
       const userData = JSON.parse(localStorage.getItem('totalUserData'));
-      const userIndex = userData.findIndex(user => user.name === username); //username일치하는 데이터 찾기
+      const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
     if (userIndex === -1) {
       alert("사용자 데이터를 찾을 수 없습니다.");
       return;
@@ -163,19 +154,6 @@ function SelfChallenge() {
           </VStack>
         </Box>
         </Flex>
-        {/*Other Categories*/}
-        <Box id="Other" borderLeftWidth='2px' borderColor='black' pl={4}>
-          <VStack spacing={3}>
-          <Text fontSize="xl" fontWeight="bold" >Other</Text>
-          <Text fontSize="xl" fontWeight="bold" >Categories</Text>
-            {['Daily', 'Social', 'Money', 'Health', 'Mental', 'Develop', 'Volunteer', 'Challenge'].map(label => (
-          <Button key={label} variant="ghost" size="lg" width="100%" _hover={{ bg: 'gray.100' }} onClick={handleCheckToken}>
-            <Image src={StarIcon} alt="icon" boxSize="20px" />
-            {label}
-          </Button>
-        ))}
-      </VStack>
-    </Box>
       </Flex>
     </Flex>
   </div>
