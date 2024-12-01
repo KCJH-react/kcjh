@@ -1,13 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import { ChakraProvider } from '@chakra-ui/react';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import { ChakraProvider } from "@chakra-ui/react";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import store from './redux/store';
-
+import store from "./redux/store";
 // localStorage.removeItem("rankData");
 // localStorage.removeItem("friends");
 // LocalStorage 초기 데이터 설정
@@ -16,108 +15,108 @@ if (!localStorage.getItem("totalUserData")) {
   const initialData = [
     {
       id: 1,
-      name: '김지훈',
+      name: "김지훈",
       point: 120,
-      email: 'kim1234@naver.com',
-      password: 'abcd',
-      startDate: '2024-11-20',
+      email: "kim1234@naver.com",
+      password: "abcd",
+      startDate: "2024-11-20",
       challengeListNum: 8,
       challengeSuccessList: [],
       personalChallengeList: [],
-      currentChallenge: 0,
-      friendList: [{ id: 2, name: '이수진', challengeSuccess: 5 }],
-      requestList: [{ id: 3, name: '박정민', challengeSuccess: 12 }],
-      responseList: [{ id: 4, name: '정우성', challengeSuccess: 15 }]
+      exchange: [],
+      friendList: [{ id: 2, name: "이수진", challengeSuccess: 5 }],
+      requestList: [{ id: 3, name: "박정민", challengeSuccess: 12 }],
+      responseList: [{ id: 4, name: "정우성", challengeSuccess: 15 }],
     },
     {
       id: 2,
-      name: '이수진',
+      name: "이수진",
       point: 90,
-      email: 'lee1234@naver.com',
-      password: 'efgh',
-      startDate: '2024-11-18',
+      email: "lee1234@naver.com",
+      password: "efgh",
+      startDate: "2024-11-18",
       challengeListNum: 5,
       challengeSuccessList: [],
       personalChallengeList: [],
-      currentChallenge: 0,
-      friendList: [{ id: 1, name: '김지훈', challengeSuccess: 8 }],
-      requestList: [{ id: 4, name: '정우성', challengeSuccess: 15 }],
-      responseList: [{ id: 5, name: '이동호', challengeSuccess: 7 }]
+      exchange: [],
+      friendList: [{ id: 1, name: "김지훈", challengeSuccess: 8 }],
+      requestList: [{ id: 4, name: "정우성", challengeSuccess: 15 }],
+      responseList: [{ id: 5, name: "이동호", challengeSuccess: 7 }],
     },
     {
       id: 3,
-      name: '박정민',
+      name: "박정민",
       point: 75,
-      email: 'park1234@naver.com',
-      password: 'ijkl',
-      startDate: '2024-11-15',
+      email: "park1234@naver.com",
+      password: "ijkl",
+      startDate: "2024-11-15",
       challengeListNum: 12,
       challengeSuccessList: [],
       personalChallengeList: [],
-      currentChallenge: 0,
-      friendList: [{ id: 4, name: '정우성', challengeSuccess: 15 }],
-      requestList: [{ id: 5, name: '이동호', challengeSuccess: 7 }],
-      responseList: [{ id: 6, name: '정하영', challengeSuccess: 6 }]
+      exchange: [],
+      friendList: [{ id: 4, name: "정우성", challengeSuccess: 15 }],
+      requestList: [{ id: 5, name: "이동호", challengeSuccess: 7 }],
+      responseList: [{ id: 6, name: "정하영", challengeSuccess: 6 }],
     },
     {
       id: 4,
-      name: '정우성',
+      name: "정우성",
       point: 110,
-      email: 'jung1234@naver.com',
-      password: 'mnop',
-      startDate: '2024-11-10',
+      email: "jung1234@naver.com",
+      password: "mnop",
+      startDate: "2024-11-10",
       challengeListNum: 15,
       challengeSuccessList: [],
       personalChallengeList: [],
-      currentChallenge: 0,
-      friendList: [{ id: 5, name: '이동호', challengeSuccess: 7 }],
-      requestList: [{ id: 2, name: '이수진', challengeSuccess: 5 }],
-      responseList: [{ id: 1, name: '김지훈', challengeSuccess: 8 }]
+      exchange: [],
+      friendList: [{ id: 5, name: "이동호", challengeSuccess: 7 }],
+      requestList: [{ id: 2, name: "이수진", challengeSuccess: 5 }],
+      responseList: [{ id: 1, name: "김지훈", challengeSuccess: 8 }],
     },
     {
       id: 5,
-      name: '이동호',
+      name: "이동호",
       point: 100,
-      email: 'lee2345@naver.com',
-      password: 'qrst',
-      startDate: '2024-11-05',
+      email: "lee2345@naver.com",
+      password: "qrst",
+      startDate: "2024-11-05",
       challengeListNum: 7,
       challengeSuccessList: [],
       personalChallengeList: [],
-      currentChallenge: 0,
-      friendList: [{ id: 3, name: '박정민', challengeSuccess: 12 }],
-      requestList: [{ id: 1, name: '김지훈', challengeSuccess: 8 }],
-      responseList: [{ id: 2, name: '이수진', challengeSuccess: 5 }]
+      exchange: [],
+      friendList: [{ id: 3, name: "박정민", challengeSuccess: 12 }],
+      requestList: [{ id: 1, name: "김지훈", challengeSuccess: 8 }],
+      responseList: [{ id: 2, name: "이수진", challengeSuccess: 5 }],
     },
     {
       id: 6,
-      name: '한지은',
+      name: "한지은",
       point: 80,
-      email: 'han1234@naver.com',
-      password: 'wxyz',
-      startDate: '2024-11-01',
+      email: "han1234@naver.com",
+      password: "wxyz",
+      startDate: "2024-11-01",
       challengeListNum: 9,
       challengeSuccessList: [],
       personalChallengeList: [],
-      currentChallenge: 0,
-      friendList: [{ id: 3, name: '박정민', challengeSuccess: 12 }],
-      requestList: [{ id: 4, name: '정우성', challengeSuccess: 15 }],
-      responseList: [{ id: 5, name: '이동호', challengeSuccess: 7 }]
-    }
+      exchange: [],
+      friendList: [{ id: 3, name: "박정민", challengeSuccess: 12 }],
+      requestList: [{ id: 4, name: "정우성", challengeSuccess: 15 }],
+      responseList: [{ id: 5, name: "이동호", challengeSuccess: 7 }],
+    },
   ];
   localStorage.setItem("totalUserData", JSON.stringify(initialData));
   //localStorage.setItem("friends", JSON.stringify(["Friend1", "Friend2", "Friend3"])); // 친구 리스트
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-     <Provider store={store}>
-    <ChakraProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ChakraProvider>
+    <Provider store={store}>
+      <ChakraProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>
 );

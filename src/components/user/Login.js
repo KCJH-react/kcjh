@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { Box, Flex, Image, Input, Button, Heading, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Box, Flex, Image, Input, Button, Heading, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-import userIcon from '../../asset/user-icon.png';
-import lockIcon from '../../asset/lock-icon.png';
+import userIcon from "../../asset/user-icon.png";
+import lockIcon from "../../asset/lock-icon.png";
 
 // useSetUserId 훅 정의 (로컬스토리지에 userData 저장)
 function useSetUserId() {
   return (userId) => {
-    localStorage.setItem('userData', JSON.stringify({ userId })); // userData에 userId 저장
+    localStorage.setItem("userData", JSON.stringify({ userId })); // userData에 userId 저장
   };
 }
 
 function Login() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState(''); // 아이디 또는 이메일 입력
-  const [password, setPassword] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState(""); // 아이디 또는 이메일 입력
+  const [password, setPassword] = useState("");
   const setUserId = useSetUserId(); // useSetUserId 훅 사용
   const navigate = useNavigate();
 
@@ -22,17 +22,16 @@ function Login() {
     e.preventDefault();
 
     if (!usernameOrEmail.trim() || !password.trim()) {
-      alert('아이디(이메일)와 비밀번호를 모두 입력해주세요.');
+      alert("아이디(이메일)와 비밀번호를 모두 입력해주세요.");
       return;
     }
 
     // 유저 데이터 로드 (totalUserData 사용)
-    const totalUserData = JSON.parse(localStorage.getItem('totalUserData')) || [];
+    const totalUserData = JSON.parse(localStorage.getItem("totalUserData")) || [];
 
     // 입력된 값이 name 또는 email인지 확인 후 사용자 검색
     const user = totalUserData.find(
-      (user) =>
-        (String(user.id) === usernameOrEmail || user.email === usernameOrEmail) // id를 문자열로 비교
+      (user) => user.name === usernameOrEmail || user.email === usernameOrEmail // id를 문자열로 비교
     );
 
     if (user) {
@@ -42,20 +41,20 @@ function Login() {
         setUserId(user.name); // 로컬스토리지에 userId 저장
 
         // authToken에 userId를 저장하고, 세션스토리지에 저장
-        sessionStorage.setItem('authToken', user.name);
+        sessionStorage.setItem("authToken", user.id);
 
-        alert('로그인 성공!');
-        navigate('/');
+        alert("로그인 성공!");
+        navigate("/");
       } else {
-        alert('아이디(이메일) 또는 비밀번호가 올바르지 않습니다.');
+        alert("아이디(이메일) 또는 비밀번호가 올바르지 않습니다.");
       }
     } else {
-      alert('아이디(이메일) 또는 비밀번호가 올바르지 않습니다.');
+      alert("아이디(이메일) 또는 비밀번호가 올바르지 않습니다.");
     }
   };
 
   const handleSignUpClick = () => {
-    navigate('/signup');
+    navigate("/signup");
   };
 
   return (
@@ -129,7 +128,7 @@ function Login() {
           cursor="pointer"
           onClick={handleSignUpClick}
           fontSize="lg"
-          _hover={{ textDecoration: 'underline' }}
+          _hover={{ textDecoration: "underline" }}
         >
           회원가입
         </Text>

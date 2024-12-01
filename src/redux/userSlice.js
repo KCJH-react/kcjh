@@ -1,23 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   id: -1,
-  name: 'USER',
+  name: "USER",
   point: 100,
-  email: 'qwer1234@naver.com',
-  password: '1234',
-  startDate: '2024-11-29',
+  email: "qwer1234@naver.com",
+  password: "1234",
+  startDate: "2024-11-29",
+  exchange: [],
   challengeListNum: 10, // 챌린지 성공 목록 계정정보에 챌린지 성공률 표시 위해서.
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
   currentChallenge: 0,
-  friendList: [{ name: '이영희', challengeSuccess: 3 }],
-  requestList: [{ name: '김철수', challengeSuccess: 5 }],
-  responseList: [{ id: 6, name: '정하영', challengeSuccess: 2 }]
+  friendList: [{ name: "이영희", challengeSuccess: 3 }],
+  requestList: [{ name: "김철수", challengeSuccess: 5 }],
+  responseList: [{ id: 6, name: "정하영", challengeSuccess: 2 }],
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setId: (state, action) => {
@@ -41,11 +42,14 @@ const userSlice = createSlice({
     setChallengeListNum: (state, action) => {
       state.challengeListNum = action.payload;
     },
+    addExchange: (state, action) => {
+      state.exchange.push(action.payload);
+    },
     addChallengeSuccess: (state, action) => {
       state.challengeSuccessList.push(action.payload);
     },
     setCurrentChallenge: (state, action) => {
-      state.currentChallenge = action.payload
+      state.currentChallenge = action.payload;
     },
     removeChallengeSuccess: (state, action) => {
       state.challengeSuccessList = state.challengeSuccessList.filter(
@@ -69,19 +73,17 @@ const userSlice = createSlice({
       );
     },
     addFriend: (state, action) => {
-    
-      const newFriend = state.responseList.filter(
-        (challenge) => {if(challenge.name === action.payload) return {name: challenge.name, challengeSuccess: challenge.challengeSuccess}}
-      );
+      const newFriend = state.responseList.filter((challenge) => {
+        if (challenge.name === action.payload)
+          return { name: challenge.name, challengeSuccess: challenge.challengeSuccess };
+      });
       state.friendList.push(...newFriend);
       state.responseList = state.responseList.filter(
         (challenge) => challenge.name !== action.payload
       );
     },
     removeFriend: (state, action) => {
-      state.friendList = state.friendList.filter(
-        (challenge) => challenge.id !== action.payload
-      );
+      state.friendList = state.friendList.filter((challenge) => challenge.id !== action.payload);
     },
     addRequestList: (state, action) => {
       state.requestList.push(action.payload);
@@ -120,7 +122,7 @@ export const {
   addRequestList,
   removeRequestList,
   addResponseList,
-  removeResponseList
+  removeResponseList,
 } = userSlice.actions;
 
 export default userSlice.reducer;

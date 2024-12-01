@@ -18,8 +18,18 @@ import { useSelector } from "react-redux";
 import Login from "./components/user/Login"; // Login 컴포넌트 추가
 import SignUp from "./components/user/SignUp"; // SignUp 컴포넌트 추가
 
-
 const theme = extendTheme({});
+
+// const cookie = sessionStorage.getItem("authToken");
+// console.log(cookie);
+// if (cookie) {
+//   const dispatch = useDispatch();
+
+//   const totalUserData = localStorage.getItem("totalUserData");
+//   const parsedData = JSON.parse(totalUserData);
+//   const log = parsedData.find((u) => u.id === Number(cookie));
+//   console.log(log);
+// }
 
 function App() {
   return (
@@ -41,7 +51,6 @@ function App() {
           <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
           <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
           <Route path="/rank" element={<PrivateRoute element={<RankSystem />} />} />
-
           {/* Public Routes */}
           <Route path="/login" element={<Login />} /> {/* 로그인 페이지 추가 */}
           <Route path="/signup" element={<SignUp />} /> {/* 회원가입 페이지 추가 */}
