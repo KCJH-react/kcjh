@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Text, Image, Button, VStack, HStack, Stack, Center } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Flex, Text, Image, Button, VStack, HStack, Center } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
 import userIcon from '../../asset/user-icon.png';
+import { useNavigate } from 'react-router-dom';
 
 function RankSystem() {
+  const navigate = useNavigate();
+  const members = useSelector((state) => state.members.members);
   const [rankData, setRankData] = useState([]);
   const [myRank, setMyRank] = useState(null);
-  const myUsername = "CurrentUser";
-  const navigate = useNavigate();
+  const myUsername = 'CurrentUser';
 
   useEffect(() => {
-    // LocalStorage에서 랭킹 데이터 불러오기
-    const storedData = JSON.parse(localStorage.getItem("rankData")) || [];
-    const sortedData = storedData.sort((a, b) => b.score - a.score);
+    // 사용자 데이터 정렬 (점수 내림차순)
+    const sortedData = [...members].sort((a, b) => b.challengeSuccess - a.challengeSuccess);
     setRankData(sortedData);
 
     // 현재 사용자 랭킹 계산
-    const myRankIndex = sortedData.findIndex(user => user.username === myUsername);
+    const myRankIndex = sortedData.findIndex((user) => user.name === myUsername);
     if (myRankIndex !== -1) {
-      setMyRank({ rank: myRankIndex + 1, score: sortedData[myRankIndex].score });
+      setMyRank({ rank: myRankIndex + 1, score: sortedData[myRankIndex].challengeSuccess });
     } else {
-      setMyRank({ rank: "-", score: "-" });
+      setMyRank({ rank: '-', score: '-' });
     }
-  }, []);
+  }, [members]);
 
   return (
     <Box w="100%" minH="100vh" bg="#D6F0A8" overflowX="hidden" p="0" m="0">
@@ -32,7 +33,7 @@ function RankSystem() {
         <HStack spacing="4" mt="4">
           <Image src={userIcon} boxSize="40px" />
           <Text fontSize="lg" textDecoration="underline" textUnderlineOffset="3px">
-            {myRank ? `${myRank.rank}등 ♦️${myRank.score}` : "랭킹 정보 없음"}
+            {myRank ? `${myRank.rank}등 ♦️${myRank.score}` : '랭킹 정보 없음'}
           </Text>
         </HStack>
       </Box>
@@ -69,6 +70,7 @@ function RankSystem() {
             전체 랭킹
           </Button>
         </HStack>
+
         <VStack spacing="4">
           {rankData.map((user, index) => (
             <HStack
@@ -84,17 +86,10 @@ function RankSystem() {
                 <Text fontSize="2xl" fontWeight="bold" color="white">{index + 1}</Text>
                 <Box w="2px" h="100%" bg="white" />
                 <Image src={userIcon} boxSize="40px" />
-                <Text>{user.username}</Text>
+                <Text>{user.name}</Text>
               </HStack>
               <HStack spacing="2">
-                <Stack spacing="0" align="center">
-                  <Text>👑</Text>
-                  <Text fontSize="lg">{user.score}</Text>
-                </Stack>
-                <Stack spacing="0" align="center">
-                  <Text>♦️</Text>
-                  <Text fontSize="lg">{user.score }</Text>
-                </Stack>
+                <Text fontSize="lg">♦️ {user.challengeSuccess}</Text>
               </HStack>
             </HStack>
           ))}
