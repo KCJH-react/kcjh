@@ -9,7 +9,7 @@ function PointExchangeDetail() {
   const navigate = useNavigate();
   const location = useLocation();
   const categories = location.state || {};
-  const categoryId = useParams().categoryId;
+  const categoryId = useParams().category;
 
   const visibleItems = categories.category.items;
 
@@ -63,7 +63,7 @@ function PointExchangeDetail() {
                     <Image
                       objectFit="cover"
                       maxW="100px"
-                      src={`/category/icon${categoryId}.png`}
+                      src={`/category/icon${Number(categoryId) + 1}.png`}
                       alt="Caffe Latte"
                       onClick={() => {
                         navigate(`/pointExchangeDetail/`, { state: { categories } });
