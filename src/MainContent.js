@@ -33,7 +33,7 @@ export default function MainContent() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch(); 
-  const getChallenge = useCurrentChallenge();
+  const challengeIndex = useCurrentChallenge();
   const setChallenge = useSetCurrentChallenge(dispatch);
 
   useEffect(() => {
@@ -46,9 +46,20 @@ export default function MainContent() {
   }, []);
 
   const handleGenerateChallenge = () => {
-    const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
-    setChallenge(randomChallengeIndex);
-    navigate('/SelfChallenge');
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+      const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
+      setChallenge(randomChallengeIndex);
+      navigate('/SelfChallenge');
+    }
+    const username = authToken.split('-authToken-')[0];
+    const userData = JSON.parse(localStorage.getItem('totalUserData'));
+    const userIndex = userData.findIndex(user => user.name === username);
+
+    if (userIndex === -1) {
+      alert("사용자 데이터를 찾을 수 없습니다.");
+      return;
+    }
   };
 
   const handleRewardClick = () => {

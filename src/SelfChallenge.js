@@ -63,6 +63,11 @@ function SelfChallenge() {
 
   };
 
+  const handleCheckToken = () => {
+    const authToken = localStorage.getItem('authToken');
+    alert(`로그인정보: ${authToken}`);
+  };
+
   const location = useLocation();
   
   const challenge = getChallengeById(challengeIndex)  || {
@@ -151,7 +156,7 @@ function SelfChallenge() {
           <Text fontSize="xl" fontWeight="bold" >Other</Text>
           <Text fontSize="xl" fontWeight="bold" >Categories</Text>
             {['Daily', 'Social', 'Money', 'Health', 'Mental', 'Develop', 'Volunteer', 'Challenge'].map(label => (
-          <Button key={label} variant="ghost" size="lg" width="100%" _hover={{ bg: 'gray.100' }}>
+          <Button key={label} variant="ghost" size="lg" width="100%" _hover={{ bg: 'gray.100' }} onClick={handleCheckToken}>
             <Image src={StarIcon} alt="icon" boxSize="20px" />
             {label}
           </Button>

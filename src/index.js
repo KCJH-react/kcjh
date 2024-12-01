@@ -24,6 +24,7 @@ if (!localStorage.getItem("totalUserData")) {
       challengeListNum: 8,
       challengeSuccessList: [],
       personalChallengeList: [],
+      currentChallenge: 0,
       friendList: [{ id: 2, name: '이수진', challengeSuccess: 5 }],
       requestList: [{ id: 3, name: '박정민', challengeSuccess: 12 }],
       responseList: [{ id: 4, name: '정우성', challengeSuccess: 15 }]
@@ -38,6 +39,7 @@ if (!localStorage.getItem("totalUserData")) {
       challengeListNum: 5,
       challengeSuccessList: [],
       personalChallengeList: [],
+      currentChallenge: 0,
       friendList: [{ id: 1, name: '김지훈', challengeSuccess: 8 }],
       requestList: [{ id: 4, name: '정우성', challengeSuccess: 15 }],
       responseList: [{ id: 5, name: '이동호', challengeSuccess: 7 }]
@@ -52,6 +54,7 @@ if (!localStorage.getItem("totalUserData")) {
       challengeListNum: 12,
       challengeSuccessList: [],
       personalChallengeList: [],
+      currentChallenge: 0,
       friendList: [{ id: 4, name: '정우성', challengeSuccess: 15 }],
       requestList: [{ id: 5, name: '이동호', challengeSuccess: 7 }],
       responseList: [{ id: 6, name: '정하영', challengeSuccess: 6 }]
@@ -66,6 +69,7 @@ if (!localStorage.getItem("totalUserData")) {
       challengeListNum: 15,
       challengeSuccessList: [],
       personalChallengeList: [],
+      currentChallenge: 0,
       friendList: [{ id: 5, name: '이동호', challengeSuccess: 7 }],
       requestList: [{ id: 2, name: '이수진', challengeSuccess: 5 }],
       responseList: [{ id: 1, name: '김지훈', challengeSuccess: 8 }]
@@ -80,6 +84,7 @@ if (!localStorage.getItem("totalUserData")) {
       challengeListNum: 7,
       challengeSuccessList: [],
       personalChallengeList: [],
+      currentChallenge: 0,
       friendList: [{ id: 3, name: '박정민', challengeSuccess: 12 }],
       requestList: [{ id: 1, name: '김지훈', challengeSuccess: 8 }],
       responseList: [{ id: 2, name: '이수진', challengeSuccess: 5 }]
@@ -94,6 +99,7 @@ if (!localStorage.getItem("totalUserData")) {
       challengeListNum: 9,
       challengeSuccessList: [],
       personalChallengeList: [],
+      currentChallenge: 0,
       friendList: [{ id: 3, name: '박정민', challengeSuccess: 12 }],
       requestList: [{ id: 4, name: '정우성', challengeSuccess: 15 }],
       responseList: [{ id: 5, name: '이동호', challengeSuccess: 7 }]
