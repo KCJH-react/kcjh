@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Flex, Input, Button, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -11,11 +12,17 @@ function SignUp() {
   const handleSignUp = (e) => {
     e.preventDefault();
 
-    // 이메일 형식 검증 정규식
+    // 이메일 및 비밀번호 형식 검증
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!username.trim() || !email.trim() || !password.trim()) {
       alert('모든 필드를 입력해주세요.');
+      return;
+    }
+
+    if (username.length < 3 || username.length > 20) {
+      alert('사용자 이름은 3~20자 사이여야 합니다.');
       return;
     }
 
@@ -24,15 +31,23 @@ function SignUp() {
       return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const newUser = { username, email, password };
+    if (!passwordRegex.test(password)) {
+      alert('비밀번호는 최소 8자 이상이어야 하며, 대소문자, 숫자, 특수문자를 포함해야 합니다.');
+      return;
+    }
 
+    // 기존 유저 데이터 확인
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
     if (existingUsers.some((user) => user.username === username)) {
       alert('이미 존재하는 사용자입니다. 다른 사용자 이름을 입력해주세요.');
       return;
     }
 
+    // 비밀번호 암호화
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
     // 유저 데이터 저장
+    const newUser = { username, email, password: hashedPassword };
     existingUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(existingUsers));
 

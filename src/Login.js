@@ -1,41 +1,53 @@
 import React, { useState } from 'react';
 import { Box, Flex, Image, Input, Button, Heading, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 import userIcon from './asset/user-icon.png';
 import lockIcon from './asset/lock-icon.png';
 
+// useSetUserId 훅 정의 (로컬스토리지에 userData 저장)
+function useSetUserId() {
+  return (userId) => {
+    localStorage.setItem('userData', JSON.stringify({ userId })); // userData에 userId 저장
+  };
+}
+
 function Login() {
-  const [username, setUsername] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState(''); // 아이디 또는 이메일 입력
   const [password, setPassword] = useState('');
+  const setUserId = useSetUserId(); // useSetUserId 훅 사용
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (!username.trim() || !password.trim()) {
-      alert('아이디와 비밀번호를 모두 입력해주세요.');
+    if (!usernameOrEmail.trim() || !password.trim()) {
+      alert('아이디(이메일)와 비밀번호를 모두 입력해주세요.');
       return;
     }
 
     // 유저 데이터 로드
     const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+    // 입력된 값이 username 또는 email인지 확인 후 사용자 검색
     const user = existingUsers.find(
-      (user) => user.username === username && user.password === password
+      (user) =>
+        (user.username === usernameOrEmail || user.email === usernameOrEmail) && // 아이디 또는 이메일로 찾기
+        bcrypt.compareSync(password, user.password) // 비밀번호 검증
     );
 
     if (user) {
-      // 1. 로컬스토리지에 userId 저장
-      localStorage.setItem('userData', JSON.stringify({ userId: user.username }));
+      // 로그인 성공
+      setUserId(user.username); // 로컬스토리지에 userId 저장
 
-      // 2. 세션스토리지에 authToken 저장
-      const authToken = user.username; // 유저 ID를 그대로 저장
-      sessionStorage.setItem('authToken', authToken);
+      // authToken에 userId를 저장하고, 세션스토리지에 저장
+      sessionStorage.setItem('authToken', user.username);
 
       alert('로그인 성공!');
       navigate('/'); // 메인 페이지로 이동
     } else {
-      alert('아이디 또는 비밀번호가 올바르지 않습니다.');
+      alert('아이디(이메일) 또는 비밀번호가 올바르지 않습니다.');
     }
   };
 
@@ -71,8 +83,8 @@ function Login() {
           <Input
             type="text"
             placeholder="ID or Email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={usernameOrEmail}
+            onChange={(e) => setUsernameOrEmail(e.target.value)}
             bg="gray.50"
             border="none"
             fontSize="lg"
