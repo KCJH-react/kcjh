@@ -46,11 +46,11 @@ export default function MainContent() {
       return;
     }
       const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
-      const username = authToken;
+      const userid = authToken;
       const userData = JSON.parse(localStorage.getItem('totalUserData'));
-      const userIndex = userData.findIndex(user => user.name === username); //username일치하는 데이터 찾기
+      const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
     if (userIndex === -1) {
-      alert("사용자 데이터를 찾을 수 없습니다.");
+      alert(`사용자 데이터를 찾을 수 없습니다. 현재 토큰, ${authToken}` );
       return;
     }
     const currentUser = userData[userIndex];
