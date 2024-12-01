@@ -1,32 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Text, Image, Button, VStack, HStack, Stack, Center } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import userIcon from './asset/user-icon.png';
+import { useSelector } from 'react-redux';
+import userIcon from '../../asset/user-icon.png';
 
 function FriendRanking() {
+  const friends = useSelector((state) => state.user.friendList);
+  const members = useSelector((state) => state.members.members);
   const [friendRankData, setFriendRankData] = useState([]);
   const [myRank, setMyRank] = useState(null);
   const myUsername = "CurrentUser"; 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // LocalStorage에서 데이터 가져오기
-    const storedData = JSON.parse(localStorage.getItem("rankData")) || [];
-    const friends = JSON.parse(localStorage.getItem("friends")) || ["Friend1", "Friend2", "Friend3"];
-
     // 친구와 현재 사용자 필터링
-    const filteredFriends = storedData.filter(user => friends.includes(user.username) || user.username === myUsername);
-    const sortedFriends = filteredFriends.sort((a, b) => b.score - a.score);
+    const filteredFriends = members.filter(user => friends.some(friend => friend.name === user.name) || user.name === myUsername);
+    const sortedFriends = filteredFriends.sort((a, b) => b.challengeSuccess - a.challengeSuccess);
     setFriendRankData(sortedFriends);
 
     // 내 랭킹 계산
-    const myRankIndex = sortedFriends.findIndex(user => user.username === myUsername);
+    const myRankIndex = sortedFriends.findIndex(user => user.name === myUsername);
     if (myRankIndex !== -1) {
-      setMyRank({ rank: myRankIndex + 1, score: sortedFriends[myRankIndex].score });
+      setMyRank({ rank: myRankIndex + 1, score: sortedFriends[myRankIndex].challengeSuccess });
     } else {
       setMyRank({ rank: "-", score: "-" });
     }
-  }, []);
+  }, [friends, members]);
 
   return (
     <Box w="100%" minH="100vh" bg="#D6F0A8" overflowX="hidden" p="0" m="0">
@@ -85,17 +84,10 @@ function FriendRanking() {
                 <Text fontSize="2xl" fontWeight="bold" color="white">{index + 1}</Text>
                 <Box w="2px" h="100%" bg="white" />
                 <Image src={userIcon} boxSize="40px" />
-                <Text>{user.username}</Text>
+                <Text>{user.name}</Text>
               </HStack>
               <HStack spacing="2">
-                <Stack spacing="0" align="center">
-                  <Text>👑</Text>
-                  <Text fontSize="lg">{user.score}</Text>
-                </Stack>
-                <Stack spacing="0" align="center">
-                  <Text>♦️</Text>
-                  <Text fontSize="lg">{user.score}</Text>
-                </Stack>
+                <Text fontSize="lg">♦️ {user.challengeSuccess}</Text>
               </HStack>
             </HStack>
           ))}
