@@ -7,9 +7,6 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-// localStorage.removeItem("rankData");
-// localStorage.removeItem("friends");
-// LocalStorage 초기 데이터 설정
 
 if (!localStorage.getItem("totalUserData")) {
   const initialData = [

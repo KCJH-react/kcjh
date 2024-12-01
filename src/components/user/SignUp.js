@@ -53,6 +53,7 @@ function SignUp() {
       startDate: new Date().toISOString().split("T")[0],
       challengeListNum: 0,
       challengeSuccessList: [],
+      exchange: [],
       friendList: [],
       requestList: [],
       responseList: [],

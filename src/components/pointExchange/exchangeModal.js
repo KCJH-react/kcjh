@@ -93,6 +93,17 @@ const Message = styled.p`
 
 // ExchangeModal 컴포넌트
 const ExchangeModal = ({ setIsModalOpen, content }) => {
+  const userId = sessionStorage.getItem("authToken");
+  console.log(userId);
+  const jsonUser = localStorage.getItem("totalUserData");
+  const users = JSON.parse(jsonUser);
+  const addItem = () => {
+    users.map((u) => {
+      if (u.id === Number(userId)) u.exchange.push(Math.floor(Math.random() * 1001));
+    });
+    localStorage.setItem("totalUserData", JSON.stringify(users));
+  };
+
   const [test, setTest] = useState(true);
   const userpoint = usePoint();
   const dispatch = useDispatch();
@@ -115,6 +126,7 @@ const ExchangeModal = ({ setIsModalOpen, content }) => {
               return;
             }
             setPoint(exchangedPoint);
+            addItem();
             setIsModalOpen(false);
           }}
         >
