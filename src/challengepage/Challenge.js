@@ -1,6 +1,6 @@
-import ExerciseIcon from './asset/icon-exercise.png';
-import StudyIcon from './asset/icon-study.png';
-import MindIcon from './asset/icon-mind.png';
+import ExerciseIcon from '../asset/icon-exercise.png';
+import StudyIcon from '../asset/icon-study.png';
+import MindIcon from '../asset/icon-mind.png';
 
 const Challenge = [
     {
