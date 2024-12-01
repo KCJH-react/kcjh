@@ -1,123 +1,139 @@
 import React, { useState } from 'react';
-import { Box, Button, Input, Heading, IconButton } from '@chakra-ui/react';
-import { CloseIcon } from '@chakra-ui/icons';
+import { Box, Flex, Input, Button, Heading } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
-function SignUp({ onCategoryFilterClick, onClose }) {
+function SignUp() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSignUp = async (e) => {
+  const handleSignUp = (e) => {
     e.preventDefault();
+
+    // 이메일 및 비밀번호 형식 검증
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!username.trim() || !email.trim() || !password.trim()) {
       alert('모든 필드를 입력해주세요.');
       return;
     }
 
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    const newUser = { username, email, password };
+    if (username.length < 3 || username.length > 20) {
+      alert('사용자 이름은 3~20자 사이여야 합니다.');
+      return;
+    }
 
+    if (!emailRegex.test(email)) {
+      alert('올바른 이메일 형식을 입력해주세요.');
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      alert('비밀번호는 최소 8자 이상이어야 하며, 대소문자, 숫자, 특수문자를 포함해야 합니다.');
+      return;
+    }
+
+    // 기존 유저 데이터 확인
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
     if (existingUsers.some((user) => user.username === username)) {
       alert('이미 존재하는 사용자입니다. 다른 사용자 이름을 입력해주세요.');
       return;
     }
 
+    // 비밀번호 암호화
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
+    // 유저 데이터 저장
+    const newUser = { username, email, password: hashedPassword };
     existingUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(existingUsers));
-    alert('회원가입 성공!');
 
-    onCategoryFilterClick();
+    alert('회원가입 성공!');
+    navigate('/login'); // 회원가입 완료 후 로그인 페이지로 이동
   };
 
   return (
-    <>
-      <Box
-        position="fixed"
-        top="0"
-        left="0"
-        width="100vw"
-        height="100vh"
-        bg="rgba(0, 0, 0, 0.5)"
-        zIndex="998"
-        onClick={onClose}
-      />
+    <Box
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="flex-start"
+      height="100vh"
+      bg="gray.100"
+      pt="150px"
+    >
+      <Heading as="h1" size="2xl" mb="12" color="#4CAF50">
+        RANDOM CHALLENGE
+      </Heading>
 
-      <Box
-        position="fixed"
+      <Flex
+        direction="column"
         bg="white"
-        p="6"
-        borderRadius="2xl"
-        w="500px"
-        h="350px"
-        boxShadow="2xl"
-        textAlign="center"
-        zIndex="999"
-        top="50%"
-        left="50%"
-        transform="translate(-50%, -50%)"
+        p={20}
+        rounded="lg"
+        width="100%"
+        maxWidth="700px"
+        boxShadow="xl"
       >
-        <IconButton
-          icon={<CloseIcon />}
-          aria-label="Close"
-          position="absolute"
-          top="4"
-          right="4"
-          onClick={onClose}
-          size="sm"
-          variant="unstyled"
-          color="gray.500"
-        />
+        <Flex mb="6">
+          <Input
+            type="text"
+            placeholder="ID"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            bg="gray.50"
+            borderRadius="full"
+            fontSize="lg"
+            py="8"
+            px="7"
+          />
+        </Flex>
 
-        <Heading as="h2" size="md" mb="8" color="gray.700">
+        <Flex mb="6">
+          <Input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            bg="gray.50"
+            borderRadius="full"
+            fontSize="lg"
+            py="8"
+            px="7"
+          />
+        </Flex>
+
+        <Flex mb="8">
+          <Input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            bg="gray.50"
+            borderRadius="full"
+            fontSize="lg"
+            py="8"
+            px="7"
+          />
+        </Flex>
+
+        <Button
+          colorScheme="green"
+          bg="#BFE18B"
+          color="white"
+          width="100%"
+          size="lg"
+          height="60px"
+          fontSize="2xl"
+          onClick={handleSignUp}
+        >
           회원가입
-        </Heading>
-
-        <form onSubmit={handleSignUp}>
-          <Box mb="6">
-            <Input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              bg="gray.100"
-              borderRadius="full"
-            />
-          </Box>
-
-          <Box mb="6">
-            <Input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              bg="gray.100"
-              borderRadius="full"
-            />
-          </Box>
-
-          <Box mb="6">
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              bg="gray.100"
-              borderRadius="full"
-            />
-          </Box>
-
-          <Button
-            w="70%"
-            bg="#BFE18B"
-            color="white"
-            type="submit"
-          >
-            회원가입
-          </Button>
-        </form>
-      </Box>
-    </>
+        </Button>
+      </Flex>
+    </Box>
   );
 }
 

@@ -21,6 +21,14 @@ export default function Navbar() {
     navigate('/');
   };
 
+  const handleLoginClick = () => {
+    navigate('/login'); // 로그인 화면으로 이동
+  };
+
+  const handleSignUpClick = () => {
+    navigate('/signup'); // 회원가입 화면으로 이동
+  };
+
   return (
     <Box width="100%" overflow="hidden">
       <Flex
@@ -64,17 +72,19 @@ export default function Navbar() {
 
         {/* 로그인, 회원가입 버튼 */}
         <Stack flex="0 1 auto" justify={'flex-end'} direction={'row'} spacing={6}>
-          <Button as={'a'} fontSize={'sm'} fontWeight={400} variant={'link'} href={'#'}>
+          <Button
+            fontSize={'sm'}
+            fontWeight={400}
+            variant={'link'}
+            onClick={handleLoginClick}>
             로그인
           </Button>
           <Button
-            as={'a'}
-            display={{ base: 'none', md: 'inline-flex' }}
             fontSize={'sm'}
             fontWeight={600}
             color={'white'}
             bg={'teal.400'}
-            href={'#'}
+            onClick={handleSignUpClick} // 회원가입 클릭 이벤트 추가
             _hover={{
               bg: 'teal.300',
             }}

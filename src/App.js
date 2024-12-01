@@ -15,6 +15,8 @@ import MakeChallenge from "./MakeChallenge";
 import Footer from "./Footer";
 import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import Login from "./Login"; // Login 컴포넌트 추가
+import SignUp from "./SignUp"; // SignUp 컴포넌트 추가
 
 const theme = extendTheme({});
 
@@ -24,7 +26,8 @@ function App() {
       <Box className="App">
         <Navbar />
         <Routes>
-          <Route path="/pointExchange" element={<PointExchange />} />
+          {/* Private Routes */}
+          <Route path="/pointExchange" element={<PrivateRoute element={<PointExchange />} />} />
           <Route
             path="/pointExchangeDetail/:category"
             element={<PrivateRoute element={<PointExchangeDetail />} />}
@@ -37,6 +40,10 @@ function App() {
           <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
           <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
           <Route path="/rank" element={<PrivateRoute element={<RankSystem />} />} />
+
+          {/* Public Routes */}
+          <Route path="/login" element={<Login />} /> {/* 로그인 페이지 추가 */}
+          <Route path="/signup" element={<SignUp />} /> {/* 회원가입 페이지 추가 */}
         </Routes>
         <Box h="20" />
         <Footer />
@@ -56,6 +63,6 @@ const PrivateRoute = ({ element }) => {
   // 인증된 경우에만 컴포넌트 렌더링
   return element;
 };
-//로그인 검증하는 라우팅
 
+//로그인 검증하는 라우팅
 export default App;
