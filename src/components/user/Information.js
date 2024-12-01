@@ -55,7 +55,7 @@ import {
   useRemoveResponseList, 
   useResponseList, 
   useAddFriendList
-} from './redux/userData';
+} from '../../redux/userData';
   import {
     Popover,
     PopoverTrigger,
@@ -67,7 +67,7 @@ import {
     PopoverCloseButton,
     PopoverAnchor,
   } from '@chakra-ui/react'
-import {useTotalMember} from './redux/memberData';
+import {useTotalMember} from '../../redux/memberData';
 import { useDispatch } from 'react-redux';
 import { debounce } from "lodash";
 
