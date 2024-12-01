@@ -49,6 +49,17 @@ import {
 import { useTotalMember } from "../../redux/memberData";
 import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
+import store from "../../redux/store";
+
+// store.subscribe(() => {
+//   const state = store.getState().user; // user 상태 가져오기
+//   const savedUserData = localStorage.getItem("totalUserData");
+//   const parsedUserData = JSON.parse(savedUserData);
+//   console.log(parsedUserData);
+//   const user = parsedUserData.filter((u) => u.id !== Number(state.id));
+//   const newData = user.push(state);
+//   localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
+// });
 
 function Information() {
   return (
@@ -101,12 +112,14 @@ const FriendAdder = () => {
   const [friendName, setFriendName] = useState("");
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [openState, setOpenState] = useState(true);
-  const [propsAddFriendTab, setPropsAddFriendTab] = useState([]);
   const dispatch = useDispatch();
   const addRequestList = useAddRequestList(dispatch);
   const requestList = useRequestList();
 
   const [totalMember, setTotalMember] = useState(useTotalMember());
+  const userId = useId();
+  const username = useName();
+  const userchallengeSuccess = useChallengeListNum();
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -133,12 +146,34 @@ const FriendAdder = () => {
   };
 
   const handleAddFriend = () => {
-    const existed = totalMember.filter((member) => friendName === member.name);
+    const savedUserData = localStorage.getItem("totalUserData");
+    const parsedUserData = JSON.parse(savedUserData);
+    const existed = parsedUserData.filter((member) => friendName === member.name);
     //전체 유저 중에 포함되는지.
-    const notExisted = requestList.filter((member) => friendName === member.name);
+    const newData = parsedUserData.filter((u) => u.id === Number(userId));
+    const notExisted = newData.filter((member) => friendName === member.name);
     //요청목록에 포함되는지.
+    console.log(existed);
+    console.log(notExisted);
     if (existed && notExisted.length === 0) {
       addRequestList(...existed);
+      //   const state = store.getState().user; // user 상태 가져오기
+      const savedUserData = localStorage.getItem("totalUserData");
+      const parsedUserData = JSON.parse(savedUserData);
+      console.log(parsedUserData);
+      const newData = parsedUserData.map((u) => {
+        if (u.id === Number(userId)) {
+          u.requestList.push(...existed);
+        }
+        return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+      });
+      const newData2 = parsedUserData.map((u) => {
+        if (u.name === friendName) {
+          u.responseList.push({ name: username, challengeSuccess: userchallengeSuccess });
+        }
+        return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+      });
+      localStorage.setItem("totalUserData", JSON.stringify(newData2)); // localStorage에 저장
     } else {
       alert("해당 유저는 이미 친구추가 상태입니다.");
     }
@@ -374,6 +409,7 @@ const AddFriendTab = React.memo(() => {
   const dispatch = useDispatch();
   const requestList = useRequestList();
   const removeRequestList = useRemoveRequestList(dispatch);
+  const userId = useId();
   console.log(requestList);
   return (
     <TableContainer>
@@ -393,6 +429,18 @@ const AddFriendTab = React.memo(() => {
                     <button
                       onClick={() => {
                         removeRequestList(r.name);
+                        const savedUserData = localStorage.getItem("totalUserData");
+                        const parsedUserData = JSON.parse(savedUserData);
+                        console.log(parsedUserData);
+                        const newData = parsedUserData.map((u) => {
+                          if (u.id === Number(userId)) {
+                            u.requestList = u.requestList.filter(
+                              (request) => request.name !== r.name
+                            );
+                          }
+                          return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+                        });
+                        localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
                       }}
                     >
                       친추 취소
@@ -468,9 +516,10 @@ const FriendTab = () => {
 };
 const ResponseFriendTab = React.memo(() => {
   const dispatch = useDispatch();
-  const requestList = useResponseList();
+  const responseList = useResponseList();
   const addFriendList = useAddFriendList(dispatch);
-  console.log(requestList);
+  const userId = useId();
+  console.log(responseList);
   return (
     <TableContainer>
       <Table size="sm">
@@ -479,7 +528,7 @@ const ResponseFriendTab = React.memo(() => {
             <Th>나에게 친추한 유저</Th>
           </Tr>
         </Thead>
-        {requestList.map((r, i) => {
+        {responseList.map((r, i) => {
           return (
             <Tbody>
               <Tr>
@@ -489,6 +538,27 @@ const ResponseFriendTab = React.memo(() => {
                     <button
                       onClick={() => {
                         addFriendList(r.name);
+                        const savedUserData = localStorage.getItem("totalUserData");
+                        const parsedUserData = JSON.parse(savedUserData);
+                        console.log(parsedUserData);
+                        const newData = parsedUserData.map((u) => {
+                          if (u.id === Number(userId)) {
+                            u.responseList = u.responseList.filter(
+                              (request) => request.name !== r.name
+                            );
+                          }
+                          return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+                        });
+                        const newData2 = parsedUserData.map((u) => {
+                          if (u.id === Number(userId)) {
+                            u.friendList.push({
+                              name: r.name,
+                              challengeSuccess: r.challengeSuccess,
+                            });
+                          }
+                          return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+                        });
+                        localStorage.setItem("totalUserData", JSON.stringify(newData2)); // localStorage에 저장
                       }}
                     >
                       친추 추가

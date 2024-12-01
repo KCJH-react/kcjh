@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const savedUserData = localStorage.getItem("totalUserData");
+const parsedUserData = JSON.parse(savedUserData);
+console.log(parsedUserData);
+const userId = sessionStorage.getItem("authToken");
+const user = userId ? parsedUserData.find((u) => u.id === Number(userId)) : null;
+const initialState = user || {
   id: -1,
   name: "USER",
   point: 100,
