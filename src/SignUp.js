@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Flex, Input, Button, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import bcrypt from 'bcryptjs';
 
 function SignUp() {
   const [username, setUsername] = useState('');
@@ -21,8 +20,8 @@ function SignUp() {
       return;
     }
 
-    if (username.length < 3 || username.length > 20) {
-      alert('사용자 이름은 3~20자 사이여야 합니다.');
+    if (username.length < 1 || username.length > 20) {  // 변경된 부분 (1자 이상)
+      alert('사용자 이름은 1~20자 사이여야 합니다.');
       return;
     }
 
@@ -36,23 +35,20 @@ function SignUp() {
       return;
     }
 
-    // 기존 유저 데이터 확인
-    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
-    if (existingUsers.some((user) => user.username === username)) {
+    // 기존 유저 데이터 확인 (totalUserData 사용)
+    const totalUserData = JSON.parse(localStorage.getItem('totalUserData')) || [];
+    if (totalUserData.some((user) => user.username === username)) {
       alert('이미 존재하는 사용자입니다. 다른 사용자 이름을 입력해주세요.');
       return;
     }
 
-    // 비밀번호 암호화
-    const hashedPassword = bcrypt.hashSync(password, 10);
-
     // 유저 데이터 저장
-    const newUser = { username, email, password: hashedPassword };
-    existingUsers.push(newUser);
-    localStorage.setItem('users', JSON.stringify(existingUsers));
+    const newUser = { username, email, password };
+    totalUserData.push(newUser);
+    localStorage.setItem('totalUserData', JSON.stringify(totalUserData));
 
     alert('회원가입 성공!');
-    navigate('/login'); // 회원가입 완료 후 로그인 페이지로 이동
+    navigate('/login');
   };
 
   return (
