@@ -30,11 +30,9 @@ function MakeChallenge() {
   const handleAddChallenge = () => {
     const newChallenge = {
       id: Challenge.length + 1,
-      type: 'time', //버튼 추가해야함
       category,
       icon: category === 'Exercise' ? ExerciseIcon : category === 'Study' ? StudyIcon : MindIcon,
       content,
-      requirement: '1시간', //버튼 추가해야함
       difficulty,
       points,
     };
@@ -49,7 +47,6 @@ function MakeChallenge() {
   return (
     <div style={{ padding: '0px 180px', background: 'linear-gradient(rgba(198,234,130,0.3) 50%, white 50%)', height: '150vh' }}>
       <Flex direction="column" align="center" justify="center" p="8">
-        <Navbar />
         <Flex direction="row" align="center" mx="8" mt="4" width="100%">
           <Flex direction="column" align="center" flex="1" mx="8">
             <Text fontSize="2xl" fontWeight="bold" mb="4">

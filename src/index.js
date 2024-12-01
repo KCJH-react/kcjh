@@ -10,8 +10,8 @@ import store from './redux/store';
 
 // localStorage.removeItem("rankData");
 // localStorage.removeItem("friends");
-
 // LocalStorage 초기 데이터 설정
+
 if (!localStorage.getItem("totalUserData")) {
   const initialData = [
     {

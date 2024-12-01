@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useEffect, useRef } from 'react';
 import { Box, VStack, HStack, Flex, Text, Image, Button } from '@chakra-ui/react';
 import RewindIcon from './asset/icon-rewind.png';
 import StarIcon from './asset/icon-star.png';
@@ -19,7 +19,50 @@ function SelfChallenge() {
   const challengeIndex = useCurrentChallenge();
   const setChallenge = useSetCurrentChallenge(dispatch);
 
-  const progress = 40;
+  const fileInputRef = useRef(null);
+
+  const handleFileUploadClick = () => {
+    alert("챌린지 내역을 업로드해주세요");
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    const authToken = localStorage.getItem('authToken');
+    if (!authToken) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    if (file) {
+      alert(`파일 업로드 성공: ${file.name}`);
+
+      const username = authToken.split('-authToken-')[0];
+      const userData = JSON.parse(localStorage.getItem('totalUserData'));
+      const userIndex = userData.findIndex(user => user.name === username);
+
+      if (userIndex === -1) {
+        alert("사용자 데이터를 찾을 수 없습니다.");
+        return;
+      }
+
+      const currentUser = userData[userIndex];
+      if (!currentUser.challengeSuccessList.includes(challenge.id)) {
+        currentUser.challengeSuccessList.push(challenge.id);
+        alert(`챌린지 성공 목록에 추가되었습니다: ${challenge.id}`);
+      } else {
+        alert("이 챌린지는 이미 성공 목록에 추가되었습니다.");
+      }
+
+      userData[userIndex] = currentUser;
+      localStorage.setItem('totalUserData', JSON.stringify(userData));
+
+    } else
+    alert("파일 업로드 실패");
+
+  };
+
   const location = useLocation();
   
   const challenge = getChallengeById(challengeIndex)  || {
@@ -89,27 +132,13 @@ function SelfChallenge() {
                 <Image src={RewindIcon} alt="Icon_Rewid" boxSize="30px" />
               </Box>
               {/*완료버튼*/}
-              <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="150px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" ml="5" mt="3" p={4}>
+              <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="150px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" ml="5" mt="3" p={4} onClick={handleFileUploadClick}>
                 <Text fontSize="xl">DONE</Text>
               </Box>
+              <input type="file" ref={fileInputRef} style={{ display: "none" }} onChange={handleFileChange}/>
           </Box>
 
           {/*하단부 Display*/}
-          <Box alignItems="center" justifyContent="center" textAlign="center">
-            <HStack spacing={5}>
-              <Text fontSize="lg">Today's Challenge</Text>
-              <Box w="200px" h="20px" bg="gray.200" borderRadius="md" overflow="hidden">
-                <Box
-                  w={`${progress}%`}
-                  h="100%"
-                  bg="teal.400"
-                  borderRadius="md"
-                  transition="width 0.3s ease-in-out"
-                />
-                </Box>
-              <Text fontSize="lg">{progress}%</Text>
-            </HStack>
-          </Box>
           <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="400px" flexDirection="row" alignItems="center" justifyContent="center" borderRadius="40px" ml="5" mt="3" p={4} onClick={handleCreateChallenge}>
                 <Text fontSize="xl">챌린지 만들러 가기</Text>
               </Box>
