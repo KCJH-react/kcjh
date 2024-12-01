@@ -8,9 +8,11 @@ import Navbar from "./components/main/Navbar";
 import MainContent from "./components/main/MainContent";
 import RankSystem from "./components/rank/RankSystem";
 import FriendRanking from "./components/rank/FriendRanking";
+import FriendChallengeSuccess from "./components/rank/FriendChallengeSucess";
 import SelfChallenge from "./components/challengepage/SelfChallenge";
 import Information from "./components/user/Information";
 import CM_DetailPage from "./CM_DetailPage";
+import Introduce from "./Introduce";
 import MakeChallenge from "./components/challengepage/MakeChallenge";
 import Footer from "./components/main/Footer";
 import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
@@ -49,8 +51,10 @@ function App() {
           <Route path="/CM_DetailPage" element={<PrivateRoute element={<CM_DetailPage />} />} />
           <Route path="/MakeChallenge" element={<PrivateRoute element={<MakeChallenge />} />} />
           <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
+          <Route path="/introduce" element={<PrivateRoute element={<Introduce />} />} />
           <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
           <Route path="/rank" element={<PrivateRoute element={<RankSystem />} />} />
+          <Route path="/sucess" element={<PrivateRoute element={<FriendChallengeSuccess />} />} />
           {/* Public Routes */}
           <Route path="/login" element={<Login />} /> {/* 로그인 페이지 추가 */}
           <Route path="/signup" element={<SignUp />} /> {/* 회원가입 페이지 추가 */}
