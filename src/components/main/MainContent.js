@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Flex, Button, Select, Heading, Stack, Text } from '@chakra-ui/react';
-import Challenge from '../challengepage/Challenge';
+import { Box, Flex, Button, Select, Heading, Stack, Text, HStack } from '@chakra-ui/react';
+import { useSelector } from 'react-redux';
+import challenge from '../../components/challengepage/Challenge';
 
 const Feature = ({ title, text, icon }) => {
   return (
@@ -29,28 +30,31 @@ export default function MainContent() {
   const [rankData, setRankData] = useState([]);
   const [myRank, setMyRank] = useState(null);
   const navigate = useNavigate();
-
+  const members = useSelector((state) => state.members.members);
+  const myUsername = 'CurrentUser';
+  
   useEffect(() => {
-    // LocalStorage에서 랭킹 데이터 불러오기
+    // 사용자 데이터 정렬 (점수 내림차순)
     const storedData = JSON.parse(localStorage.getItem('rankData')) || [];
-    const sortedData = storedData.sort((a, b) => b.score - a.score);
+    const sortedData = [...members, ...storedData].sort((a, b) => b.challengeSuccess - a.challengeSuccess || b.score - a.score);
     setRankData(sortedData.slice(0, 4));
-    const currentUser = sortedData.find(user => user.username === "CurrentUser");
+    const currentUser = sortedData.find(user => user.name === myUsername || user.username === myUsername);
     setMyRank(currentUser ? { ...currentUser, rank: sortedData.indexOf(currentUser) + 1 } : null);
-  }, []);
+  }, [members]);
 
   const handleGenerateChallenge = () => {
     const authToken = sessionStorage.getItem('authToken');
-    if (!authToken) { //로그인 확인
+    if (!authToken) { // 로그인 확인
       alert("로그인이 필요합니다.");
       return;
     }
-      const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
-      const userid = authToken;
-      const userData = JSON.parse(localStorage.getItem('totalUserData'));
-      const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
+    const randomChallengeIndex = Math.floor(Math.random() * challenge.length);
+    const randomChallenge = challenge[randomChallengeIndex];
+    const userid = authToken;
+    const userData = JSON.parse(localStorage.getItem('totalUserData'));
+    const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
     if (userIndex === -1) {
-      alert(`사용자 데이터를 찾을 수 없습니다. 현재 토큰, ${authToken}` );
+      alert(`사용자 데이터를 찾을 수 없습니다. 현재 토큰, ${authToken}`);
       return;
     }
     const currentUser = userData[userIndex];
@@ -58,7 +62,7 @@ export default function MainContent() {
 
     userData[userIndex] = currentUser;
     localStorage.setItem('totalUserData', JSON.stringify(userData));
-    navigate('/SelfChallenge');
+    navigate('/SelfChallenge', { state: randomChallenge });
   };
 
   const handleRewardClick = () => {
@@ -145,8 +149,8 @@ export default function MainContent() {
           {rankData.map((user, index) => (
             <Box key={index}>
               <Flex align="center" justify="space-between">
-                <Text>{index + 1}. {user.username}</Text>
-                <Text>{user.score} pts</Text>
+                <Text>{index + 1}. {user.name || user.username}</Text>
+                <Text>{user.challengeSuccess || user.score} pts</Text>
               </Flex>
               <Box h="1px" bg="black" my={2} />
             </Box>
@@ -165,7 +169,7 @@ export default function MainContent() {
           <Flex align="center" justify="space-between" mt={4}>
             <Heading size="xs">MY RANK</Heading>
             {myRank ? (
-              <Text>{myRank.rank}. {myRank.username} ({myRank.score} pts)</Text>
+              <Text>{myRank.rank}. {myRank.name || myRank.username} ({myRank.challengeSuccess || myRank.score} pts)</Text>
             ) : (
               <Text>Not Ranked</Text>
             )}
