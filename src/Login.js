@@ -29,7 +29,7 @@ function Login() {
     // 유저 데이터 로드 (totalUserData 사용)
     const totalUserData = JSON.parse(localStorage.getItem('totalUserData')) || [];
 
-    // 입력된 값이 username 또는 email인지 확인 후 사용자 검색
+    // 입력된 값이 name 또는 email인지 확인 후 사용자 검색
     const user = totalUserData.find(
       (user) =>
         (String(user.id) === usernameOrEmail || user.email === usernameOrEmail) // id를 문자열로 비교
@@ -39,10 +39,10 @@ function Login() {
       // 비밀번호 비교
       if (user.password === password) {
         // 로그인 성공
-        setUserId(user.username); // 로컬스토리지에 userId 저장
+        setUserId(user.name); // 로컬스토리지에 userId 저장
 
         // authToken에 userId를 저장하고, 세션스토리지에 저장
-        sessionStorage.setItem('authToken', user.username);
+        sessionStorage.setItem('authToken', user.name);
 
         alert('로그인 성공!');
         navigate('/');

@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import Login from "./Login"; // Login 컴포넌트 추가
 import SignUp from "./SignUp"; // SignUp 컴포넌트 추가
 
+
 const theme = extendTheme({});
 
 function App() {

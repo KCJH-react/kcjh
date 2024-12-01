@@ -7,19 +7,20 @@ import ShareIcon from './asset/icon-share.png';
 import StudyIcon from './asset/icon-study.png';
 import Challenge from './Challenge'
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useCurrentChallenge, useSetCurrentChallenge } from './redux/userData';
 import getChallengeById from './getChallenge';
 
 
 
 function SelfChallenge() {
 
-  const dispatch = useDispatch(); 
-  const challengeIndex = useCurrentChallenge();
-  const setChallenge = useSetCurrentChallenge(dispatch);
-
   const fileInputRef = useRef(null);
+
+  const authToken = sessionStorage.getItem('authToken');
+  const username = authToken;
+  const userData = JSON.parse(localStorage.getItem('totalUserData'));
+  const userIndex = userData.findIndex(user => user.name === username); //username일치하는 데이터 찾기
+  const currentUser = userData[userIndex];
+  const challengeIndex = currentUser.currentChallenge; //현재 챌린지 Id
 
   const handleFileUploadClick = () => {
     alert("챌린지 내역을 업로드해주세요");
@@ -29,7 +30,6 @@ function SelfChallenge() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
-    const authToken = localStorage.getItem('authToken');
     if (!authToken) {
       alert("로그인이 필요합니다.");
       return;
@@ -38,16 +38,11 @@ function SelfChallenge() {
     if (file) {
       alert(`파일 업로드 성공: ${file.name}`);
 
-      const username = authToken.split('-authToken-')[0];
-      const userData = JSON.parse(localStorage.getItem('totalUserData'));
-      const userIndex = userData.findIndex(user => user.name === username);
-
       if (userIndex === -1) {
         alert("사용자 데이터를 찾을 수 없습니다.");
         return;
       }
 
-      const currentUser = userData[userIndex];
       if (!currentUser.challengeSuccessList.includes(challenge.id)) {
         currentUser.challengeSuccessList.push(challenge.id);
         alert(`챌린지 성공 목록에 추가되었습니다: ${challenge.id}`);
@@ -64,11 +59,12 @@ function SelfChallenge() {
   };
 
   const handleCheckToken = () => {
-    const authToken = localStorage.getItem('authToken');
+    const authToken = sessionStorage.getItem('authToken');
     alert(`로그인정보: ${authToken}`);
   };
 
   const location = useLocation();
+
   
   const challenge = getChallengeById(challengeIndex)  || {
     content: "Default Challenge Content",
@@ -81,8 +77,25 @@ function SelfChallenge() {
   const navigate = useNavigate();
 
   const handleGenerateChallenge = () => {
-    const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
-    setChallenge(randomChallengeIndex);
+    const authToken = sessionStorage.getItem('authToken');
+    if (!authToken) { //로그인 확인
+      alert("로그인이 필요합니다.");
+      return;
+    }
+      const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
+      const username = authToken;
+      const userData = JSON.parse(localStorage.getItem('totalUserData'));
+      const userIndex = userData.findIndex(user => user.name === username); //username일치하는 데이터 찾기
+    if (userIndex === -1) {
+      alert("사용자 데이터를 찾을 수 없습니다.");
+      return;
+    }
+    const currentUser = userData[userIndex];
+    currentUser.currentChallenge = randomChallengeIndex;
+
+    userData[userIndex] = currentUser;
+    localStorage.setItem('totalUserData', JSON.stringify(userData));
+    navigate('/SelfChallenge');
   };
 
   const handleCreateChallenge = () => {

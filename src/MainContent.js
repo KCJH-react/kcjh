@@ -3,8 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Button, Select, Heading, Stack, Text } from '@chakra-ui/react';
-import { useDispatch } from 'react-redux';
-import { useCurrentChallenge, useSetCurrentChallenge } from './redux/userData';
 import Challenge from './Challenge';
 
 const Feature = ({ title, text, icon }) => {
@@ -32,10 +30,6 @@ export default function MainContent() {
   const [myRank, setMyRank] = useState(null);
   const navigate = useNavigate();
 
-  const dispatch = useDispatch(); 
-  const challengeIndex = useCurrentChallenge();
-  const setChallenge = useSetCurrentChallenge(dispatch);
-
   useEffect(() => {
     // LocalStorage에서 랭킹 데이터 불러오기
     const storedData = JSON.parse(localStorage.getItem('rankData')) || [];
@@ -46,20 +40,25 @@ export default function MainContent() {
   }, []);
 
   const handleGenerateChallenge = () => {
-    const authToken = localStorage.getItem('authToken');
-    if (!authToken) {
-      const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
-      setChallenge(randomChallengeIndex);
-      navigate('/SelfChallenge');
+    const authToken = sessionStorage.getItem('authToken');
+    if (!authToken) { //로그인 확인
+      alert("로그인이 필요합니다.");
+      return;
     }
-    const username = authToken.split('-authToken-')[0];
-    const userData = JSON.parse(localStorage.getItem('totalUserData'));
-    const userIndex = userData.findIndex(user => user.name === username);
-
+      const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
+      const username = authToken;
+      const userData = JSON.parse(localStorage.getItem('totalUserData'));
+      const userIndex = userData.findIndex(user => user.name === username); //username일치하는 데이터 찾기
     if (userIndex === -1) {
       alert("사용자 데이터를 찾을 수 없습니다.");
       return;
     }
+    const currentUser = userData[userIndex];
+    currentUser.currentChallenge = randomChallengeIndex;
+
+    userData[userIndex] = currentUser;
+    localStorage.setItem('totalUserData', JSON.stringify(userData));
+    navigate('/SelfChallenge');
   };
 
   const handleRewardClick = () => {
