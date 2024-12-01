@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Flex, Button, Select, Heading, Stack, Text } from '@chakra-ui/react';
-import Challenge from './challengepage/Challenge';
+import Challenge from '../challengepage/Challenge';
 
 const Feature = ({ title, text, icon }) => {
   return (

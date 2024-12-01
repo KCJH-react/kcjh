@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, VStack, HStack, Flex, Text, Button, Input } from '@chakra-ui/react';
-import Navbar from './Navbar';
 
 
 function CM_DetailPage() {

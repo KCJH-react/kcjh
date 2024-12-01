@@ -14,7 +14,6 @@ import {
   Button, 
   useDisclosure
 } from '@chakra-ui/react';
-import Navbar from './Navbar';
 import { 
   Tabs, 
   TabList, 

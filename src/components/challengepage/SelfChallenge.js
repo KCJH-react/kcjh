@@ -1,10 +1,10 @@
 import { React, useState, useEffect, useRef } from 'react';
 import { Box, VStack, HStack, Flex, Text, Image, Button } from '@chakra-ui/react';
-import RewindIcon from '../asset/icon-rewind.png';
-import StarIcon from '../asset/icon-star.png';
-import ExerciseIcon from '../asset/icon-exercise.png';
-import ShareIcon from '../asset/icon-share.png';
-import StudyIcon from '../asset/icon-study.png';
+import RewindIcon from '../../asset/icon-rewind.png';
+import StarIcon from '../../asset/icon-star.png';
+import ExerciseIcon from '../../asset/icon-exercise.png';
+import ShareIcon from '../../asset/icon-share.png';
+import StudyIcon from '../../asset/icon-study.png';
 import Challenge from './Challenge'
 import { useLocation, useNavigate } from 'react-router-dom';
 import getChallengeById from './getChallenge';

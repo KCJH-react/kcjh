@@ -4,19 +4,19 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import PointExchange from "./components/pointExchange/PointExchange";
 import PointExchangeDetail from "./components/pointExchange/PointExchangeDetail";
 import Commain from "./components/cm/commain";
-import Navbar from "./Navbar";
-import MainContent from "./MainContent";
-import RankSystem from "./RankSystem";
-import FriendRanking from "./FriendRanking";
-import SelfChallenge from "./challengepage/SelfChallenge";
-import Information from "./Information";
+import Navbar from "./components/main/Navbar";
+import MainContent from "./components/main/MainContent";
+import RankSystem from "./components/rank/RankSystem";
+import FriendRanking from "./components/rank/FriendRanking";
+import SelfChallenge from "./components/challengepage/SelfChallenge";
+import Information from "./components/user/Information";
 import CM_DetailPage from "./CM_DetailPage";
-import MakeChallenge from "./challengepage/MakeChallenge";
-import Footer from "./Footer";
+import MakeChallenge from "./components/challengepage/MakeChallenge";
+import Footer from "./components/main/Footer";
 import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
-import Login from "./Login"; // Login 컴포넌트 추가
-import SignUp from "./SignUp"; // SignUp 컴포넌트 추가
+import Login from "./components/user/Login"; // Login 컴포넌트 추가
+import SignUp from "./components/user/SignUp"; // SignUp 컴포넌트 추가
 
 
 const theme = extendTheme({});

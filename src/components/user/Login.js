@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Box, Flex, Image, Input, Button, Heading, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-import userIcon from './asset/user-icon.png';
-import lockIcon from './asset/lock-icon.png';
+import userIcon from '../../asset/user-icon.png';
+import lockIcon from '../../asset/lock-icon.png';
 
 // useSetUserId 훅 정의 (로컬스토리지에 userData 저장)
 function useSetUserId() {
