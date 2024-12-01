@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Flex, Text, Image, Button, VStack, HStack, Stack, Center } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import userIcon from './asset/user-icon.png';
+import userIcon from '../../asset/user-icon.png';
 
 function RankSystem() {
   const [rankData, setRankData] = useState([]);

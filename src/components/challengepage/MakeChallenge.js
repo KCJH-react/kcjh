@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Box, VStack, Flex, Text, Image, Button, Select, Input } from '@chakra-ui/react';
-import ExerciseIcon from '../asset/icon-exercise.png';
-import StudyIcon from '../asset/icon-study.png';
-import MindIcon from '../asset/icon-mind.png';
+import ExerciseIcon from '../../asset/icon-exercise.png';
+import StudyIcon from '../../asset/icon-study.png';
+import MindIcon from '../../asset/icon-mind.png';
 import Challenge from './Challenge';
 import { useLocation, useNavigate } from 'react-router-dom';
 
