@@ -50,6 +50,8 @@ function SelfChallenge() {
         currentUser.challengeListNum += 1;
         alert(`챌린지 성공 목록에 추가되었습니다: ${challenge.id}`);
       } else {
+        currentUser.point += challenge.points;
+        currentUser.challengeListNum += 1;
         alert("이 챌린지는 이미 성공 목록에 추가되었습니다.");
       }
       userData[userIndex] = currentUser;
