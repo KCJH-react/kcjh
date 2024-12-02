@@ -29,10 +29,9 @@ function MakeChallenge() {
   };
 
 
-
   const handleAddChallenge = () => {
     const newChallenge = {
-      id: currentUser.personalChallengeList.length + 1,
+      id: Challenge.length,
       category,
       icon: category === 'Exercise' ? ExerciseIcon : category === 'Study' ? StudyIcon : MindIcon,
       content,
@@ -46,6 +45,7 @@ function MakeChallenge() {
     currentUser.personalChallengeList.push(newChallenge);
     userData[userIndex] = currentUser;
     localStorage.setItem('totalUserData', JSON.stringify(userData));
+    Challenge.push(newChallenge);
     alert('새로운 챌린지가 추가되었습니다!');
 
     const randomChallenge = Challenge[Math.floor(Math.random() * Challenge.length)];
