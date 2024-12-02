@@ -67,7 +67,7 @@ function App() {
 }
 
 const PrivateRoute = ({ element }) => {
-  const isAuthenticated = useSelector((state) => state.user.name);
+  const isAuthenticated = sessionStorage.getItem("authToken");
 
   // 인증되지 않으면 로그인 페이지로 리디렉션
   if (!isAuthenticated) {
