@@ -77,6 +77,7 @@ function SelfChallenge() {
       return;
     }
       const randomChallengeIndex = Math.floor(Math.random() * Challenge.length);
+      const randomChallenge = challenge[randomChallengeIndex];
       const userData = JSON.parse(localStorage.getItem('totalUserData'));
       const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
     if (userIndex === -1) {
@@ -84,7 +85,8 @@ function SelfChallenge() {
       return;
     }
     const currentUser = userData[userIndex];
-    currentUser.currentChallenge = randomChallengeIndex;
+    currentUser.currentChallengeNum = randomChallengeIndex;
+    currentUser.currentChallenge = [randomChallenge];
 
     userData[userIndex] = currentUser;
     localStorage.setItem('totalUserData', JSON.stringify(userData));
