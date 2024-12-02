@@ -19,10 +19,8 @@ import {
   PopoverArrow,
   PopoverCloseButton,
 } from "@chakra-ui/react";
-import { useTotalMember } from "../../redux/memberData";
 import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
-import store from "../../redux/store";
 import styled from "styled-components";
 
 const StyledInput = styled.input`
