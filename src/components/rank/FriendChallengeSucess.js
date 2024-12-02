@@ -57,11 +57,11 @@ const FriendChallengeSuccess = () => {
                 {friendChallenges.length > 0 ? (
                   friendChallenges.map((challenge, index) => (
                     <Stack key={index} p={4} bg="#E2E8F0" borderRadius="md">
-                      <Text fontSize="lg" fontWeight="semibold">
+                      {/*<Text fontSize="lg" fontWeight="semibold">
                         챌린지 이름: {challenge.name}
                       </Text>
                       <Text>성공 날짜: {challenge.date}</Text>
-                      <Text>설명: {challenge.description}</Text>
+                      <Text>설명: {challenge.description}</Text>*/}
                     </Stack>
                   ))
                 ) : (
