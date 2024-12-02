@@ -129,28 +129,6 @@ export default function MainContent() {
           <Button colorScheme="teal" size="lg" alignSelf="center" onClick={handleGenerateChallenge}>
             GENERATE CHALLENGE
           </Button>
-          <Flex gap={2} mt={2} wrap="nowrap" justify="center">
-            <Select placeholder="종류" w="150px">
-              <option>STUDY</option>
-              <option>HEALTH</option>
-              <option>CULTURE</option>
-              <option>DEVELOP</option>
-              <option>MONEY</option>
-              <option>VOLUNTEER</option>
-              <option>CHALLENGE</option>
-              <option>UNIVERSITY</option>
-            </Select>
-            <Select placeholder="난이도" w="150px">
-              <option>Easy</option>
-              <option>Medium</option>
-              <option>Hard</option>
-            </Select>
-            <Select placeholder="기간" w="150px">
-              <option>1일</option>
-              <option>1주</option>
-              <option>1달</option>
-            </Select>
-          </Flex>
         </Stack>
 
         {/* 랭킹 섹션 */}
