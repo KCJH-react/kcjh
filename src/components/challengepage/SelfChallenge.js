@@ -108,7 +108,7 @@ function SelfChallenge() {
   return <div 
     style={{
       padding: "0px 180px",
-      background: "linear-gradient(rgba(198,234,130,0.3) 50%, white 50%)",
+      background: "linear-gradient(rgba(198, 234, 130, 0.7) 50%, white 50%)",
       height: "150vh"
     }}>
     <Flex direction="column" align="center" justify="center" p="8">
@@ -120,9 +120,6 @@ function SelfChallenge() {
 
         {/*챌린지 화면 외각 사각형*/}
         <Box id="B_display" bg="white" p={10} width="800px" height="600px" display="flex" justifyContent="center" borderRadius="lg" boxShadow="md" position="relative">
-          <Box role="button" cursor="pointer" bg='gray.100' display="flex" width="50px" height="50px" position="absolute" top="10px" right="10px" borderRadius="50%" p={2} onClick={handleShare}>
-            <Image src={ShareIcon} alt="Icon_share" boxSize="30px" />
-          </Box>
           <VStack> {/*챌린지 전체 세로 배치용*/}
 
           {/*상단부 Display*/}
