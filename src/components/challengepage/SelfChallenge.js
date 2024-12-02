@@ -48,18 +48,22 @@ function SelfChallenge() {
         currentUser.challengeSuccessList.push(challenge.id);
         currentUser.point += challenge.points;
         currentUser.challengeListNum += 1;
-        alert(`챌린지 성공 목록에 추가되었습니다: ${challenge.id}`);
+        alert(`
+          - 새로운 챌린지를 성공하셨습니다.
+          - 현재 포인트, ${currentUser.point}`);
       } else {
         currentUser.point += challenge.points;
         currentUser.challengeListNum += 1;
-        alert("이 챌린지는 이미 성공 목록에 추가되었습니다.");
+        alert(`
+          - 챌린지를 성공하셨습니다.
+          - 현재 포인트, ${currentUser.point}`);
       }
       userData[userIndex] = currentUser;
       localStorage.setItem('totalUserData', JSON.stringify(userData));
-      alert(`현재 포인트, ${currentUser.point}` );
+      navigate('/');
     } else
     alert("파일 업로드 실패");
-
+    
   };
 
   const challenge = getChallengeById(challengeIndex)  || {
@@ -140,7 +144,7 @@ function SelfChallenge() {
                 <Image key={index} src={StarIcon} alt="Icon_Star" boxSize="30px" ml={index === 0 ? 0 : 2} />
                 ))}
               </Box>
-              {/*리셋버튼, 횟수를 정해두는게 좋을듯*/}
+              {/*리셋버튼*/}
               <Box role="button" cursor="pointer" bg='gray.100' display="flex" alignItems="center" justifyContent="center" borderRadius="50%" width="50px" height="50px" ml="5" mt="3" p={2} onClick={handleGenerateChallenge}>
                 <Image src={RewindIcon} alt="Icon_Rewid" boxSize="30px" />
               </Box>
