@@ -39,6 +39,10 @@ export const useEmail = () => {
   const { email } = useSelector((state) => state.user);
   return email;
 };
+export const useExchange = () => {
+  const { exchange } = useSelector((state) => state.user);
+  return exchange;
+};
 //사용자 정보 get함수.
 
 export const useChallengeListNum = () => {

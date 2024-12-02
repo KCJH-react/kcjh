@@ -16,6 +16,7 @@ import {
   useChallengeListNum,
   useSetUserEmail,
   useFriendList,
+  useExchange,
 } from "../../redux/userData";
 import { useDispatch } from "react-redux";
 import FriendAdder from "./addFriend";
@@ -53,7 +54,13 @@ function Information() {
               <Box bordercolor="gray" bg="white" paddingBottom="10px">
                 <ChallengeTab />
               </Box>
-              <Box bordercolor="gray" bg="white" paddingBottom="10px">
+              <Box
+                bordercolor="gray"
+                bg="white"
+                paddingBottom="10px"
+                borderRadius="3px"
+                shadow="0px 3px 10px 3px rgba(0, 0, 255, .2)"
+              >
                 <FriendTab />
               </Box>
             </TabPanel>
@@ -75,7 +82,6 @@ const MYTab = () => {
   const [pwValue, setPwValue] = useState("");
   //이메일, 이름, 비밀번호 값 임시 저장. 이후 handleEmailButton등의 메소드로 검사과정을 거치고 실제로 변경됨.
 
-  const username = useName();
   const userId = useId();
   const dispatch = useDispatch();
   const setEmail = useSetUserEmail(dispatch);
@@ -214,6 +220,7 @@ const MYTab = () => {
 };
 
 const ChallengeTab = () => {
+  const exchange = useExchange();
   const success = useChallengeSuccessList().length;
   const total = Math.round(Number(useChallengeListNum()) / Number(success));
 
@@ -236,6 +243,37 @@ const ChallengeTab = () => {
             <Td>{success === 0 ? 0 : total}%</Td>
           </Tr>
         </Tbody>
+        <Thead bg="rgba(0,0,0,0.2)">
+          <Tr>
+            <Th>item 교환번호</Th>
+            <Th></Th>
+            <Th></Th>
+            <Th></Th>
+          </Tr>
+        </Thead>
+        {exchange.length !== 0 ? (
+          exchange.map((e, i) => {
+            return (
+              <Tbody>
+                <Tr>
+                  <Td>{e}</Td>
+                  <Td></Td>
+                  <Td></Td>
+                  <Td></Td>
+                </Tr>
+              </Tbody>
+            );
+          })
+        ) : (
+          <Tbody>
+            <Tr>
+              <Td>교환환 아이템 정보가 없습니다.</Td>
+              <Td></Td>
+              <Td></Td>
+              <Td></Td>
+            </Tr>
+          </Tbody>
+        )}
         <Tfoot></Tfoot>
       </Table>
     </TableContainer>

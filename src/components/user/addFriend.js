@@ -279,7 +279,7 @@ const ResponseFriendTab = React.memo(() => {
     localStorage.setItem("totalUserData", JSON.stringify(newData2)); // localStorage에 저장
   };
   return (
-    <TableContainer>
+    <TableContainer borderRadius="3px" shadow="0px 3px 10px 3px rgba(0, 0, 255, .2)">
       <Table size="sm">
         <Thead bg="rgba(0,0,0,0.2)">
           <Tr>
