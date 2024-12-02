@@ -14,6 +14,11 @@ function MakeChallenge() {
   const [difficulty, setDifficulty] = useState('Easy');
   const [points, setPoints] = useState(10);
 
+  const authToken = sessionStorage.getItem('authToken');
+  const userData = JSON.parse(localStorage.getItem('totalUserData'));
+  const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
+  const currentUser = userData[userIndex];
+
   const navigate = useNavigate();
 
   const handleDifficultyChange = (value) => {
@@ -27,15 +32,20 @@ function MakeChallenge() {
 
   const handleAddChallenge = () => {
     const newChallenge = {
-      id: Challenge.length + 1,
+      id: currentUser.personalChallengeList.length + 1,
       category,
       icon: category === 'Exercise' ? ExerciseIcon : category === 'Study' ? StudyIcon : MindIcon,
       content,
       difficulty,
       points,
     };
-
-    Challenge.push(newChallenge); // Challenge.js에 새 데이터 추가 (일시적 추가, 추후에 로그인등등 보고 Local Storage 저장으로 바꿔야함)
+    if (!newChallenge.content.trim()) {
+      alert("챌린지 내용을 채워주세요.");
+      return;
+    }
+    currentUser.personalChallengeList.push(newChallenge);
+    userData[userIndex] = currentUser;
+    localStorage.setItem('totalUserData', JSON.stringify(userData));
     alert('새로운 챌린지가 추가되었습니다!');
 
     const randomChallenge = Challenge[Math.floor(Math.random() * Challenge.length)];
