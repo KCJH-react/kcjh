@@ -150,9 +150,7 @@ export default function MainContent() {
         <Heading size="lg" color="teal.500">
           Today's Challenge Awaits!
         </Heading>
-        <Text mt="1px" fontSize="sm" color="gray.700">
-        지금 바로 도전 과제를 생성하고, 자신을 성장시켜 보세요!
-        </Text>
+        <Text mt="1px" fontSize="sm" color="gray.700">지금 바로 도전 과제를 생성하고, 자신을 성장시켜 보세요!</Text>
         </Box>
           <Button colorScheme="teal" size="lg" alignSelf="center" onClick={handleGenerateChallenge}>
             GENERATE CHALLENGE
