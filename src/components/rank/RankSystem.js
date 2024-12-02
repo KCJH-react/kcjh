@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Box, Flex, Text, Image, Button, VStack, HStack, Center } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
-import userIcon from "../../asset/user-icon.png";
+import { Box, Flex, Text, Image, VStack, HStack, Center, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import userIcon from "../../asset/user-icon.png";
 
 function RankSystem() {
   const navigate = useNavigate();
-  //const members = useSelector((state) => state.members.members);
   const [rankData, setRankData] = useState([]);
   const [myRank, setMyRank] = useState(null);
-  const myUsername = "CurrentUser";
 
-  // useEffect(() => {
-  //   // 사용자 데이터 정렬 (점수 내림차순)
-  //   const sortedData = [...members].sort((a, b) => b.challengeSuccess - a.challengeSuccess);
-  //   setRankData(sortedData);
+  useEffect(() => {
+    const authToken = sessionStorage.getItem("authToken"); // 현재 로그인된 사용자 ID
+    if (!authToken) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
 
-  //   // 현재 사용자 랭킹 계산
-  //   const myRankIndex = sortedData.findIndex((user) => user.name === myUsername);
-  //   if (myRankIndex !== -1) {
-  //     setMyRank({ rank: myRankIndex + 1, score: sortedData[myRankIndex].challengeSuccess });
-  //   } else {
-  //     setMyRank({ rank: '-', score: '-' });
-  //   }
-  // }, [members]);
+    // 로컬스토리지에서 사용자 데이터 가져오기
+    const storedData = JSON.parse(localStorage.getItem("totalUserData")) || [];
+
+    // 점수 기준으로 정렬
+    const sortedData = storedData.sort((a, b) => b.challengeListNum - a.challengeListNum);
+    setRankData(sortedData);
+
+    // 현재 사용자 랭킹 계산
+    const myRankIndex = sortedData.findIndex((user) => String(user.id) === authToken);
+    const currentUser = sortedData[myRankIndex];
+    if (myRankIndex !== -1) {
+      setMyRank({
+        rank: myRankIndex + 1,
+        score: currentUser.challengeListNum,
+      });
+    } else {
+      setMyRank({ rank: "-", score: "-" });
+    }
+  }, []);
 
   return (
     <Box w="100%" minH="100vh" bg="#D6F0A8" overflowX="hidden" p="0" m="0">
@@ -44,22 +54,23 @@ function RankSystem() {
       <Center mb="8">
         <Flex align="flex-end" justify="center" gap="0">
           {rankData.slice(0, 3).map((user, index) => (
-            <VStack key={index} position="relative">
-              <Image src={userIcon} boxSize="40px" mb="-5px" />
-              <Box
-                bg="#389E6B"
-                w="100px"
-                h={`${170 - index * 50}px`}
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Text fontSize="xl" color="white">
-                  {index + 1}
-                </Text>
-              </Box>
-            </VStack>
-          ))}
+          <VStack key={index} position="relative" spacing={2}>
+          <Image src={userIcon} boxSize="40px" mb="-5px" /> 
+          <Text fontSize="lg" fontWeight="bold">{user.name}</Text> {/* 이름 추가 */}
+        <Box
+          bg="#389E6B"
+          w="100px"
+          h={`${170 - index * 50}px`}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+           >
+              <Text fontSize="xl" color="white">
+                {index + 1}
+              </Text>
+            </Box>
+          </VStack>
+         ))}
         </Flex>
       </Center>
 
@@ -78,16 +89,6 @@ function RankSystem() {
             onClick={() => navigate("/friend-ranking")}
           >
             친구 랭킹
-          </Button>
-          <Button
-            bg="green.600"
-            color="white"
-            fontWeight="bold"
-            size="sm"
-            _hover={{ bg: "green.700" }}
-            ml="2"
-          >
-            전체 랭킹
           </Button>
         </HStack>
 
@@ -113,7 +114,8 @@ function RankSystem() {
                 <Text>{user.name}</Text>
               </HStack>
               <HStack spacing="2">
-                <Text fontSize="lg">♦️ {user.challengeSuccess}</Text>
+                {/* 사용자 점수 출력 */}
+                <Text fontSize="lg">♦️ {user.challengeListNum}</Text>
               </HStack>
             </HStack>
           ))}

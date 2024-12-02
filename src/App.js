@@ -39,7 +39,7 @@ function App() {
           <Route path="/introduce" element={<PrivateRoute element={<Introduce />} />} />
           <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
           <Route path="/rank" element={<PrivateRoute element={<RankSystem />} />} />
-          <Route path="/sucess" element={<PrivateRoute element={<FriendChallengeSuccess />} />} />
+          <Route path="/success" element={<PrivateRoute element={<FriendChallengeSuccess />} />} />
           {/* Public Routes */}
           <Route path="/login" element={<Login />} /> {/* 로그인 페이지 추가 */}
           <Route path="/signup" element={<SignUp />} /> {/* 회원가입 페이지 추가 */}

@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Button, Select, Heading, Stack, Text, HStack } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { Box, Flex, Button, Select, Heading, Stack, Text } from "@chakra-ui/react";
 import challenge from "../../components/challengepage/Challenge";
 
 const Feature = ({ title, text, icon }) => {
@@ -31,22 +30,41 @@ export default function MainContent() {
   const [rankData, setRankData] = useState([]);
   const [myRank, setMyRank] = useState(null);
   const navigate = useNavigate();
-  //const members = useSelector((state) => state.members.members);
-  const myUsername = "CurrentUser";
 
-  // useEffect(() => {
-  //   // 사용자 데이터 정렬 (점수 내림차순)
-  //   const storedData = JSON.parse(localStorage.getItem('rankData')) || [];
-  //   const sortedData = [...members, ...storedData].sort((a, b) => b.challengeSuccess - a.challengeSuccess || b.score - a.score);
-  //   setRankData(sortedData.slice(0, 4));
-  //   const currentUser = sortedData.find(user => user.name === myUsername || user.username === myUsername);
-  //   setMyRank(currentUser ? { ...currentUser, rank: sortedData.indexOf(currentUser) + 1 } : null);
-  // }, [members]);
+  useEffect(() => {
+    const authToken = sessionStorage.getItem("authToken"); // 현재 로그인된 사용자 ID
+    if (!authToken) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
+    // 로컬스토리지에서 사용자 데이터 가져오기
+    const storedData = JSON.parse(localStorage.getItem("totalUserData")) || [];
+
+    // 점수 계산 및 정렬
+    const sortedData = storedData.map((user) => ({
+      ...user,
+      score: user.id === Number(authToken) ? user.challengeListNum : user.challengeListNum,
+    })).sort((a, b) => b.score - a.score);
+
+    setRankData(sortedData.slice(0, 4)); // 상위 4명 설정
+
+    // 현재 사용자 랭킹 계산
+    const myRankIndex = sortedData.findIndex((user) => String(user.id) === authToken);
+    if (myRankIndex !== -1) {
+      setMyRank({
+        rank: myRankIndex + 1,
+        name: sortedData[myRankIndex].name,
+        score: sortedData[myRankIndex].score,
+      });
+    } else {
+      setMyRank(null);
+    }
+  }, []);
 
   const handleGenerateChallenge = () => {
     const authToken = sessionStorage.getItem("authToken");
     if (!authToken) {
-      // 로그인 확인
       alert("로그인이 필요합니다.");
       return;
     }
@@ -56,7 +74,7 @@ export default function MainContent() {
     const userData = JSON.parse(localStorage.getItem("totalUserData"));
     const userIndex = userData.findIndex((user) => String(user.id) === String(authToken));
     if (userIndex === -1) {
-      alert(`사용자 데이터를 찾을 수 없습니다. 현재 토큰, ${authToken}`);
+      alert(`사용자 데이터를 찾을 수 없습니다. 현재 토큰: ${authToken}`);
       return;
     }
     const currentUser = userData[userIndex];
@@ -156,140 +174,27 @@ export default function MainContent() {
             RANK
           </Heading>
           {rankData.map((user, index) => (
-            <Box key={index}>
+            <Box key={user.id}>
               <Flex align="center" justify="space-between">
                 <Text>
-                  {index + 1}. {user.name || user.username}
+                  {index + 1}. {user.name}
                 </Text>
-                <Text>{user.challengeSuccess || user.score} pts</Text>
+                <Text>{user.score} pts</Text>
               </Flex>
               <Box h="1px" bg="black" my={2} />
             </Box>
           ))}
-          {rankData.length < 4 &&
-            [...Array(4 - rankData.length)].map((_, index) => (
-              <Box key={index + rankData.length}>
-                <Flex align="center" justify="space-between">
-                  <Text>-</Text>
-                  <Text>-</Text>
-                </Flex>
-                <Box h="1px" bg="black" my={2} />
-              </Box>
-            ))}
           <Flex align="center" justify="space-between" mt={4}>
             <Heading size="xs">MY RANK</Heading>
             {myRank ? (
               <Text>
-                {myRank.rank}. {myRank.name || myRank.username} (
-                {myRank.challengeSuccess || myRank.score} pts)
+                {myRank.rank}. {myRank.name} ({myRank.score} pts)
               </Text>
             ) : (
               <Text>Not Ranked</Text>
             )}
           </Flex>
         </Stack>
-      </Flex>
-
-      {/* 카테고리 별로 볼 수 있는 버튼 */}
-      <Flex gap={4} wrap="nowrap" justify="center" mb={6}>
-        {[
-          "STUDY",
-          "HEALTH",
-          "CULTURE",
-          "DEVELOP",
-          "MONEY",
-          "VOLUNTEER",
-          "CHALLENGE",
-          "UNIVERSITY",
-        ].map((category) => (
-          <Button
-            key={category}
-            colorScheme="gray"
-            size="lg"
-            borderRadius="full"
-            bg="rgba(198,234,130,0.5)"
-            borderBottom="1px solid"
-            borderColor="gray"
-          >
-            {category}
-          </Button>
-        ))}
-      </Flex>
-
-      {/* 내가 도전한 챌린지 */}
-      <Flex mb={6} wrap="nowrap" justify="space-between" alignItems="flex-start">
-        <Box flex="1" minW="400px" maxW="400px" textAlign="left">
-          <Heading size="md" mb={4}>
-            MY CHALLENGES
-          </Heading>
-          <Flex gap={4} wrap="nowrap">
-            <Box
-              w="100px"
-              h="100px"
-              bg="rgba(198,234,130,0.5)"
-              borderRadius="md"
-              boxShadow="md"
-              borderBottom="1px solid"
-              borderColor="gray"
-            ></Box>
-            <Box
-              w="100px"
-              h="100px"
-              bg="rgba(198,234,130,0.5)"
-              borderRadius="md"
-              boxShadow="md"
-              borderBottom="1px solid"
-              borderColor="gray"
-            ></Box>
-            <Box
-              w="100px"
-              h="100px"
-              bg="rgba(198,234,130,0.5)"
-              borderRadius="md"
-              boxShadow="md"
-              borderBottom="1px solid"
-              borderColor="gray"
-            ></Box>
-          </Flex>
-        </Box>
-
-        {/* 커뮤니티 */}
-        <Box
-          textAlign="right"
-          border="1px"
-          borderColor="gray.300"
-          p={4}
-          borderRadius="md"
-          maxW="400px"
-          minW="300px"
-          bg="rgba(198,234,130,0.5)"
-          boxShadow="md"
-          borderBottom="1px solid"
-        >
-          <Heading size={"md"} mb={4}>
-            COMMUNITY
-          </Heading>
-          <Flex gap={4} mb={4} justify="flex-end" wrap="nowrap">
-            {["인기", "일반", "정보", "기타"].map((label) => (
-              <Button
-                key={label}
-                colorScheme="blackAlpha"
-                bg="black"
-                color="white"
-                variant="solid"
-                _hover={{ bg: "gray.700" }}
-              >
-                {label}
-              </Button>
-            ))}
-          </Flex>
-          <Box textAlign="left">
-            <Text fontWeight="bold">HOT</Text>
-            <Text mb={2}>하루동안 가장 많은 조회/좋아요를 받은 게시물</Text>
-            <Text fontWeight="bold">NEW</Text>
-            <Text>가장 최근에 올라온 게시물</Text>
-          </Box>
-        </Box>
       </Flex>
     </Box>
   );
