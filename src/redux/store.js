@@ -1,11 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
-import memberReducer from './memberSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./userSlice";
 
 const store = configureStore({
   reducer: {
     user: userReducer,
-    members: memberReducer
   },
 });
 export default store;
@@ -45,4 +43,3 @@ export default store;
 //     </div>
 //   );
 // };
-
