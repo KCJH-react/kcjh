@@ -1,50 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Box, VStack, HStack, Flex, Text, Image, Button, useDisclosure } from "@chakra-ui/react";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import { Table, Thead, Tbody, Tr, Th, Td, TableContainer } from "@chakra-ui/react";
 import {
   useId,
-  useEmail,
   useName,
-  usePoint,
-  useStartDate,
-  usePassword,
-  useSetUserName,
-  useSetUserPw,
-  useChallengeSuccessList,
-  usePersonalChallengeList,
   useChallengeListNum,
-  useSetUserEmail,
-  useSetChallengeListNum,
-  useFriendList,
   useAddRequestList,
   useRemoveRequestList,
   useRequestList,
-  useAddResponseList,
-  useRemoveResponseList,
   useResponseList,
   useAddFriendList,
 } from "../../redux/userData";
 import {
   Popover,
-  PopoverTrigger,
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
-  PopoverAnchor,
 } from "@chakra-ui/react";
 import { useTotalMember } from "../../redux/memberData";
 import { useDispatch } from "react-redux";
@@ -95,7 +68,6 @@ const FriendAdder = () => {
   const [openState, setOpenState] = useState(true);
   const dispatch = useDispatch();
   const addRequestList = useAddRequestList(dispatch);
-  const requestList = useRequestList();
 
   const userId = useId();
   const username = useName();
@@ -244,6 +216,7 @@ const AddFriendTab = React.memo(() => {
     });
     localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
   };
+
   return (
     <TableContainer>
       <Table size="sm">
@@ -283,6 +256,28 @@ const ResponseFriendTab = React.memo(() => {
   const responseList = useResponseList();
   const addFriendList = useAddFriendList(dispatch);
   const userId = useId();
+
+  const accept = (r) => {
+    addFriendList(r.name);
+    const savedUserData = localStorage.getItem("totalUserData");
+    const parsedUserData = JSON.parse(savedUserData);
+    const newData = parsedUserData.map((u) => {
+      if (u.id === Number(userId)) {
+        u.responseList = u.responseList.filter((request) => request.name !== r.name);
+      }
+      return u;
+    });
+    const newData2 = parsedUserData.map((u) => {
+      if (u.id === Number(userId)) {
+        u.friendList.push({
+          name: r.name,
+          challengeSuccess: r.challengeSuccess,
+        });
+      }
+      return u;
+    });
+    localStorage.setItem("totalUserData", JSON.stringify(newData2)); // localStorage에 저장
+  };
   return (
     <TableContainer>
       <Table size="sm">
@@ -300,27 +295,7 @@ const ResponseFriendTab = React.memo(() => {
                     {r.name}
                     <button
                       onClick={() => {
-                        addFriendList(r.name);
-                        const savedUserData = localStorage.getItem("totalUserData");
-                        const parsedUserData = JSON.parse(savedUserData);
-                        const newData = parsedUserData.map((u) => {
-                          if (u.id === Number(userId)) {
-                            u.responseList = u.responseList.filter(
-                              (request) => request.name !== r.name
-                            );
-                          }
-                          return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
-                        });
-                        const newData2 = parsedUserData.map((u) => {
-                          if (u.id === Number(userId)) {
-                            u.friendList.push({
-                              name: r.name,
-                              challengeSuccess: r.challengeSuccess,
-                            });
-                          }
-                          return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
-                        });
-                        localStorage.setItem("totalUserData", JSON.stringify(newData2)); // localStorage에 저장
+                        accept(r);
                       }}
                     >
                       친추 추가
