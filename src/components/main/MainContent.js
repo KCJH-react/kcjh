@@ -117,9 +117,6 @@ export default function MainContent() {
           <Text>STEP1. ...</Text>
           <Text>STEP2. ...</Text>
           <Text>STEP3. ...</Text>
-          <Button colorScheme="teal" alignSelf="flex-start" onClick={handleRewardClick}>
-            REWARD
-          </Button>
         </Stack>
 
         {/* 챌린지 생성 버튼 섹션 */}
