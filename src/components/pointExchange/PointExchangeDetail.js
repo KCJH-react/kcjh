@@ -41,7 +41,7 @@ function PointExchangeDetail() {
         <Box
           position="relative"
           top="-210px"
-          boxShadow="1px 1px 4px 0.5px"
+          shadow="0px 3px 10px 3px rgba(0, 0, 255, .2)"
           bg="rgba(256,256,256,0.8)"
         >
           <Box>
@@ -82,8 +82,7 @@ function PointExchangeDetail() {
           position="relative"
           top="-180px"
           bg="rgba(256,256,256,0.8)"
-          borderBottom="1px solid"
-          borderColor="gray"
+          shadow="0px 3px 10px 3px rgba(0, 0, 255, .2)"
         >
           <Box w={80} bg="" marginY="10px" paddingY="5px">
             <Center>

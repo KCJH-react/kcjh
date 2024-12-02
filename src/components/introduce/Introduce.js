@@ -119,9 +119,7 @@ function Introduce() {
               fontSize: "20px",
               color: "#666",
             }}
-          >
-            하루하루 의지를 키우고픈 당신에게
-          </p>
+          ></p>
         </header>
 
         <FeaturesSection>

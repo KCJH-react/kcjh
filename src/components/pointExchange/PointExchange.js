@@ -285,11 +285,16 @@ const PointExchange = () => {
         >
           <UserData />
         </Box>
-        <Box position="relative" top="-210px" boxShadow="1px 1px 4px 0.5px" bg="white">
+        <Box
+          position="relative"
+          top="-210px"
+          shadow="0px 3px 10px 3px rgba(0, 0, 255, .2)"
+          bg="white"
+        >
           <Box>
             <Box w={80} paddingY="10px">
               <Center>
-                <h4>카테고리별</h4>
+                <h4 style={{ fontSize: "21px", fontWeight: "bold" }}>카테고리별</h4>
               </Center>
             </Box>
             <Center display="flex" color="white">
@@ -307,12 +312,12 @@ const PointExchange = () => {
           position="relative"
           top="-180px"
           bg="white"
-          borderBottom="1px solid"
           borderColor="gray"
+          shadow="0px 3px 10px 3px rgba(0, 0, 255, .2)"
         >
           <Box w={80} marginY="10px" paddingY="5px">
             <Center>
-              <h4>전체 상품 목록</h4>
+              <h4 style={{ fontSize: "21px", fontWeight: "bold" }}>전체 상품 목록</h4>
             </Center>
           </Box>
           <Stack gap="4" margin="5px">

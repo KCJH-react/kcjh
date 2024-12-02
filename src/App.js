@@ -3,7 +3,6 @@ import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import PointExchange from "./components/pointExchange/PointExchange";
 import PointExchangeDetail from "./components/pointExchange/PointExchangeDetail";
-import Commain from "./components/cm/commain";
 import Navbar from "./components/main/Navbar";
 import MainContent from "./components/main/MainContent";
 import RankSystem from "./components/rank/RankSystem";
@@ -11,7 +10,6 @@ import FriendRanking from "./components/rank/FriendRanking";
 import FriendChallengeSuccess from "./components/rank/FriendChallengeSucess";
 import SelfChallenge from "./components/challengepage/SelfChallenge";
 import Information from "./components/user/Information";
-import CM_DetailPage from "./CM_DetailPage";
 import Introduce from "./components/introduce/Introduce";
 import MakeChallenge from "./components/challengepage/MakeChallenge";
 import Footer from "./components/main/Footer";
@@ -34,10 +32,8 @@ function App() {
             path="/pointExchangeDetail/:category"
             element={<PrivateRoute element={<PointExchangeDetail />} />}
           />
-          <Route path="/commain" element={<PrivateRoute element={<Commain />} />} />
           <Route path="/SelfChallenge" element={<PrivateRoute element={<SelfChallenge />} />} />
           <Route path="/Information" element={<PrivateRoute element={<Information />} />} />
-          <Route path="/CM_DetailPage" element={<PrivateRoute element={<CM_DetailPage />} />} />
           <Route path="/MakeChallenge" element={<PrivateRoute element={<MakeChallenge />} />} />
           <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
           <Route path="/introduce" element={<PrivateRoute element={<Introduce />} />} />
