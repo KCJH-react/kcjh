@@ -68,6 +68,9 @@ function FriendRanking() {
           <Button bg="green.600" color="white" fontWeight="bold" size="sm" _hover={{ bg: "green.700" }} onClick={() => navigate('/rank')}>
             전체 랭킹 보기
           </Button>
+          <Button bg="green.600" color="white" fontWeight="bold" size="sm" _hover={{ bg: "green.700" }}  onClick={() => navigate('/sucess')} ml="2">
+            친구의 챌린지 보기
+          </Button>
         </HStack>
         <VStack spacing="4">
           {friendRankData.slice(0, 4).map((user, index) => (

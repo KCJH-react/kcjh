@@ -177,7 +177,7 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 const NAV_ITEMS = [
   {
     label: '소개',
-    href: 'information',
+    href: 'introduce',
   },
   {
     label: '커뮤니티',
@@ -198,5 +198,6 @@ const NAV_ITEMS = [
   {
     label: '랭킹',
     href: 'rank',
-  },
+  }
+  
 ];
