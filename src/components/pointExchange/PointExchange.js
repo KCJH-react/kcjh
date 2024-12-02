@@ -271,7 +271,7 @@ const PointExchange = () => {
       {isModalOpen && <ExchangeModal setIsModalOpen={setIsModalOpen} content={content} />}
       <div style={{ padding: "0PX 180px", background: "rgba(198,234,130,0.5)" }}>
         <Center position="relative" top="40px" marginY="40px">
-          <Text fontSize="3xl" fontWeight="bold">
+          <Text fontSize="48px" fontWeight="bold">
             Point Exchange
           </Text>
         </Center>

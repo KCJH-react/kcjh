@@ -17,16 +17,6 @@ import {
 import { usePoint, useSetUserPoint, useName } from "../../redux/userData";
 
 const UserData = () => {
-  // const userId = sessionStorage.getItem("authToken");
-  // console.log(userId);
-  // const jsonUser = localStorage.getItem("totalUserData");
-  // const users = JSON.parse(jsonUser);
-  // const addItem = () => {
-  //   users.map((u) => {
-  //     if (u.id === Number(userId)) u.exchange.push(Math.floor(Math.random() * 1001));
-  //   });
-  //   localStorage.setItem("totalUserData", JSON.stringify(users));
-  // };
   const user = useName();
   const userpoint = usePoint();
   return (

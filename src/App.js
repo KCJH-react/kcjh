@@ -12,7 +12,7 @@ import FriendChallengeSuccess from "./components/rank/FriendChallengeSucess";
 import SelfChallenge from "./components/challengepage/SelfChallenge";
 import Information from "./components/user/Information";
 import CM_DetailPage from "./CM_DetailPage";
-import Introduce from "./Introduce";
+import Introduce from "./components/introduce/Introduce";
 import MakeChallenge from "./components/challengepage/MakeChallenge";
 import Footer from "./components/main/Footer";
 import { ChakraProvider, extendTheme, Box } from "@chakra-ui/react";
@@ -21,17 +21,6 @@ import Login from "./components/user/Login"; // Login 컴포넌트 추가
 import SignUp from "./components/user/SignUp"; // SignUp 컴포넌트 추가
 
 const theme = extendTheme({});
-
-// const cookie = sessionStorage.getItem("authToken");
-// console.log(cookie);
-// if (cookie) {
-//   const dispatch = useDispatch();
-
-//   const totalUserData = localStorage.getItem("totalUserData");
-//   const parsedData = JSON.parse(totalUserData);
-//   const log = parsedData.find((u) => u.id === Number(cookie));
-//   console.log(log);
-// }
 
 function App() {
   return (
