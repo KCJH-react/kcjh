@@ -20,16 +20,6 @@ import {
 import { useDispatch } from "react-redux";
 import FriendAdder from "./addFriend";
 
-// store.subscribe(() => {
-//   const state = store.getState().user; // user 상태 가져오기
-//   const savedUserData = localStorage.getItem("totalUserData");
-//   const parsedUserData = JSON.parse(savedUserData);
-//   console.log(parsedUserData);
-//   const user = parsedUserData.filter((u) => u.id !== Number(state.id));
-//   const newData = user.push(state);
-//   localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
-// });
-
 function Information() {
   return (
     <div
@@ -85,6 +75,8 @@ const MYTab = () => {
   const [pwValue, setPwValue] = useState("");
   //이메일, 이름, 비밀번호 값 임시 저장. 이후 handleEmailButton등의 메소드로 검사과정을 거치고 실제로 변경됨.
 
+  const username = useName();
+  const userId = useId();
   const dispatch = useDispatch();
   const setEmail = useSetUserEmail(dispatch);
   const setName = useSetUserName(dispatch);
@@ -109,6 +101,15 @@ const MYTab = () => {
       return;
     }
     setEmail(emailValue); // input 값을 상태에 저장
+    const savedUserData = localStorage.getItem("totalUserData");
+    const parsedUserData = JSON.parse(savedUserData);
+    const newData = parsedUserData.map((u) => {
+      if (u.id === Number(userId)) {
+        u.email = emailValue;
+      }
+      return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+    });
+    localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
   };
   //이메일 형식 검사 + 이메일 변경
   const handleNameButton = (e) => {
@@ -117,6 +118,15 @@ const MYTab = () => {
       return;
     }
     setName(nameValue); // input 값을 상태에 저장
+    const savedUserData = localStorage.getItem("totalUserData");
+    const parsedUserData = JSON.parse(savedUserData);
+    const newData = parsedUserData.map((u) => {
+      if (u.id === Number(userId)) {
+        u.name = nameValue;
+      }
+      return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+    });
+    localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
   };
   //이름 형식 검사 + 이름 변경
   const handlePwButton = (e) => {
@@ -125,6 +135,15 @@ const MYTab = () => {
       return;
     }
     setPw(pwValue); // input 값을 상태에 저장
+    const savedUserData = localStorage.getItem("totalUserData");
+    const parsedUserData = JSON.parse(savedUserData);
+    const newData = parsedUserData.map((u) => {
+      if (u.id === Number(userId)) {
+        u.password = pwValue;
+      }
+      return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+    });
+    localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
   };
   //비밀번호 형식 검사 + 비밀번호 변경
 
