@@ -70,10 +70,6 @@ export default function MainContent() {
     navigate('/pointExchange');
   };
 
-  const handleReset= () => {
-    localStorage.removeItem("totalUserData");
-  }
-
   return (
     <Box 
       p={4} 

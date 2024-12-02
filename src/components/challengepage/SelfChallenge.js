@@ -19,7 +19,7 @@ function SelfChallenge() {
   const userData = JSON.parse(localStorage.getItem('totalUserData'));
   const userIndex = userData.findIndex(user => String(user.id) === String(authToken));
   const currentUser = userData[userIndex];
-  const challengeIndex = currentUser.currentChallenge;
+  const challengeIndex = currentUser.currentChallengeNum;
 
   const navigate = useNavigate();
 
