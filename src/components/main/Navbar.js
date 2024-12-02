@@ -206,4 +206,8 @@ const NAV_ITEMS = [
     label: "랭킹",
     href: "rank",
   },
+  {
+    label: "계정정보",
+    href: "information",
+  },
 ];

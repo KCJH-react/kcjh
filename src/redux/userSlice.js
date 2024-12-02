@@ -17,9 +17,9 @@ const initialState = user || {
   challengeSuccessList: [], // 챌린지 성공 목록
   personalChallengeList: [], // 개인 챌린지 목록
   currentChallenge: 0,
-  friendList: [{ name: "이영희", challengeSuccess: 3 }],
-  requestList: [{ name: "김철수", challengeSuccess: 5 }],
-  responseList: [{ id: 6, name: "정하영", challengeSuccess: 2 }],
+  friendList: [],
+  requestList: [],
+  responseList: [],
 };
 
 const userSlice = createSlice({
