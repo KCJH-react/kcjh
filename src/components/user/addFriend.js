@@ -50,6 +50,44 @@ import { useTotalMember } from "../../redux/memberData";
 import { useDispatch } from "react-redux";
 import { debounce } from "lodash";
 import store from "../../redux/store";
+import styled from "styled-components";
+
+const StyledInput = styled.input`
+  position: relative;
+  top: -55px;
+  width: 100%;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 0;
+  list-style: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  &:focus {
+    outline: none; /* input focus 시 기본 outline 제거 */
+  }
+`;
+
+const StyledButton = styled.button`
+  position: relative;
+  top: -55px;
+  width: 70px;
+  border: none;
+  margin-left: 3px;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 5px 10px;
+
+  &:hover {
+    background-color: #45a049; /* hover 시 약간 더 어두운 녹색 */
+  }
+
+  &:active {
+    background-color: #3e8e41; /* 클릭 시 더 어두운 녹색 */
+  }
+`;
 
 const FriendAdder = () => {
   const [friendName, setFriendName] = useState("");
@@ -95,7 +133,7 @@ const FriendAdder = () => {
     const parsedUserData = JSON.parse(savedUserData);
     const existed = parsedUserData.filter((member) => friendName === member.name);
     //전체 유저 중에 포함되는지.
-    if (existed) {
+    if (existed.length === 0) {
       alert("존재하지 않는 유저입니다.");
       return;
     }
@@ -114,10 +152,8 @@ const FriendAdder = () => {
       notRequestListExisted === undefined
     ) {
       addRequestList(...existed);
-      //   const state = store.getState().user; // user 상태 가져오기
       const savedUserData = localStorage.getItem("totalUserData");
       const parsedUserData = JSON.parse(savedUserData);
-      console.log(parsedUserData);
       const newData = parsedUserData.map((u) => {
         if (u.id === Number(userId)) {
           u.requestList.push(...existed);
@@ -156,22 +192,11 @@ const FriendAdder = () => {
       >
         <div style={{ display: "flex" }}>
           <Popover isOpen={isPopoverOpen} initialFocusRef={null} autoFocus={false}>
-            <input
+            <StyledInput
               type="text"
               value={friendName}
               placeholder="친구 이름 입력"
               onChange={handleInputChange}
-              style={{
-                position: "relative",
-                top: "-55px",
-                width: "100%",
-                backgroundColor: "white",
-                border: "1px solid #ccc",
-                borderRadius: "4px",
-                padding: "5px 0",
-                listStyle: "none",
-                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              }}
               onFocus={() => setIsPopoverOpen(true)} // input이 focus될 때 Popover 열기
               onBlur={() => setIsPopoverOpen(false)} // input이 blur될 때 Popover 닫기
             />
@@ -188,22 +213,7 @@ const FriendAdder = () => {
               </PopoverBody>
             </PopoverContent>
           </Popover>
-          <button
-            onClick={handleAddFriend}
-            style={{
-              position: "relative",
-              top: "-55px",
-              width: "70px",
-              border: "none",
-              marginLeft: "3px",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              borderRadius: "4px",
-              cursor: "pointer",
-            }}
-          >
-            추가
-          </button>
+          <StyledButton onClick={handleAddFriend}>추가</StyledButton>
         </div>
       </div>
       <Box bordercolor="gray" bg="white" marginTop="140px">
@@ -221,7 +231,19 @@ const AddFriendTab = React.memo(() => {
   const requestList = useRequestList();
   const removeRequestList = useRemoveRequestList(dispatch);
   const userId = useId();
-  console.log(requestList);
+
+  const cancel = (r) => {
+    removeRequestList(r.name);
+    const savedUserData = localStorage.getItem("totalUserData");
+    const parsedUserData = JSON.parse(savedUserData);
+    const newData = parsedUserData.map((u) => {
+      if (u.id === Number(userId)) {
+        u.requestList = u.requestList.filter((request) => request.name !== r.name);
+      }
+      return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
+    });
+    localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
+  };
   return (
     <TableContainer>
       <Table size="sm">
@@ -230,38 +252,27 @@ const AddFriendTab = React.memo(() => {
             <Th>요청 대기 목록</Th>
           </Tr>
         </Thead>
-        {requestList.map((r, i) => {
-          return (
-            <Tbody>
-              <Tr>
-                <Td>
-                  <Flex justifyContent="space-between">
-                    {r.name}
-                    <button
-                      onClick={() => {
-                        removeRequestList(r.name);
-                        const savedUserData = localStorage.getItem("totalUserData");
-                        const parsedUserData = JSON.parse(savedUserData);
-                        console.log(parsedUserData);
-                        const newData = parsedUserData.map((u) => {
-                          if (u.id === Number(userId)) {
-                            u.requestList = u.requestList.filter(
-                              (request) => request.name !== r.name
-                            );
-                          }
-                          return u; // 수정된 u 객체를 반환해야 map() 결과가 유효합니다.
-                        });
-                        localStorage.setItem("totalUserData", JSON.stringify(newData)); // localStorage에 저장
-                      }}
-                    >
-                      친추 취소
-                    </button>
-                  </Flex>
-                </Td>
-              </Tr>
-            </Tbody>
-          );
-        })}
+        {requestList.length > 0 &&
+          requestList.map((r, i) => {
+            return (
+              <Tbody>
+                <Tr>
+                  <Td>
+                    <Flex justifyContent="space-between">
+                      {r.name}
+                      <button
+                        onClick={() => {
+                          cancel(r);
+                        }}
+                      >
+                        친추 취소
+                      </button>
+                    </Flex>
+                  </Td>
+                </Tr>
+              </Tbody>
+            );
+          })}
       </Table>
     </TableContainer>
   );
@@ -272,7 +283,6 @@ const ResponseFriendTab = React.memo(() => {
   const responseList = useResponseList();
   const addFriendList = useAddFriendList(dispatch);
   const userId = useId();
-  console.log(responseList);
   return (
     <TableContainer>
       <Table size="sm">
@@ -293,7 +303,6 @@ const ResponseFriendTab = React.memo(() => {
                         addFriendList(r.name);
                         const savedUserData = localStorage.getItem("totalUserData");
                         const parsedUserData = JSON.parse(savedUserData);
-                        console.log(parsedUserData);
                         const newData = parsedUserData.map((u) => {
                           if (u.id === Number(userId)) {
                             u.responseList = u.responseList.filter(
