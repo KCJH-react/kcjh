@@ -1,24 +1,11 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  HStack,
-  Stack,
-  Text,
-  Image,
-  Flex,
-  Box,
-  Center,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react"; // 절대 경로로 무조건
-import { usePoint, useSetUserPoint, useName } from "../../redux/userData";
+import { Text, Flex, Box } from "@chakra-ui/react"; // 절대 경로로 무조건
+import { usePoint, useName } from "../../redux/userData";
 
 const UserData = () => {
   const user = useName();
   const userpoint = usePoint();
+
   return (
     <Box
       position="relative"
