@@ -37,6 +37,7 @@ const ItemCard = ({ item, index, openModal }) => {
         </Text>
       </CardBody>
       <CardFooter position="relative" top="30px">
+        {/* 포인트 2: 매개변수로 전달된 openModal 호출하여 모달을 보여줌. */}
         <Button
           onClick={() => {
             openModal(item);

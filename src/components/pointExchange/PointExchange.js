@@ -326,6 +326,17 @@ const PointExchange = () => {
               gap="30px" // 아이템 간격
               justifyContent="center"
             >
+              {/* 포인트 1: 전체 상품 정보 + openModal를 ItemCard에 매개변수로 전달. */}
+              {/*  
+              주요 구성요소 
+              1. const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+              2. const [content, setContent] = useState(""); //모달에 전달할 아이템 정보
+              3. const openModal = (item) => {
+                setContent(item); 
+                setIsModalOpen(true);
+              }; // 모달을 띄우는 함수. 
+              4. ItemCard: 화면 상에 상품 정보가 담겨있는 카드
+              */}
               {visibleItems.map((items) => (
                 <div>
                   {items.items.map((item, index) => {
