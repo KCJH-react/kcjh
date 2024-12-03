@@ -33,6 +33,10 @@ export default function Navbar() {
     navigate("/signup"); // 회원가입 화면으로 이동
   };
 
+  const handleChallengeClick = () => {
+    navigate("/SelfChallenge");
+  };
+
   return (
     <Box width="100%" overflow="hidden">
       <Flex
@@ -200,7 +204,7 @@ const NAV_ITEMS = [
   },
   {
     label: "내 도전",
-    href: "#",
+    href: "SelfChallenge",
   },
   {
     label: "랭킹",

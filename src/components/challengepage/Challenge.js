@@ -46,6 +46,43 @@ const Challenge = [
     difficulty: "Medium",
     points: 30,
   },
+  
+  {
+    id: 5,
+    category: "Mind",
+    icon: MindIcon,
+    content: "3시간동안 화내지 않기",
+    difficulty: "Medium",
+    points: 30,
+  },
+  
+  {
+    id: 6,
+    category: "Exercise",
+    icon: ExerciseIcon,
+    content: "러닝 10Km",
+    difficulty: "Hard",
+    points: 50,
+  },
+  
+  {
+    id: 7,
+    category: "Mind",
+    icon: MindIcon,
+    content: "하루동안 욕하지 않기",
+    difficulty: "Hard",
+    points: 30,
+  },
+  
+  {
+    id: 8,
+    category: "Mind",
+    icon: MindIcon,
+    content: "야식 먹지않기",
+    difficulty: "Medium",
+    points: 30,
+  },
+
 ];
 
 export default Challenge;
