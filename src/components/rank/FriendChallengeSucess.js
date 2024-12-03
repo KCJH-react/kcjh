@@ -35,7 +35,7 @@ const FriendChallengeSuccess = () => {
       console.log("Friend Data:", friendData);
 
       const challenges = friendData.challengeSuccessList?.map((challenge) => {
-        const challengeDetails = getChallengeById(Number(challenge.id));
+        const challengeDetails = getChallengeById(Number(challenge));
         console.log("Challenge Details:", challengeDetails);
         console.log("Challenge Success List Item:", challenge);
 
