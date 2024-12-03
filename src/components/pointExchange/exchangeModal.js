@@ -99,7 +99,10 @@ const ExchangeModal = ({ setIsModalOpen, content }) => {
   const users = JSON.parse(jsonUser);
   const addItem = () => {
     users.map((u) => {
-      if (u.id === Number(userId)) u.exchange.push(Math.floor(Math.random() * 1001));
+      if (u.id === Number(userId)) {
+        u.exchange.push(Math.floor(Math.random() * 1001));
+        u.point = Number(u.point) - Number(content.points);
+      }
     });
     localStorage.setItem("totalUserData", JSON.stringify(users));
   };
@@ -118,6 +121,7 @@ const ExchangeModal = ({ setIsModalOpen, content }) => {
           {content.name}의 {content.points} 포인트입니다. 교환하시겠습니까?
         </Message>
         {!test && <Message className="error">고객님의 포인트가 부족합니다.</Message>}
+        {/* 포인트 3: 모달 내 버튼 클릭 시 사용자 포인트 차감 + 쿠폰 발급 */}
         <Button
           onClick={() => {
             const exchangedPoint = Number(userpoint) - Number(content.points);
