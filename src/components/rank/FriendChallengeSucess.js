@@ -43,7 +43,7 @@ const FriendChallengeSuccess = () => {
           content: challengeDetails?.content || "정보 없음",
           category: challengeDetails?.category || "정보 없음",
           difficulty: challengeDetails?.difficulty || "정보 없음",
-          date: challenge.date || "날짜 없음",
+          points: challengeDetails?.points || "정보 없음",
         };
       }) || [];
 
@@ -77,7 +77,7 @@ const FriendChallengeSuccess = () => {
                     </Text>
                     <Text>카테고리: {challenge.category}</Text>
                     <Text>난이도: {challenge.difficulty}</Text>
-                    <Text>성공 날짜: {challenge.date}</Text>
+                    <Text>포인트: {challenge.points}</Text>
                   </Stack>
                 ))
               ) : (
