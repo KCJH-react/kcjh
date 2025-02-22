@@ -4,137 +4,129 @@ import { useNavigate } from "react-router-dom";
 
 import userIcon from "../../asset/user-icon.png";
 import lockIcon from "../../asset/lock-icon.png";
+import axios from "axios";
+import styled from "styled-components";
+import apiClient from "../../apiClient";
 
-// useSetUserId 훅 정의 (로컬스토리지에 userData 저장)
-function useSetUserId() {
-  return (userId) => {
-    localStorage.setItem("userData", JSON.stringify({ userId })); // userData에 userId 저장
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-}
 
-function Login() {
-  const [usernameOrEmail, setUsernameOrEmail] = useState(""); // 아이디 또는 이메일 입력
-  const [password, setPassword] = useState("");
-  const setUserId = useSetUserId(); // useSetUserId 훅 사용
-  const navigate = useNavigate();
-
-  const handleLogin = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!usernameOrEmail.trim() || !password.trim()) {
-      alert("아이디(이메일)와 비밀번호를 모두 입력해주세요.");
-      return;
-    }
-
-    // 유저 데이터 로드 (totalUserData 사용)
-    const totalUserData = JSON.parse(localStorage.getItem("totalUserData")) || [];
-
-    // 입력된 값이 name 또는 email인지 확인 후 사용자 검색
-    const user = totalUserData.find(
-      (user) => user.name === usernameOrEmail || user.email === usernameOrEmail // id를 문자열로 비교
-    );
-
-    if (user) {
-      // 비밀번호 비교
-      if (user.password === password) {
-        // 로그인 성공
-        setUserId(user.name); // 로컬스토리지에 userId 저장
-
-        // authToken에 userId를 저장하고, 세션스토리지에 저장
-        sessionStorage.setItem("authToken", user.id);
-
-        alert("로그인 성공!");
-        navigate("/");
-      } else {
-        alert("아이디(이메일) 또는 비밀번호가 올바르지 않습니다.");
-      }
-    } else {
-      alert("아이디(이메일) 또는 비밀번호가 올바르지 않습니다.");
-    }
+    const response = apiClient("login", formData);
   };
-
-  const handleSignUpClick = () => {
-    navigate("/signup");
-  };
-
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="flex-start"
-      height="100vh"
-      bg="gray.100"
-      pt="150px"
-    >
-      <Heading as="h1" size="2xl" mb="12" color="#4CAF50">
-        RANDOM CHALLENGE
-      </Heading>
+    <Container>
+      <Title>RANDOM CHALLENGE</Title>
 
-      <Flex
-        direction="column"
-        bg="white"
-        p={20}
-        rounded="lg"
-        width="100%"
-        maxWidth="700px"
-        boxShadow="xl"
-      >
-        <Flex align="center" bg="gray.50" borderRadius="full" px="6" py="5" mb="6">
-          <Image src={userIcon} alt="User Icon" boxSize="10" mr="4" />
-          <Input
+      <FormContainer>
+        <StyledInputContainer>
+          <img src={userIcon} alt="User Icon" width="40" style={{ marginRight: "16px" }} />
+          <StyledInput
             type="text"
             placeholder="ID or Email"
-            value={usernameOrEmail}
-            onChange={(e) => setUsernameOrEmail(e.target.value)}
-            bg="gray.50"
-            border="none"
-            fontSize="lg"
+            name="email" // ✅ name 추가
+            value={formData.email}
+            onChange={handleChange}
           />
-        </Flex>
+        </StyledInputContainer>
 
-        <Flex align="center" bg="gray.50" borderRadius="full" px="6" py="5" mb="8">
-          <Image src={lockIcon} alt="Lock Icon" boxSize="10" mr="4" />
-          <Input
+        <StyledInputContainer mb="32px">
+          <img src={lockIcon} alt="Lock Icon" width="40" style={{ marginRight: "16px" }} />
+          <StyledInput
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            bg="gray.50"
-            border="none"
-            fontSize="lg"
+            name="password" // ✅ name 추가
+            value={formData.password}
+            onChange={handleChange}
           />
-        </Flex>
+        </StyledInputContainer>
 
-        <Button
-          type="submit"
-          colorScheme="green"
-          bg="#BFE18B"
-          color="white"
-          width="100%"
-          size="lg"
-          height="60px"
-          fontSize="2xl"
-          mb="6"
-          onClick={handleLogin}
-        >
-          로그인
-        </Button>
-
-        <Text
-          textAlign="center"
-          fontWeight="bold"
-          color="#4CAF50"
-          cursor="pointer"
-          onClick={handleSignUpClick}
-          fontSize="lg"
-          _hover={{ textDecoration: "underline" }}
-        >
-          회원가입
-        </Text>
-      </Flex>
-    </Box>
+        <StyledButton onClick={handleSubmit}>로그인</StyledButton>
+        {/* <SignUpText onClick={handleSignUpClick}>회원가입</SignUpText> */}
+      </FormContainer>
+    </Container>
   );
-}
+};
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  background-color: #f5f5f5;
+  padding-top: 150px;
+`;
+
+const Title = styled.h1`
+  font-size: 2.5rem;
+  color: #4caf50;
+  margin-bottom: 48px;
+`;
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledInputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 30px;
+  padding: 16px 24px;
+  margin-bottom: ${(props) => props.mb || "24px"};
+`;
+
+const StyledInput = styled.input`
+  flex: 1;
+  border: none;
+  background-color: transparent;
+  font-size: 1.2rem;
+  outline: none;
+`;
+
+const StyledButton = styled.button`
+  background-color: #bfe18b;
+  color: white;
+  width: 100%;
+  height: 60px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 24px;
+  transition: background 0.3s;
+
+  &:hover {
+    background-color: #a8d178;
+  }
+`;
+
+const SignUpText = styled.p`
+  text-align: center;
+  font-weight: bold;
+  color: #4caf50;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 export default Login;

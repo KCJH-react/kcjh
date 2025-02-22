@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { Box, Flex, Input, Button, Heading } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import axios from "axios";
+
+// 1. 이메일 작성.
+// 2. 이메일 인증 진행.
+// 3. 이메일 인증 번호 작성.
+// 4. 나머지 입력값 작성.
+// 5. 회원가입 버튼 클릭 후 생성.
 
 function SignUp() {
   const [name, setName] = useState("");
@@ -9,142 +17,96 @@ function SignUp() {
   const navigate = useNavigate();
 
   const handleSignUp = (e) => {
-    e.preventDefault();
-
-    // 이메일 및 비밀번호 형식 검증
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    if (!name.trim() || !email.trim() || !password.trim()) {
-      alert("모든 필드를 입력해주세요.");
-      return;
-    }
-
-    if (name.length < 1 || name.length > 20) {
-      // 변경된 부분 (1자 이상)
-      alert("사용자 이름은 1~20자 사이여야 합니다.");
-      return;
-    }
-
-    if (!emailRegex.test(email)) {
-      alert("올바른 이메일 형식을 입력해주세요.");
-      return;
-    }
-
-    if (!passwordRegex.test(password)) {
-      alert("비밀번호는 최소 8자 이상이어야 하며, 대소문자, 숫자, 특수문자를 포함해야 합니다.");
-      return;
-    }
-
-    // 기존 유저 데이터 확인 (totalUserData 사용)
-    const totalUserData = JSON.parse(localStorage.getItem("totalUserData")) || [];
-    if (totalUserData.some((user) => user.name === name)) {
-      alert("이미 존재하는 사용자입니다. 다른 사용자 이름을 입력해주세요.");
-      return;
-    }
-
-    // 유저 데이터 저장
-    const newUser = {
-      id: totalUserData.length + 1,
-      name,
-      point: 0,
-      email,
-      password,
-      startDate: new Date().toISOString().split("T")[0],
-      challengeListNum: 0,
-      challengeSuccessList: [],
-      exchange: [],
-      friendList: [],
-      requestList: [],
-      responseList: [],
-    };
-    totalUserData.push(newUser);
-    localStorage.setItem("totalUserData", JSON.stringify(totalUserData));
-
     alert("회원가입 성공!");
     navigate("/login");
   };
+  const handleEmailVerify = async (email) => {
+    try {
+      const response = await axios.post("http://localhost:8020/api/v1/email/send", { email });
+      console.log("Email sent successfully:", response.data);
+      alert("이메일이 성공적으로 전송되었습니다.");
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("이메일 전송에 실패했습니다.");
+    }
+  };
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="flex-start"
-      height="100vh"
-      bg="gray.100"
-      pt="150px"
-    >
-      <Heading as="h1" size="2xl" mb="12" color="#4CAF50">
-        RANDOM CHALLENGE
-      </Heading>
+    <Wrapper>
+      <Title as="h1">RANDOM CHALLENGE</Title>
 
-      <Flex
-        direction="column"
-        bg="white"
-        p={20}
-        rounded="lg"
-        width="100%"
-        maxWidth="700px"
-        boxShadow="xl"
-      >
-        <Flex mb="6">
-          <Input
-            type="text"
-            placeholder="ID"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            bg="gray.50"
-            borderRadius="full"
-            fontSize="lg"
-            py="8"
-            px="7"
-          />
-        </Flex>
+      <FormContainer>
+        <StyledInput
+          type="text"
+          placeholder="ID"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
 
-        <Flex mb="6">
-          <Input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            bg="gray.50"
-            borderRadius="full"
-            fontSize="lg"
-            py="8"
-            px="7"
-          />
-        </Flex>
+        <StyledInput
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button onClick={() => handleEmailVerify(email)}>인증</button>
 
-        <Flex mb="8">
-          <Input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            bg="gray.50"
-            borderRadius="full"
-            fontSize="lg"
-            py="8"
-            px="7"
-          />
-        </Flex>
-
-        <Button
-          colorScheme="green"
-          bg="#BFE18B"
-          color="white"
-          width="100%"
-          size="lg"
-          height="60px"
-          fontSize="2xl"
-          onClick={handleSignUp}
-        >
-          회원가입
-        </Button>
-      </Flex>
-    </Box>
+        <StyledInput
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <SignUpButton onClick={handleSignUp}>회원가입</SignUpButton>
+      </FormContainer>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  background-color: #f7fafc;
+  padding-top: 150px;
+`;
+
+const Title = styled(Heading)`
+  margin-bottom: 12px;
+  color: #4caf50;
+  font-size: 2rem;
+`;
+
+const FormContainer = styled(Flex)`
+  flex-direction: column;
+  background-color: white;
+  padding: 20px;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 700px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledInput = styled(Input)`
+  background-color: #f7fafc;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  margin: 10px;
+`;
+
+const SignUpButton = styled(Button)`
+  background-color: #bfe18b;
+  color: white;
+  width: 100%;
+  height: 60px;
+  font-size: 2xl;
+  padding: 0 2rem;
+`;
 
 export default SignUp;
