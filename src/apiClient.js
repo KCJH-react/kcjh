@@ -2,7 +2,7 @@ import axios from "axios";
 
 const apiClient = async (url, data) => {
   try {
-    const response = await axios.post("http://localhost:8020/api/v1/user/" + url, data, {
+    const response = await axios.post("http://localhost:8020/api/v1/" + url, data, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true,
     });

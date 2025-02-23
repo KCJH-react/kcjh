@@ -35,7 +35,7 @@ function App() {
           <Route path="/SelfChallenge" element={<PrivateRoute element={<SelfChallenge />} />} />
           <Route path="/Information" element={<PrivateRoute element={<Information />} />} />
           <Route path="/MakeChallenge" element={<PrivateRoute element={<MakeChallenge />} />} />
-          <Route path="/" element={<PrivateRoute element={<MainContent />} />} />
+          <Route path="/" element={<MainContent />} />
           <Route path="/introduce" element={<PrivateRoute element={<Introduce />} />} />
           <Route path="/friend-ranking" element={<PrivateRoute element={<FriendRanking />} />} />
           <Route path="/rank" element={<PrivateRoute element={<RankSystem />} />} />

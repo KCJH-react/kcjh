@@ -20,8 +20,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = apiClient("login", formData);
+    const response = apiClient("user/login", formData);
   };
+  const [subject, setSubject] = useState("");
+  const [result, setResult] = useState("");
+  const handleSubject = (e) => {
+    setSubject(e.target.value); // subject만 업데이트
+  };
+  const handleGeminiSubmit = async () => {
+    const response = apiClient("gemini/chat", { subject: subject }); // {subject: string} 형식으로 전달
+  };
+
   return (
     <Container>
       <Title>RANDOM CHALLENGE</Title>
@@ -52,6 +61,19 @@ const Login = () => {
         <StyledButton onClick={handleSubmit}>로그인</StyledButton>
         {/* <SignUpText onClick={handleSignUpClick}>회원가입</SignUpText> */}
       </FormContainer>
+      <StyledInputContainer mb="32px">
+        <img src={lockIcon} alt="Lock Icon" width="40" style={{ marginRight: "16px" }} />
+        <StyledInput
+          type="text"
+          placeholder="subject"
+          name="subject" // ✅ name 추가
+          value={subject.subject}
+          onChange={handleSubject}
+        />
+      </StyledInputContainer>
+
+      <StyledButton onClick={handleGeminiSubmit}>챌린지 생성</StyledButton>
+      {result != "" ? <div>{result}</div> : <div></div>}
     </Container>
   );
 };
